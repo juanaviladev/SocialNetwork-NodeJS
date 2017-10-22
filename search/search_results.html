@@ -1,34 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="../css/default_style.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../common/css/common.css">
     <meta charset="UTF-8">
     <title>Búsqueda - FaceBluff</title>
 </head>
 <body>
 <header>
-    <!-- TODO !-->
+    <img src="../common/img/logo.png"/>
 </header>
 <nav>
-    <!-- TODO !-->
+    <ul class="menu horizontal-list">
+        <li>
+            <a href="#">Perfil</a>
+        </li>
+        <li>
+            <a href="#">Amigos</a>
+        </li>
+        <li>
+            <a href="../question/questions.html">Preguntas</a>
+        </li>
+        <li>
+            <a href="#">Desconectar</a>
+        </li>
+        <li id="user-profile">
+            <img  src="../common/icons/Casper-01.png" >
+            <p>50 pts</p>
+        </li>
+    </ul>
 </nav>
 <div id="main-content">
-    <h2>Resultados de búsqueda: 'e'</h2>
-        <ul id="search-results">
+    <h2 class="text-center">Resultados de búsqueda: 'e'</h2>
+        <ul class="users-list">
             <li>
-                <div>
-                    <img class="search-result-user-img" src="../icons/Casper-01.png">
-                    <p class="search-result-username">Lucía Pinhead</p>
+                <div class="user-profile">
+                    <img src="../common/icons/Casper-01.png">
+                    <p>Lucía Pinhead</p>
                 </div>
-                <p class="friendship-request-bt">Solicitar amistad</p>
+                <p class="purple-bt">Solicitar amistad</p>
             </li>
             <li>
-                <div>
-                    <img class="search-result-user-img" src="../icons/Casper-01.png">
-                    <p class="search-result-username">Mike Mazowski</p>
+                <div class="user-profile">
+                    <img src="../common/icons/Mike-01.png">
+                    <p>Mike Mazowski</p>
                 </div>
-                <p class="friendship-request-bt">Solicitar amistad</p>
+                <p class="purple-bt">Solicitar amistad</p>
             </li>
         </ul>
 </div>

@@ -1,0 +1,17 @@
+.correct-answer
+{
+    margin: 0;
+    align-self: center;
+    color: #6eb66e;
+    font-weight: bold;
+    font-family: GloriaHallelujah, serif;
+}
+
+.wrong-answer
+{
+    margin: 0;
+    align-self: center;
+    color: red;
+    font-family: GloriaHallelujah, serif;
+    font-weight: bold;
+}

@@ -1,0 +1,9 @@
+.question-list-item
+{
+    font-family: Arial, serif;
+    font-weight: bold;
+    color: #8d36a1;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f2e6cc;
+}

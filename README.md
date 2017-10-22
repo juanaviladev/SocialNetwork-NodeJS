@@ -1,6 +1,4 @@
-# FaceBluff (AW-P1)
-
-[[https://github.com/username/repository/blob/master/img/octocat.png|alt=facebluff]]
+![FaceBluff logo](https://github.com/juanavilaes/AW-P1/blob/master/img/logo.png?raw=true)
 
 Todos los que utilizamos redes sociales conocemos al típico amigo/a que actualiza su estado o sube
 fotos cada cinco minutos mostrando cada detalle íntimo o irrelevante de su vida con el fin de mendigar

@@ -1,4 +1,4 @@
-![FaceBluff logo](https://github.com/juanavilaes/AW-P1/blob/master/img/logo.png?raw=true)
+![FaceBluff logo](https://github.com/juanavilaes/AW-P1/blob/master/common/img/logo.png?raw=true)
 
 Todos los que utilizamos redes sociales conocemos al típico amigo/a que actualiza su estado o sube
 fotos cada cinco minutos mostrando cada detalle íntimo o irrelevante de su vida con el fin de mendigar

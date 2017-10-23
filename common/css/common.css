@@ -1,0 +1,153 @@
+/*
+ * Font declarations
+ */
+@font-face {
+    font-family: GloriaHallelujah;
+    src: url('../fonts/GloriaHallelujah.ttf');
+}
+
+body{
+    background-image: url("../img/Fondo.jpg");
+}
+
+.text-center{
+    text-align: center;
+}
+
+h1,h2,h3,h4,h5,h6
+{
+    font-family: GloriaHallelujah, serif;
+}
+
+#main-content
+{
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+ul.users-list
+{
+    padding:0;
+    list-style: none;
+}
+
+
+ul.users-list> li
+{
+    flex-direction: row;
+    display: flex;
+    margin-bottom: 10px;
+    justify-content: space-between;
+}
+ul.users-list > li > div.user-profile p
+{
+    display: inline;
+}
+
+ul.users-list > li > div.user-profile > img
+{
+    align-self: flex-start;
+    height: 40px;
+    vertical-align: middle;
+    width: auto;
+    border: solid;
+    border-width: 1px;
+}
+
+fieldset{
+    border: 0 none;
+    margin: 0;
+    padding: 0;
+}
+
+ul.menu{
+    display: flex;
+    justify-content: space-around;
+}
+
+ul.menu > li{
+    font-family: GloriaHallelujah,serif;
+    color: white;
+    font-size: large;
+    font-weight: bold;
+    padding: 10px;
+}
+
+a {
+   text-decoration: none;
+    color: inherit;
+}
+
+ul.horizontal-list > li
+{
+    display: inline;
+}
+
+ul
+{
+    list-style: none;
+    margin: 0;
+}
+
+.bold
+{
+    font-weight: bold;
+}
+
+p {
+    font-family: Arial,monospace;
+}
+
+header
+{
+    display: flex; justify-content: space-around;
+}
+
+
+
+#user-profile > p{
+    display: inline;
+    font-family: GloriaHallelujah,serif;
+    font-weight: lighter;
+    font-size: small;
+}
+
+#user-profile > img
+{
+    vertical-align: middle; height :20px; width : auto;
+}
+
+header > img
+{
+    height: 110px;
+    width: auto;
+}
+
+.text-medium
+{
+    font-size: medium;
+}
+
+.text-large
+{
+    font-size: large;
+}
+
+
+.purple-bt
+{
+    margin: 0;
+    align-self: center;
+    font-family: GloriaHallelujah, serif;
+    background-color: #d03bfe;
+    color: white;
+    border-radius: 10px;
+    border:0;
+    font-weight: bold;
+    padding-top: 4px;
+    display: inline;
+    padding-bottom: 4px;
+    padding-left: 15px;
+    padding-right: 15px;
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" href="../common/css/common.css">
+    <link rel="stylesheet" href="css/answer_form.css">
+    <meta charset="UTF-8">
+    <title>Pregunta - FaceBluff</title>
+</head>
+<body>
+<header>
+    <img src="../common/img/logo.png"/>
+</header>
+<nav>
+    <ul class="menu horizontal-list">
+        <li>
+            <a href="#">Perfil</a>
+        </li>
+        <li>
+            <a href="#">Amigos</a>
+        </li>
+        <li>
+            <a href="../question/questions.html">Preguntas</a>
+        </li>
+        <li>
+            <a href="#">Desconectar</a>
+        </li>
+        <li id="user-profile">
+            <img  src="../common/icons/Casper-01.png" >
+            <p>50 pts</p>
+        </li>
+    </ul>
+</nav>
+<div id="main-content">
+    <h2 class="text-center">¿Nintendo Swith, PS4, o Xbox One?</h2>
+    <form action="#" method="POST">
+        <fieldset>
+        <ul id="search-results">
+            <li class="answers-list-item">
+                <label for="first-option">
+                    <input name="answer" id="first-option" type="radio">
+                    Nintendo Switch
+                </label>
+            </li>
+            <li class="answers-list-item">
+                <label for="second-option">
+                    <input name="answer" id="second-option" type="radio">
+                    PS4
+                </label>
+            </li>
+            <li class="answers-list-item">
+                <label for="third-option">
+                    <input name="answer" id="third-option" type="radio">
+                    Xbox One
+                </label>
+            </li>
+            <li class="answers-list-item">
+                <label for="forth-option">
+                    <input name="answer" id="forth-option" type="radio">
+                    No me interesan los videojuegos
+                </label>
+            </li>
+            <li class="selected answers-list-item">
+                <label for="fifth-option">
+                    <input name="answer" id="fifth-option" type="radio">Otra:
+                    <input type="text" placeholder="Introduce aquí tu respuesta">
+                </label>
+            </li>
+        </ul>
+        </fieldset>
+        <div class="text-center">
+            <input type="submit" value="Responder" class="text-medium purple-bt"/>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>

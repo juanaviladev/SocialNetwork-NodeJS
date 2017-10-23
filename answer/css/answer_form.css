@@ -1,0 +1,12 @@
+.answers-list-item
+{
+    background-color: #fedb8f;
+    padding: 10px;
+    font-family: Arial,monospace;
+    margin-bottom: 10px;
+}
+
+.selected
+{
+    background-color: #d5fed5;
+}

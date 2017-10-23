@@ -1,0 +1,28 @@
+.friend-button a {
+    margin-left: 10px;
+}
+
+#search_form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    height: 25px;
+}
+
+#search_form label {
+    margin-right: 10px;
+}
+
+#search_form input[type="text"] {
+    align-self: stretch;
+    flex-grow: 1;
+}
+
+#search_form input[type="submit"] {
+    margin-left: 10px;
+}
+
+
+
+

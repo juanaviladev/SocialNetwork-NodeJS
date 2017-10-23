@@ -1,0 +1,55 @@
+body {
+    overflow: hidden;
+    min-width: 980px;
+}
+
+ul.menu {
+    width: 30%;
+    min-width: 250px;
+}
+
+form {
+    background-color: rgb(116,18,146);
+    padding: 30px;
+    border-radius: 20px;
+    grid-template-columns: 50px auto;
+    grid-template-rows: auto auto;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 140px auto;
+    grid-gap: 10px;
+}
+
+.container label {
+    color: lightgray;
+}
+
+.left {
+    grid-column: 1;
+}
+
+.right {
+    grid-column: 2;
+}
+
+#dob {
+    width: 120px;
+}
+
+#imagen {
+    outline: 0;
+}
+
+#main-content {
+    width: 50%;
+}
+
+.submit-button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+

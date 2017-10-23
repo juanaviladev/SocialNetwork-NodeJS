@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Nuevo Usuario - FaceBluff</title>
+		<link href="../common/css/common.css" rel="stylesheet" type="text/css">
+		<link href="css/login.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<header>
+			<img src="../common/img/logo.png"/>
+		</header>
+		<nav>
+			<ul class="menu horizontal-list">
+				<li>
+					<a href="../authentication/login.html">Entrar</a>
+				</li>
+				<li>
+					<a href="../authentication/register.html">Nuevo Usuario</a>
+				</li>
+			</ul>
+		</nav>
+		<div id="main-content">
+			<h2 class="text-center">Nuevo Usuario</h2>
+			<form id="register">
+				<div class="container">
+					<label class="left" for="email">Email</label>
+					<input class="right" id="email" type="text" name="email">
+					<label class="left" for="password">Contraseña</label>
+					<input class="right" id="password" type="password" name="password">
+					<label class="left" for="name">Nombre Completo</label>
+					<input class="right" id="name" type="text" name="name">
+					<label class="left" >Sexo</label>
+					<div class="right">
+						<input id="male" type="radio" name="gender" value="male">
+						<label for="male">Masculino</label>
+						<input id="female" type="radio" name="gender" value="female">
+						<label for="female">Feminimo</label>
+						<input id="other" type="radio" name="gender" value="other">
+						<label for="other">Otro</label>
+					</div>
+					<label class="left" for="dob">Fecha de Nacimiento</label>
+					<input class="right" id="dob" type="date" name="dob">
+					<label class="left" for="imagen">Imagen de Perfil</label>
+					<input class="right" id="imagen" type="file" name="imagen">
+				</div>
+				<input class="submit-button purple-bt text-medium" type="submit" value="Crear Usuario">
+			</form>
+		</div>
+	</body>
+</html>

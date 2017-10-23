@@ -33,7 +33,7 @@ ul.users-list
 }
 
 
-ul.users-list> li
+ul.users-list > li
 {
     flex-direction: row;
     display: flex;
@@ -150,4 +150,16 @@ header > img
     padding-bottom: 4px;
     padding-left: 15px;
     padding-right: 15px;
+}
+
+.purple-bt:hover {
+    cursor: pointer;
+}
+
+.purple-bt:active {
+    background-color: #661f7c;
+}
+
+.purple-bt:focus {
+    outline: 0;
 }

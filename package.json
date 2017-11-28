@@ -1,0 +1,19 @@
+{
+  "name": "aw-p1",
+  "version": "1.0.0",
+  "description": "FaceBluff - red social",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juanavilaes/AW-P1.git"
+  },
+  "author": "JUAN ANTONIO ÁVILA CATALAN / PAWEL CHRUSCINSKI",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/juanavilaes/AW-P1/issues"
+  },
+  "homepage": "https://github.com/juanavilaes/AW-P1#readme"
+}

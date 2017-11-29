@@ -1,35 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <link rel="stylesheet" href="../../public/css/common.css">
-    <link rel="stylesheet" href="../../public/css/questions/questions_list.css">
-    <meta charset="UTF-8">
-    <title>Preguntas seleccionadas - FaceBluff</title>
-</head>
-<body>
-    <header>
-        <img src="../../public/img/logo.png"/>
-    </header>
-    <nav>
-        <ul class="menu horizontal-list">
-            <li>
-                <a href="../profile/profile.ejs">Perfil</a>
-            </li>
-            <li>
-                <a href="../friends/friends.ejs">Amigos</a>
-            </li>
-            <li>
-                <a href="/questions_list.html">Preguntas</a>
-            </li>
-            <li>
-                <a href="#">Desconectar</a>
-            </li>
-            <li id="user-profile">
-                <img  src="../../avatar_imgs/Casper-01.png" >
-                <p>50 pts</p>
-            </li>
-        </ul>
-    </nav>
+<%- include("../common/header_main",{title: "FaceBluff - Preguntas Seleccionadas", style: "css/questions_list.css"})%>
     <div id="main-content">
         <h2 class="text-center">Preguntas seleccionadas aleatoriamente</h2>
             <ul id="search-results">

@@ -1,25 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<title>Nuevo Usuario - FaceBluff</title>
-		<link href="../../public/css/common.css" rel="stylesheet" type="text/css">
-		<link href="../../public/css/authentication/login.css" rel="stylesheet" type="text/css">
-	</head>
-	<body>
-		<header>
-			<img src="../../public/img/logo.png"/>
-		</header>
-		<nav>
-			<ul class="menu horizontal-list">
-				<li>
-					<a href="login.ejs">Entrar</a>
-				</li>
-				<li>
-					<a href="register.ejs">Nuevo Usuario</a>
-				</li>
-			</ul>
-		</nav>
+<%- include("../common/header_main",{title: "FaceBluff - Nuevo Usuario", style: "css/login.css"})%>
 		<div id="main-content">
 			<h2 class="text-center">Nuevo Usuario</h2>
 			<form id="register">

@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/juanavilaes/AW-P1#readme",
   "dependencies": {
+    "ejs": "^2.5.7",
     "express": "^4.16.2",
-    "mysql": "^2.15.0"
+    "mysql": "^2.15.0",
+    "path": "^0.12.7"
   }
 }

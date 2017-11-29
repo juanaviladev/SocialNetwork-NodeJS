@@ -1,35 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <link rel="stylesheet" href="../../public/css/common.css">
-    <link rel="stylesheet" href="../../public/css/answer/answer_form.css">
-    <meta charset="UTF-8">
-    <title>Pregunta - FaceBluff</title>
-</head>
-<body>
-    <header>
-        <img src="../../public/img/logo.png"/>
-    </header>
-    <nav>
-        <ul class="menu horizontal-list">
-            <li>
-                <a href="../profile/profile.ejs">Perfil</a>
-            </li>
-            <li>
-                <a href="../friends/friends.ejs">Amigos</a>
-            </li>
-            <li>
-                <a href="../question/questions_list.ejs">Preguntas</a>
-            </li>
-            <li>
-                <a href="#">Desconectar</a>
-            </li>
-            <li id="user-profile">
-                <img  src="../../avatar_imgs/Casper-01.png" >
-                <p>50 pts</p>
-            </li>
-        </ul>
-    </nav>
+<%- include("../common/header_main",{title: "FaceBluff - Respuesta", style: "css/answer_form.css"})%>
     <div id="main-content">
         <h2 class="text-center">¿Nintendo Swith, PS4, o Xbox One?</h2>
         <p>¿Qué crees que opina <span class="bold">Casper María Rodríguez</span>?</p>

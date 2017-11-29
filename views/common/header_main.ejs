@@ -1,20 +1,32 @@
-<nav>
-    <ul class="menu horizontal-list">
-        <li>
-            <a href="../profile/profile.ejs">Perfil</a>
-        </li>
-        <li>
-            <a href="../friends/friends.ejs">Amigos</a>
-        </li>
-        <li>
-            <a href="../question/questions_list.ejs">Preguntas</a>
-        </li>
-        <li>
-            <a href="#">Desconectar</a>
-        </li>
-        <li id="user-profile">
-            <img  src="../../avatar_imgs/Casper-01.png" >
-            <p>50 pts</p>
-        </li>
-    </ul>
-</nav>
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <link rel="stylesheet" href="css/common.css">
+        <link rel="stylesheet" href="<%=style%>">
+        <meta charset="UTF-8">
+        <title><%=title%></title>
+    </head>
+    <body>
+        <header>
+            <img src="img/logo.png"/>
+        </header>
+        <nav>
+            <ul class="menu horizontal-list">
+                <li>
+                    <a href="../profile/profile.ejs">Perfil</a>
+                </li>
+                <li>
+                    <a href="../friends/friends.ejs">Amigos</a>
+                </li>
+                <li>
+                    <a href="../question/questions_list.ejs">Preguntas</a>
+                </li>
+                <li>
+                    <a href="#">Desconectar</a>
+                </li>
+                <li id="user-profile">
+                    <img  src="../../avatar_imgs/Casper-01.png" >
+                    <p>50 pts</p>
+                </li>
+            </ul>
+        </nav>

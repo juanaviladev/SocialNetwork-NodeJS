@@ -9,6 +9,45 @@ class DaoUsers {
     }
 
 
+    // authenticate user
+    isUserCorrect(email, pass, callback)
+    {
+
+        this.pool.getConnection((err, conn) => {
+
+            if(err) {
+                callback(err);
+                return;
+            }
+
+            let sqlStmt = "SELECT email, pass FROM profiles WHERE email=?";
+
+            conn.query(sqlStmt, [email], (err, result) => {
+
+                conn.release();
+
+                if(err)
+                {
+                    callback(err);
+                    return;
+                }
+
+                if(result && (result[0].email === email && result[0].pass === pass))
+                    callback(null, true);
+                else
+                    callback(null, false);
+
+            });
+
+        });
+
+
+
+    }
+
+
+
+
     // get user details
     getUserDetails(email, callback)
     {

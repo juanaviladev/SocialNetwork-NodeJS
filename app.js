@@ -7,6 +7,26 @@ const mysql = require("mysql");
 const DAO_users = require("./DAO_users");
 const moment = require("moment");
 const bodyParser = require("body-parser");
+const session = require("express-session");
+const mysqlSession = require("express-mysql-session");
+
+
+
+const MysqlStore = mysqlSession(session);
+const sessionStore = new MysqlStore({
+    host: config.host,
+    database: config.database,
+    user: config.user,
+    password: config.password
+});
+
+const middlewareSession = session({
+    saveUninitialized: false,
+    resave: false,
+    secret: "Secret string",
+    store: sessionStore
+});
+
 
 // create pool of connections
 let pool = mysql.createPool({
@@ -34,7 +54,22 @@ app.set("views", path.join(__dirname, "views"));
 // use middleware ---------------------------------------
 app.use(express.static(staticElements));
 app.use(bodyParser.urlencoded({extended: false }));
+app.use(middlewareSession);
 
+
+function middlewareAuthentication(request, response, next){
+
+    let user = request.session.currentUser;
+
+    if(user)
+    {
+        response.locals.currentUser = user;
+        next();
+    }
+    else
+        response.redirect("login");
+
+}
 
 
 
@@ -45,6 +80,35 @@ app.get("/login", (request, response) => {
     response.render("authentication/login");
 
 });
+
+
+
+app.post("/login", (request, response) => {
+
+    let user = request.body.email;
+
+    daoU.isUserCorrect(user, request.body.password, (err, exists) => {
+
+        if(err)
+            console.log(err);
+        else
+        {
+            if(exists)
+            {
+                request.session.currentUser = user;
+                response.redirect("profile");
+            }
+            else {
+                response.redirect("login");
+            }
+        }
+
+
+    });
+
+});
+
+
 
 
 app.get("/register", (request, response) => {
@@ -80,19 +144,31 @@ app.post("/register", (request, response) => {
 
 
 
-app.get("/profile", (request, response) => {
+app.get("/profile", middlewareAuthentication ,(request, response) => {
 
-    let user;
-
-    daoU.getUserDetails("pawelchr@ucm.es", (err, result) => {
+    daoU.getUserDetails(request.session.currentUser, (err, result) => {
 
         if(err)
             console.log(err);
         else {
 
+            let gender;
+
+            switch(result[0].gender){
+
+                case 'm':
+                    gender = "Hombre";
+                    break;
+                case 'f':
+                    gender = "Mujer";
+                    break;
+                default:
+                    gender = "Otro";
+
+            }
 
 
-            user = {
+            let userDetails = {
                 name: result[0].name,
                 age: moment().diff(result[0].dob, 'years'),
                 gender: result[0].gender,
@@ -102,7 +178,7 @@ app.get("/profile", (request, response) => {
 
 
             response.status(200);
-            response.render("profile/profile", user = user);
+            response.render("profile/profile", userDetails);
 
         }
 
@@ -112,13 +188,13 @@ app.get("/profile", (request, response) => {
 });
 
 
-app.get("/prof_image", (request, response) => {
+app.get("/prof_image", middlewareAuthentication,(request, response) => {
 
 
-    daoU.getProfileImage("pawelchr@ucm.es", (err, userImage) => {
+    daoU.getProfileImage(request.session.currentUser, (err, userImage) => {
 
         if(err)
-            console.log(err)
+            console.log(err);
         else if(userImage)
         {
             response.sendFile(path.join(__dirname, "avatar_imgs", userImage));

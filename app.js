@@ -6,6 +6,7 @@ const path = require("path");
 const mysql = require("mysql");
 const DAO_users = require("./DAO_users");
 const moment = require("moment");
+const bodyParser = require("body-parser");
 
 // create pool of connections
 let pool = mysql.createPool({
@@ -32,14 +33,58 @@ app.set("views", path.join(__dirname, "views"));
 
 // use middleware ---------------------------------------
 app.use(express.static(staticElements));
+app.use(bodyParser.urlencoded({extended: false }));
 
 
 
-app.get("/", (request, response) => {
+
+
+
+app.get("/login", (request, response) => {
+
+    response.render("authentication/login");
+
+});
+
+
+app.get("/register", (request, response) => {
+
+    response.render("authentication/register")
+
+});
+
+
+
+app.post("/register", (request, response) => {
+
+
+    let user = {
+        email: request.body.email,
+        pass: request.body.password,
+        name: request.body.name,
+        gender: request.body.gender,
+        dob: request.body.dob ? request.body.dob : null,
+        image: request.body.imagen ? request.body.imagen : null
+    };
+
+    daoU.insertUserDetails(user, err => {
+
+        if(err)
+            console.log(err);
+        else
+            response.redirect("login");
+
+    });
+
+});
+
+
+
+app.get("/profile", (request, response) => {
 
     let user;
 
-    daoU.getUserDetails(1, (err, result) => {
+    daoU.getUserDetails("pawelchr@ucm.es", (err, result) => {
 
         if(err)
             console.log(err);
@@ -70,7 +115,7 @@ app.get("/", (request, response) => {
 app.get("/prof_image", (request, response) => {
 
 
-    daoU.getProfileImage(1, (err, userImage) => {
+    daoU.getProfileImage("pawelchr@ucm.es", (err, userImage) => {
 
         if(err)
             console.log(err)

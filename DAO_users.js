@@ -10,7 +10,7 @@ class DaoUsers {
 
 
     // get user details
-    getUserDetails(userId, callback)
+    getUserDetails(email, callback)
     {
 
         this.pool.getConnection((err, conn) => {
@@ -20,9 +20,9 @@ class DaoUsers {
                 return;
             }
 
-            let sqlStmt = "SELECT * FROM profiles WHERE id=?";
+            let sqlStmt = "SELECT * FROM profiles WHERE email=?";
 
-            conn.query(sqlStmt, [userId], (err, result) => {
+            conn.query(sqlStmt, [email], (err, result) => {
 
                 conn.release();
 
@@ -34,14 +34,12 @@ class DaoUsers {
                 callback(null, result);
 
             });
-
         });
-
     }
 
 
     // get the profile image
-    getProfileImage(userId, callback)
+    getProfileImage(email, callback)
     {
 
         this.pool.getConnection((err, conn) => {
@@ -51,9 +49,9 @@ class DaoUsers {
                 return;
             }
 
-            let sqlStmt = "SELECT image FROM profiles WHERE id=?";
+            let sqlStmt = "SELECT image FROM profiles WHERE email=?";
 
-            conn.query(sqlStmt, [userId], (err, result) => {
+            conn.query(sqlStmt, [email], (err, result) => {
 
                 conn.release();
 
@@ -67,15 +65,33 @@ class DaoUsers {
                 else
                     callback(null)
 
+            });
+        });
+    }
+
+
+
+    // insert profile details
+    insertUserDetails(user, callback)
+    {
+
+        this.pool.getConnection((err, conn) => {
+
+            if(err) {
+                callback(err);
+                return;
+            }
+
+            let sqlStmt = "INSERT INTO profiles(email, pass, name, gender, dob, image) VALUES (?,?,?,?,?,?)";
+
+            conn.query(sqlStmt, [user.email, user.pass, user.name, user.gender, user.dob, user.image], err => {
+
+                conn.release();
+
+                callback(err);
 
             });
-
-
         });
-
-
-
-
     }
 
 
@@ -83,4 +99,4 @@ class DaoUsers {
 
 module.exports = {
     DaoUsers: DaoUsers
-}
+};

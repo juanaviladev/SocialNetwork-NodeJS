@@ -1,7 +1,7 @@
-<%- include("../common/header_main",{title: "FaceBluff - Nuevo Usuario", style: "css/login.css"})%>
+<%- include("../common/header_log",{title: "FaceBluff - Nuevo Usuario", style: "css/login.css"})%>
 		<div id="main-content">
 			<h2 class="text-center">Nuevo Usuario</h2>
-			<form id="register">
+			<form id="register" method="post" action="register">
 				<div class="container">
 					<label class="left" for="email">Email</label>
 					<input class="right" id="email" type="text" name="email">
@@ -11,11 +11,11 @@
 					<input class="right" id="name" type="text" name="name">
 					<label class="left" >Sexo</label>
 					<div class="right">
-						<input id="male" type="radio" name="gender" value="male">
+						<input id="male" type="radio" name="gender" value="m">
 						<label for="male">Masculino</label>
-						<input id="female" type="radio" name="gender" value="female">
+						<input id="female" type="radio" name="gender" value="f">
 						<label for="female">Feminimo</label>
-						<input id="other" type="radio" name="gender" value="other">
+						<input id="other" type="radio" name="gender" value="o">
 						<label for="other">Otro</label>
 					</div>
 					<label class="left" for="dob">Fecha de Nacimiento</label>

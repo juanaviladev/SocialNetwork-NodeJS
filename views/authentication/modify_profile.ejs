@@ -1,0 +1,51 @@
+<%- include("../common/header_main",{title: "FaceBluff - Modificar Perfil", style: "css/modify.css"})%>
+<div id="main-content">
+    <h2 class="text-center">Modificar Perfil</h2>
+    <form id="register" method="post" action="modify">
+        <div class="container">
+            <label class="left" for="email">Email</label>
+            <input class="right" id="email" type="text" name="email" value="<%=currentUser%>">
+            <label class="left" for="password">Contraseña</label>
+            <input class="right" id="password" type="password" name="password" value="<%=pass%>">
+            <label class="left" for="name">Nombre Completo</label>
+            <input class="right" id="name" type="text" name="name" value="<%=name%>">
+            <label class="left" >Sexo</label>
+            <div class="right">
+                <%switch(gender){
+                case 'm':%>
+                    <input id="male" type="radio" name="gender" value="m" checked>
+                    <label for="male">Masculino</label>
+                    <input id="female" type="radio" name="gender" value="f">
+                    <label for="female">Feminimo</label>
+                    <input id="other" type="radio" name="gender" value="o">
+                    <label for="other">Otro</label>
+                <%break;
+                case 'f':%>
+                    <input id="male" type="radio" name="gender" value="m">
+                    <label for="male">Masculino</label>
+                    <input id="female" type="radio" name="gender" value="f" checked>
+                    <label for="female">Feminimo</label>
+                    <input id="other" type="radio" name="gender" value="o">
+                    <label for="other">Otro</label>
+                <%break;
+                case 'o':%>
+                    <input id="male" type="radio" name="gender" value="m">
+                    <label for="male">Masculino</label>
+                    <input id="female" type="radio" name="gender" value="f">
+                    <label for="female">Feminimo</label>
+                    <input id="other" type="radio" name="gender" value="o" checked>
+                    <label for="other">Otro</label>
+                <%}%>
+            </div>
+            <label class="left" for="dob">Fecha de Nacimiento</label>
+            <input class="right" id="dob" type="date" name="dob" value="<%=dob%>">
+            <img src="/prof_image" alt="Imagen de Perfil" id="prof_img">
+            <label class="left" for="imagen">Imagen de Perfil</label>
+            <input class="right" id="imagen" type="file" name="imagen">
+            <input type="hidden" name="currentImage" value="<%=image%>">
+        </div>
+        <input class="submit-button purple-bt text-medium" type="submit" value="Guardar Cambios">
+    </form>
+</div>
+</body>
+</html>

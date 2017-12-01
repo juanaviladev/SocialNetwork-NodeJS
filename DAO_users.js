@@ -77,6 +77,40 @@ class DaoUsers {
     }
 
 
+
+    // update user details
+    updateUserDetails(email, newData, callback)
+    {
+
+        this.pool.getConnection((err, conn) => {
+
+            if(err)
+            {
+                callback(err);
+                return;
+            }
+
+            let sqlStmt = "UPDATE profiles SET email=?, pass=?, name=?, gender=?, dob=?, image=? WHERE email=?"
+
+            conn.query(sqlStmt, [newData.email, newData.pass, newData.name, newData.gender, newData.dob, newData.image, email], err => {
+
+                conn.release();
+
+                if(err)
+                    callback(err);
+                else
+                    callback(null);
+
+            });
+
+        });
+
+
+
+
+    }
+
+
     // get the profile image
     getProfileImage(email, callback)
     {

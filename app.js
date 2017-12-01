@@ -72,7 +72,11 @@ function middlewareAuthentication(request, response, next){
 }
 
 
+app.get("/", (request, response) => {
 
+    response.redirect("profile");
+
+});
 
 
 app.get("/login", (request, response) => {
@@ -110,6 +114,16 @@ app.post("/login", (request, response) => {
 
 
 
+app.get("/logout", (request, response) => {
+
+    request.session.destroy();
+
+    response.redirect("/login");
+
+});
+
+
+
 
 app.get("/register", (request, response) => {
 
@@ -128,7 +142,7 @@ app.post("/register", (request, response) => {
         name: request.body.name,
         gender: request.body.gender,
         dob: request.body.dob ? request.body.dob : null,
-        image: request.body.imagen ? request.body.imagen : null
+        image: null
     };
 
     daoU.insertUserDetails(user, err => {
@@ -186,6 +200,61 @@ app.get("/profile", middlewareAuthentication ,(request, response) => {
 
 
 });
+
+
+
+app.get("/modify",middlewareAuthentication , (request, response) => {
+
+    daoU.getUserDetails(request.session.currentUser, (err, result) => {
+
+        if(err) {
+            console.log(err);
+        }
+        else
+        {
+            let user = {
+                pass: result[0].pass,
+                name: result[0].name,
+                gender: result[0].gender,
+                dob: moment(result[0].dob).format('YYYY-MM-DD'),
+                points: result[0].points,
+                image: result[0].image
+            };
+
+            response.render("authentication/modify_profile", user);
+
+        }
+    });
+});
+
+
+
+
+app.post("/modify", (request, response) => {
+
+
+    let user = {
+        email: request.body.email,
+        pass: request.body.password,
+        name: request.body.name,
+        gender: request.body.gender,
+        dob: request.body.dob ? request.body.dob : null,
+        image: request.body.currentImage
+    };
+
+    daoU.updateUserDetails(request.session.currentUser, user, err => {
+
+        if(err)
+            console.log(err);
+        else {
+            response.redirect("profile");
+        }
+
+    });
+
+});
+
+
 
 
 app.get("/prof_image", middlewareAuthentication,(request, response) => {

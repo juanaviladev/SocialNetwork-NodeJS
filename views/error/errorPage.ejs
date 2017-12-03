@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Facebluff - Error</title>
+        <link href="css/common.css" rel="stylesheet" type="text/css">
+        <link href="css/login.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <header>
+            <img src="img/logo.png"/>
+        </header>
+        <h1 id="errInfo" class="text-center">Oops! Something went wrong ...</h1>
+        <table id="errTable">
+            <tr>
+                <th>Error Code:</th>
+                <td><%=status%></td>
+            </tr>
+            <tr>
+                <th>Error Message:</th>
+                <td><%=errMsg%></td>
+            </tr>
+        </table>
+    </body>
+</html>

@@ -57,6 +57,10 @@ app.use(bodyParser.urlencoded({extended: false }));
 app.use(middlewareSession);
 
 
+
+
+
+
 function middlewareAuthentication(request, response, next){
 
     let user = request.session.currentUser;
@@ -68,6 +72,24 @@ function middlewareAuthentication(request, response, next){
     }
     else
         response.redirect("login");
+
+}
+
+
+function middlewareGetPoints(request, response, next)
+{
+    daoU.getUserPoints(response.locals.currentUser, (err, points) => {
+
+        if(err)
+            next(err);
+        else {
+            response.locals.currentPoints = points;
+            next();
+        }
+
+    });
+
+
 
 }
 
@@ -87,14 +109,15 @@ app.get("/login", (request, response) => {
 
 
 
-app.post("/login", (request, response) => {
+app.post("/login", (request, response, next) => {
 
     let user = request.body.email;
 
     daoU.isUserCorrect(user, request.body.password, (err, exists) => {
 
-        if(err)
-            console.log(err);
+        if(err) {
+            next(err);
+        }
         else
         {
             if(exists)
@@ -106,10 +129,7 @@ app.post("/login", (request, response) => {
                 response.redirect("login");
             }
         }
-
-
     });
-
 });
 
 
@@ -133,7 +153,7 @@ app.get("/register", (request, response) => {
 
 
 
-app.post("/register", (request, response) => {
+app.post("/register", (request, response, next) => {
 
 
     let user = {
@@ -147,8 +167,9 @@ app.post("/register", (request, response) => {
 
     daoU.insertUserDetails(user, err => {
 
-        if(err)
-            console.log(err);
+        if(err) {
+            next(err);
+        }
         else
             response.redirect("login");
 
@@ -158,12 +179,13 @@ app.post("/register", (request, response) => {
 
 
 
-app.get("/profile", middlewareAuthentication ,(request, response) => {
+app.get("/profile", middlewareAuthentication, middlewareGetPoints ,(request, response, next) => {
 
     daoU.getUserDetails(request.session.currentUser, (err, result) => {
 
-        if(err)
-            console.log(err);
+        if(err) {
+            next(err);
+        }
         else {
 
             let gender;
@@ -186,7 +208,6 @@ app.get("/profile", middlewareAuthentication ,(request, response) => {
                 name: result[0].name,
                 age: moment().diff(result[0].dob, 'years'),
                 gender: result[0].gender,
-                points: result[0].points,
                 image: result[0].image
             };
 
@@ -203,12 +224,12 @@ app.get("/profile", middlewareAuthentication ,(request, response) => {
 
 
 
-app.get("/modify",middlewareAuthentication , (request, response) => {
+app.get("/modify",middlewareAuthentication, middlewareGetPoints , (request, response, next) => {
 
     daoU.getUserDetails(request.session.currentUser, (err, result) => {
 
         if(err) {
-            console.log(err);
+            next(err);
         }
         else
         {
@@ -217,7 +238,6 @@ app.get("/modify",middlewareAuthentication , (request, response) => {
                 name: result[0].name,
                 gender: result[0].gender,
                 dob: moment(result[0].dob).format('YYYY-MM-DD'),
-                points: result[0].points,
                 image: result[0].image
             };
 
@@ -230,7 +250,7 @@ app.get("/modify",middlewareAuthentication , (request, response) => {
 
 
 
-app.post("/modify", (request, response) => {
+app.post("/modify",middlewareAuthentication, middlewareGetPoints, (request, response, next) => {
 
 
     let user = {
@@ -244,8 +264,9 @@ app.post("/modify", (request, response) => {
 
     daoU.updateUserDetails(request.session.currentUser, user, err => {
 
-        if(err)
-            console.log(err);
+        if (err) {
+            next(err);
+        }
         else {
             response.redirect("profile");
         }
@@ -257,13 +278,14 @@ app.post("/modify", (request, response) => {
 
 
 
-app.get("/prof_image", middlewareAuthentication,(request, response) => {
+app.get("/prof_image", middlewareAuthentication,middlewareGetPoints,(request, response, next) => {
 
 
     daoU.getProfileImage(request.session.currentUser, (err, userImage) => {
 
-        if(err)
-            console.log(err);
+        if(err) {
+            next(err);
+        }
         else if(userImage)
         {
             response.sendFile(path.join(__dirname, "avatar_imgs", userImage));
@@ -278,11 +300,32 @@ app.get("/prof_image", middlewareAuthentication,(request, response) => {
 
 
 
+app.use((request, response, next) => {
+
+    response.status(404);
+    response.render("error/errorPage", {errMsg: "Not Found !", status: 404});
+
+});
+
+
+
+app.use((error, request, response, next) => {
+
+    console.log(error.stack);
+    response.status(500);
+    response.render("error/errorPage", {errMsg: error.message, status: 500});
+
+
+
+});
+
+
+
 
 
 app.listen(config.port, err => {
     if (err) {
-        console.log("No se ha podido iniciar el servidor.")
+        console.log("No se ha podido iniciar el servidor.");
         console.log(err);
     } else {
         console.log(`Servidor escuchando en puerto ${config.port}.`);

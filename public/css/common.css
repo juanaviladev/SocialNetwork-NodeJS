@@ -163,3 +163,26 @@ header > img
 .purple-bt:focus {
     outline: 0;
 }
+
+
+/*code for error handling pages --------------------------------------------*/
+#errTable {
+    border-collapse: collapse;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    font-family: GloriaHallelujah, Serif;
+    font-size: 180%;
+    background-color: rgba(189,50,206,0.2);
+}
+
+#errTable td, #errTable th {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+#errInfo {
+    margin-top: 80px;
+    background: radial-gradient(rgba(189,50,206,1), rgba(189,50,206,0), rgba(189,50,206,0));
+    line-height: 100px;
+}

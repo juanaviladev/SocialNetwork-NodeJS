@@ -78,6 +78,36 @@ class DaoUsers {
 
 
 
+    getUserPoints(email, callback)
+    {
+
+        this.pool.getConnection((err, conn) => {
+
+            if(err) {
+                callback(err);
+                return;
+            }
+
+            let sqlStmt = "SELECT points FROM profiles WHERE email=?";
+
+            conn.query(sqlStmt, [email], (err, result) => {
+
+                conn.release();
+
+                if(err) {
+                    callback(err);
+                    return;
+                }
+
+                callback(null, result[0].points);
+
+            });
+        });
+
+    }
+
+
+
     // update user details
     updateUserDetails(email, newData, callback)
     {
@@ -102,13 +132,11 @@ class DaoUsers {
                     callback(null);
 
             });
-
         });
-
-
-
-
     }
+
+
+
 
 
     // get the profile image

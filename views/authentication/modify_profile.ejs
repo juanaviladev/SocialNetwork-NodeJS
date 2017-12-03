@@ -4,7 +4,7 @@
     <form id="register" method="post" action="modify">
         <div class="container">
             <label class="left" for="email">Email</label>
-            <input class="right" id="email" type="text" name="email" value="<%=currentUser%>">
+            <input class="right" id="email" type="text" name="email" value="<%=email%>">
             <label class="left" for="password">Contraseña</label>
             <input class="right" id="password" type="password" name="password" value="<%=pass%>">
             <label class="left" for="name">Nombre Completo</label>
@@ -39,10 +39,9 @@
             </div>
             <label class="left" for="dob">Fecha de Nacimiento</label>
             <input class="right" id="dob" type="date" name="dob" value="<%=dob%>">
-            <img src="/prof_image" alt="Imagen de Perfil" id="prof_img">
+            <img src="/prof_image/<%=currentUser%>" alt="Imagen de Perfil" id="prof_img">
             <label class="left" for="image">Imagen de Perfil</label>
             <input class="right" id="image" type="file" name="image">
-            <input type="hidden" name="currentImage" value="<%=image%>">
         </div>
         <input class="submit-button purple-bt text-medium" type="submit" value="Guardar Cambios">
     </form>

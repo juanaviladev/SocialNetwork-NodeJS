@@ -20,4 +20,25 @@ CREATE TABLE friendships(
 );
 
 INSERT INTO profiles(email,pass,name,gender,dob,image, points)
-VALUES('pawelchr@ucm.es','morgana','Pawel Chruscinski','male','1985-12-05','Pennywise-01.png',20);
+VALUES('pawelchr@ucm.es','morgana','Pawel Chruscinski','m','1985-12-05','Pennywise-01.png',20);
+
+INSERT INTO profiles(email,pass,name,gender,dob,image, points)
+VALUES('a@ucm.es','morgana','Someone A','m','1990-07-21','Diablo-01.png',100);
+
+INSERT INTO profiles(email,pass,name,gender,dob,image, points)
+VALUES('b@ucm.es','morgana','Someone B','o','1981-01-01','Mummy-01.png',0);
+
+INSERT INTO profiles(email,pass,name,gender,dob,image, points)
+VALUES('c@ucm.es','morgana','Someone C','f','1986-06-30','Skull-01.png',50);
+
+INSERT INTO profiles(email,pass,name,gender,dob,image, points)
+VALUES('d@ucm.es','morgana','Someone D','f','1975-02-15','Pinhead-01.png',400);
+
+INSERT INTO profiles(email,pass,name,gender,dob,image, points)
+VALUES('e@ucm.es','morgana','Stranger','m','1975-03-27','Ghostface-01.png',150);
+
+INSERT INTO friendships VALUES(1,2,0);
+INSERT INTO friendships VALUES(1,3,1);
+INSERT INTO friendships VALUES(1,4,2);
+INSERT INTO friendships VALUES(1,5,2);
+

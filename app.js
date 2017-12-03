@@ -122,7 +122,7 @@ app.post("/login", (request, response, next) => {
         {
             if(exists)
             {
-                request.session.currentUser = user;
+                request.session.currentUser = exists;
                 response.redirect("profile");
             }
             else {
@@ -162,7 +162,6 @@ app.post("/register", (request, response, next) => {
         name: request.body.name,
         gender: request.body.gender,
         dob: request.body.dob ? request.body.dob : null,
-        image: null
     };
 
     daoU.insertUserDetails(user, err => {
@@ -208,7 +207,6 @@ app.get("/profile", middlewareAuthentication, middlewareGetPoints ,(request, res
                 name: result[0].name,
                 age: moment().diff(result[0].dob, 'years'),
                 gender: result[0].gender,
-                image: result[0].image
             };
 
 
@@ -234,11 +232,11 @@ app.get("/modify",middlewareAuthentication, middlewareGetPoints , (request, resp
         else
         {
             let user = {
+                email: result[0].email,
                 pass: result[0].pass,
                 name: result[0].name,
                 gender: result[0].gender,
                 dob: moment(result[0].dob).format('YYYY-MM-DD'),
-                image: result[0].image
             };
 
             response.render("authentication/modify_profile", user);
@@ -259,7 +257,6 @@ app.post("/modify",middlewareAuthentication, middlewareGetPoints, (request, resp
         name: request.body.name,
         gender: request.body.gender,
         dob: request.body.dob ? request.body.dob : null,
-        image: request.body.currentImage
     };
 
     daoU.updateUserDetails(request.session.currentUser, user, err => {
@@ -278,10 +275,82 @@ app.post("/modify",middlewareAuthentication, middlewareGetPoints, (request, resp
 
 
 
-app.get("/prof_image", middlewareAuthentication,middlewareGetPoints,(request, response, next) => {
+app.get("/friends", middlewareAuthentication, middlewareGetPoints, (request, response, next) => {
+
+    let user = request.session.currentUser;
+
+    daoU.getFriendshipDetails(user, (err, result) => {
+
+        if(err)
+            return next(err);
+
+        let friends = [];
+        let pending = [];
+        let friendRequests = [];
+
+        if(result.length)
+        {
+            result.forEach(row => {
+
+                if(row.status === 0) {
+                    if(row.user1 === user)
+                        friends.push({id: row.user2, name: row.name2});
+                    else
+                        friends.push({id: row.user1, name: row.name1});
+                }
+
+                if(row.status === 1)
+                {
+                    if(row.user1 === user)
+                        pending.push({id: row.user2, name: row.name2});
+                    else
+                        friendRequests.push({id: row.user1, name: row.name1});
+                }
+
+                if(row.status === 2)
+                {
+                    if(row.user1 === user)
+                        friendRequests.push({id: row.user2, name: row.name2});
+                    else
+                        pending.push({id: row.user1, name: row.name1});
+                }
+            });
+        }
 
 
-    daoU.getProfileImage(request.session.currentUser, (err, userImage) => {
+        response.render("friends/friends", {friends: friends, pending: pending, friendRequests: friendRequests});
+
+
+    });
+});
+
+
+
+
+
+app.post("/search", middlewareAuthentication, middlewareGetPoints, (request, response, next) => {
+
+    let word = request.body.search;
+
+    daoU.searchFriends(request.session.currentUser, word, (err, result) => {
+
+        if(err)
+            return next(err);
+
+        response.render("search/search_results", {searchResult: result, word: word});
+
+    });
+
+});
+
+
+
+
+
+app.get("/prof_image/:userId", middlewareAuthentication,middlewareGetPoints,(request, response, next) => {
+
+
+    daoU.getProfileImage(request.params.userId, (err, userImage) => {
 
         if(err) {
             next(err);

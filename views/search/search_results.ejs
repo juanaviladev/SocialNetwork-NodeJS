@@ -1,22 +1,48 @@
-<%- include("../common/header_main",{title: "FaceBluff - Búsqueda", style: ""})%>
+<%- include("../common/header_main",{title: "FaceBluff - Búsqueda", style: "css/friends.css"})%>
     <div id="main-content">
-        <h2 class="text-center">Resultados de búsqueda: 'e'</h2>
+        <h2 class="text-center">Resultados de búsqueda: '<%=word%>'</h2>
+        <%if(searchResult.length){%>
             <ul class="users-list">
-                <li>
-                    <div class="user-profile">
-                        <img src="../../avatar_imgs/Casper-01.png">
-                        <p>Lucía Pinhead</p>
-                    </div>
-                    <p class="purple-bt">Solicitar amistad</p>
-                </li>
-                <li>
-                    <div class="user-profile">
-                        <img src="../../avatar_imgs/Mike-01.png">
-                        <p>Mike Mazowski</p>
-                    </div>
-                    <p class="purple-bt">Solicitar amistad</p>
-                </li>
+                <%for(elem of searchResult){%>
+                    <%if(elem.status === null){%>
+                        <li>
+                            <div class="user-profile">
+                                <img src="/prof_image/<%=elem.id%>">
+                                <p><%=elem.name%></p>
+                            </div>
+                            <p class="purple-bt">Solicitar amistad</p>
+                        </li>
+                    <%}else if(elem.status === 0){%>
+                        <li>
+                            <div class="user-profile">
+                                <img src="/prof_image/<%=elem.id%>">
+                                <p><%=elem.name%></p>
+                            </div>
+                        </li>
+                    <%}else if((elem.user1===currentUser && elem.status===1) ||
+                            (elem.user2===currentUser && elem.status===2)){%>
+                        <li>
+                            <div class="user-profile">
+                                <img src="/prof_image/<%=elem.id%>">
+                                <p><%=elem.name%></p>
+                                <p class="pendInfo">Pending</p>
+                            </div>
+                        </li>
+                    <%}else{%>
+                        <li>
+                            <div class="user-profile">
+                                <img src="/prof_image/<%=elem.id%>">
+                                <p><%=elem.name%></p>
+                            </div>
+                            <div class="friend-button">
+                                <a class="purple-bt">Aceptar</a>
+                                <a class="purple-bt">Rechazar</a>
+                            </div>
+                        </li>
+                    <%}%>
+                <%}%>
             </ul>
+        <%}%>
     </div>
 </body>
 </html>

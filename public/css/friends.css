@@ -23,6 +23,17 @@
     margin-left: 10px;
 }
 
+.pendInfo {
+    font-family: GloriaHallelujah, serif;
+    margin-left: 20px;
+    letter-spacing: 2px;
+    background-color: rgba(189,50,206,0.5);
+    border-radius: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: white;
+}
+
 
 
 

@@ -32,7 +32,7 @@ class DaoUsers {
                     return;
                 }
 
-                if(result && (result[0].email === email && result[0].pass === pass))
+                if(result.length !== 0 && (result[0].email === email && result[0].pass === pass))
                     callback(null, result[0].id);
                 else
                     callback(null, 0);

@@ -206,7 +206,7 @@ app.get("/profile", middlewareAuthentication, middlewareGetPoints ,(request, res
             let userDetails = {
                 name: result[0].name,
                 age: moment().diff(result[0].dob, 'years'),
-                gender: result[0].gender,
+                gender: gender,
             };
 
 
@@ -338,6 +338,53 @@ app.post("/search", middlewareAuthentication, middlewareGetPoints, (request, res
             return next(err);
 
         response.render("search/search_results", {searchResult: result, word: word});
+
+    });
+
+});
+
+
+
+app.post("/accept_friend", middlewareAuthentication, middlewareGetPoints, (request, response, next) => {
+
+    daoU.acceptFriendRequest(request.session.currentUser, request.body.otherUser, err => {
+
+        if(err)
+            return next(err);
+
+        response.redirect("friends");
+
+
+    });
+
+});
+
+
+
+app.post("/reject_friend", middlewareAuthentication, middlewareGetPoints, (request, response, next) => {
+
+    daoU.rejectFriendRequest(request.session.currentUser, request.body.otherUser, err => {
+
+        if(err)
+            return next(err);
+
+        response.redirect("friends");
+
+
+    });
+
+});
+
+
+
+app.post("/friend_request", middlewareAuthentication, middlewareGetPoints, (request, response, next) => {
+
+    daoU.friendRequest(request.session.currentUser, request.body.otherUser, err => {
+
+        if(err)
+            return next(err);
+
+        response.redirect("friends");
 
     });
 

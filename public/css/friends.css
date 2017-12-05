@@ -1,4 +1,7 @@
-.friend-button a {
+
+
+.friend-button > form {
+    float: left;
     margin-left: 10px;
 }
 

@@ -10,7 +10,12 @@
                                 <img src="/prof_image/<%=elem.id%>">
                                 <p><%=elem.name%></p>
                             </div>
-                            <p class="purple-bt">Solicitar amistad</p>
+                            <div class="friend-button">
+                                <form method="post" action="friend_request">
+                                    <input type="hidden" name="otherUser" value="<%=elem.id%>">
+                                    <input class="purple-bt" type="submit" value="Solicitar Amistad">
+                                </form>
+                            </div>
                         </li>
                     <%}else if(elem.status === 0){%>
                         <li>
@@ -35,8 +40,14 @@
                                 <p><%=elem.name%></p>
                             </div>
                             <div class="friend-button">
-                                <a class="purple-bt">Aceptar</a>
-                                <a class="purple-bt">Rechazar</a>
+                                <form method="post" action="accept_friend">
+                                    <input type="hidden" name="otherUser" value="<%=elem.id%>">
+                                    <input class="purple-bt" type="submit" value="Aceptar">
+                                </form>
+                                <form method="post" action="reject_friend">
+                                    <input type="hidden" name="otherUser" value="<%=elem.id%>">
+                                    <input class="purple-bt" type="submit" value="Rechazar">
+                                </form>
                             </div>
                         </li>
                     <%}%>

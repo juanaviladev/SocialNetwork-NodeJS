@@ -150,7 +150,10 @@ header > img
     padding-bottom: 4px;
     padding-left: 15px;
     padding-right: 15px;
+    font-size: inherit;
 }
+
+
 
 .purple-bt:hover {
     cursor: pointer;

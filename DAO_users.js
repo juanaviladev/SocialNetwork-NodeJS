@@ -208,6 +208,111 @@ class DaoUsers {
 
 
 
+    acceptFriendRequest(user1, user2, callback)
+    {
+
+        this.pool.getConnection((err, conn) => {
+
+            if (err) {
+                callback(err);
+                return;
+            }
+
+
+            let sqlStmt = "UPDATE friendships SET status=0 WHERE user1=? AND user2=?";
+
+            let users;
+
+            if (user1 < user2)
+                users = [user1, user2];
+            else
+                users = [user2, user1];
+
+            conn.query(sqlStmt, users, err => {
+
+                if(err)
+                    return callback(err);
+
+                callback(null);
+
+            });
+        });
+    }
+
+
+
+
+
+    rejectFriendRequest(user1, user2, callback)
+    {
+
+        this.pool.getConnection((err, conn) => {
+
+            if (err) {
+                callback(err);
+                return;
+            }
+
+
+            let sqlStmt = "DELETE FROM friendships WHERE user1=? AND user2=?";
+
+            let users;
+
+            if (user1 < user2)
+                users = [user1, user2];
+            else
+                users = [user2, user1];
+
+            conn.query(sqlStmt, users, err => {
+
+                if(err)
+                    return callback(err);
+
+                callback(null);
+
+            });
+        });
+    }
+
+
+
+
+    friendRequest(user1, user2, callback)
+    {
+
+        this.pool.getConnection((err, conn) => {
+
+            if (err) {
+                callback(err);
+                return;
+            }
+
+
+            let sqlStmt = "INSERT INTO friendships VALUES (?)";
+
+            let users;
+
+            if (user1 < user2)
+                users = [user1, user2, 1];
+            else
+                users = [user2, user1, 2];
+
+            conn.query(sqlStmt, [users], err => {
+
+                if(err)
+                    return callback(err);
+
+                callback(null);
+
+            });
+        });
+
+
+
+    }
+
+
+
 
     // get the profile image
     getProfileImage(userId, callback)

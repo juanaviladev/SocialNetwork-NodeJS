@@ -71,7 +71,7 @@ function middlewareAuthentication(request, response, next){
         next();
     }
     else
-        response.redirect("login");
+        response.redirect("/login");
 
 }
 
@@ -94,9 +94,9 @@ function middlewareGetPoints(request, response, next)
 }
 
 
-app.get("/", (request, response) => {
+app.get("/", middlewareAuthentication, (request, response) => {
 
-    response.redirect("profile");
+    response.redirect("profile/" + request.session.currentUser);
 
 });
 
@@ -123,7 +123,7 @@ app.post("/login", (request, response, next) => {
             if(exists)
             {
                 request.session.currentUser = exists;
-                response.redirect("profile");
+                response.redirect("profile/" + request.session.currentUser);
             }
             else {
                 response.redirect("login");
@@ -178,9 +178,9 @@ app.post("/register", (request, response, next) => {
 
 
 
-app.get("/profile", middlewareAuthentication, middlewareGetPoints ,(request, response, next) => {
+app.get("/profile/:userId", middlewareAuthentication, middlewareGetPoints ,(request, response, next) => {
 
-    daoU.getUserDetails(request.session.currentUser, (err, result) => {
+    daoU.getUserDetails(request.params.userId, (err, result) => {
 
         if(err) {
             next(err);
@@ -191,10 +191,10 @@ app.get("/profile", middlewareAuthentication, middlewareGetPoints ,(request, res
 
             switch(result[0].gender){
 
-                case 'm':
+                case 'male':
                     gender = "Hombre";
                     break;
-                case 'f':
+                case 'female':
                     gender = "Mujer";
                     break;
                 default:
@@ -204,6 +204,7 @@ app.get("/profile", middlewareAuthentication, middlewareGetPoints ,(request, res
 
 
             let userDetails = {
+                id: result[0].id,
                 name: result[0].name,
                 age: moment().diff(result[0].dob, 'years'),
                 gender: gender,
@@ -292,31 +293,29 @@ app.get("/friends", middlewareAuthentication, middlewareGetPoints, (request, res
         {
             result.forEach(row => {
 
-                if(row.status === 0) {
-                    if(row.user1 === user)
-                        friends.push({id: row.user2, name: row.name2});
+                if(row.status === "accepted") {
+                    if(row.from_user === user)
+                        friends.push({id: row.to_user, name: row.name2});
                     else
-                        friends.push({id: row.user1, name: row.name1});
+                        friends.push({id: row.from_user, name: row.name1});
                 }
 
-                if(row.status === 1)
+                if(row.status === "pending")
                 {
-                    if(row.user1 === user)
-                        pending.push({id: row.user2, name: row.name2});
+                    if(row.from_user === user)
+                        pending.push({id: row.to_user, name: row.name2});
                     else
-                        friendRequests.push({id: row.user1, name: row.name1});
+                        friendRequests.push({id: row.from_user, name: row.name1});
                 }
 
-                if(row.status === 2)
-                {
-                    if(row.user1 === user)
-                        friendRequests.push({id: row.user2, name: row.name2});
-                    else
-                        pending.push({id: row.user1, name: row.name1});
-                }
             });
         }
-
+        if(friends.length !== 0)
+            friends.sort((x,y) => x["name"].localeCompare(y["name"]));
+        if(pending.length !== 0)
+            pending.sort((x,y) => x["name"].localeCompare(y["name"]));
+        if(friendRequests.length !== 0)
+            friendRequests.sort((x,y) => x["name"].localeCompare(y["name"]));
 
         response.render("friends/friends", {friends: friends, pending: pending, friendRequests: friendRequests});
 
@@ -328,14 +327,17 @@ app.get("/friends", middlewareAuthentication, middlewareGetPoints, (request, res
 
 
 
-app.post("/search", middlewareAuthentication, middlewareGetPoints, (request, response, next) => {
+app.get(["/search"], middlewareAuthentication, middlewareGetPoints, (request, response, next) => {
 
-    let word = request.body.search;
+    let word = request.query.search;
 
     daoU.searchFriends(request.session.currentUser, word, (err, result) => {
 
         if(err)
             return next(err);
+
+        if(result.length !== 0)
+            result.sort((x,y) => x["name"].localeCompare(y["name"]));
 
         response.render("search/search_results", {searchResult: result, word: word});
 
@@ -352,7 +354,12 @@ app.post("/accept_friend", middlewareAuthentication, middlewareGetPoints, (reque
         if(err)
             return next(err);
 
-        response.redirect("friends");
+        let word = request.body.currentWord;
+
+        if(word === undefined)
+            response.redirect("friends");
+        else
+            response.redirect("search?" + "search=" + word);
 
 
     });
@@ -368,7 +375,12 @@ app.post("/reject_friend", middlewareAuthentication, middlewareGetPoints, (reque
         if(err)
             return next(err);
 
-        response.redirect("friends");
+        let word = request.body.currentWord;
+
+        if(word === undefined)
+            response.redirect("friends");
+        else
+            response.redirect("search?" + "search=" + word);
 
 
     });
@@ -384,7 +396,9 @@ app.post("/friend_request", middlewareAuthentication, middlewareGetPoints, (requ
         if(err)
             return next(err);
 
-        response.redirect("friends");
+        let word = request.body.currentWord;
+
+        response.redirect("search?" + "search=" + word);
 
     });
 

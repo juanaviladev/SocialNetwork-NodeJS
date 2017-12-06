@@ -8,43 +8,45 @@
                         <li>
                             <div class="user-profile">
                                 <img src="/prof_image/<%=elem.id%>">
-                                <p><%=elem.name%></p>
+                                <p><a href="/profile/<%=elem.id%>"><%=elem.name%></a></p>
                             </div>
                             <div class="friend-button">
                                 <form method="post" action="friend_request">
+                                    <input type="hidden" name="currentWord" value="<%=word%>">
                                     <input type="hidden" name="otherUser" value="<%=elem.id%>">
                                     <input class="purple-bt" type="submit" value="Solicitar Amistad">
                                 </form>
                             </div>
                         </li>
-                    <%}else if(elem.status === 0){%>
+                    <%}else if(elem.status === "accepted"){%>
                         <li>
                             <div class="user-profile">
                                 <img src="/prof_image/<%=elem.id%>">
-                                <p><%=elem.name%></p>
+                                <p><a href="/profile/<%=elem.id%>"><%=elem.name%></a></p>
                             </div>
                         </li>
-                    <%}else if((elem.user1===currentUser && elem.status===1) ||
-                            (elem.user2===currentUser && elem.status===2)){%>
+                    <%}else if(elem.from_user===currentUser && elem.status==="pending"){%>
                         <li>
                             <div class="user-profile">
                                 <img src="/prof_image/<%=elem.id%>">
-                                <p><%=elem.name%></p>
+                                <p><a href="/profile/<%=elem.id%>"><%=elem.name%></a></p>
                                 <p class="pendInfo">Pending</p>
                             </div>
                         </li>
-                    <%}else{%>
+                    <%}else if(elem.to_user===currentUser && elem.status==="pending"){%>
                         <li>
                             <div class="user-profile">
                                 <img src="/prof_image/<%=elem.id%>">
-                                <p><%=elem.name%></p>
+                                <p><a href="/profile/<%=elem.id%>"><%=elem.name%></a></p>
                             </div>
                             <div class="friend-button">
                                 <form method="post" action="accept_friend">
+                                    <input type="hidden" name="currentWord" value="<%=word%>">
                                     <input type="hidden" name="otherUser" value="<%=elem.id%>">
                                     <input class="purple-bt" type="submit" value="Aceptar">
                                 </form>
                                 <form method="post" action="reject_friend">
+                                    <input type="hidden" name="currentWord" value="<%=word%>">
                                     <input type="hidden" name="otherUser" value="<%=elem.id%>">
                                     <input class="purple-bt" type="submit" value="Rechazar">
                                 </form>

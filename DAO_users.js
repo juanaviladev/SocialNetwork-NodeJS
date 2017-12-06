@@ -20,7 +20,7 @@ class DaoUsers {
                 return;
             }
 
-            let sqlStmt = "SELECT id, email, pass FROM profiles WHERE email=?";
+            let sqlStmt = "SELECT id, email, pass FROM users WHERE email=?";
 
             conn.query(sqlStmt, [email], (err, result) => {
 
@@ -59,7 +59,7 @@ class DaoUsers {
                 return;
             }
 
-            let sqlStmt = "SELECT * FROM profiles WHERE id=?";
+            let sqlStmt = "SELECT * FROM users WHERE id=?";
 
             conn.query(sqlStmt, [userId], (err, result) => {
 
@@ -88,7 +88,7 @@ class DaoUsers {
                 return;
             }
 
-            let sqlStmt = "SELECT points FROM profiles WHERE id=?";
+            let sqlStmt = "SELECT points FROM users WHERE id=?";
 
             conn.query(sqlStmt, [userId], (err, result) => {
 
@@ -120,7 +120,7 @@ class DaoUsers {
                 return;
             }
 
-            let sqlStmt = "UPDATE profiles SET email=?, pass=?, name=?, gender=?, dob=? WHERE id=?";
+            let sqlStmt = "UPDATE users SET email=?, pass=?, name=?, gender=?, dob=? WHERE id=?";
 
             conn.query(sqlStmt, [newData.email, newData.pass, newData.name, newData.gender, newData.dob, userId], err => {
 
@@ -150,9 +150,9 @@ class DaoUsers {
                 return;
             }
 
-            let sqlStmt = "SELECT user1, user2, status, u1.name AS name1, u2.name AS name2 FROM friendships, " +
-                "profiles AS u1, profiles AS u2 WHERE friendships.user1=u1.id AND friendships.user2=u2.id AND " +
-                "(friendships.user1=? OR friendships.user2=?)";
+            let sqlStmt = "SELECT from_user, to_user, status, u1.name AS name1, u2.name AS name2 FROM friendships, " +
+                "users AS u1, users AS u2 WHERE friendships.from_user=u1.id AND friendships.to_user=u2.id AND " +
+                "(friendships.from_user=? OR friendships.to_user=?)";
 
             conn.query(sqlStmt, [userId, userId], (err, result) => {
 
@@ -186,9 +186,9 @@ class DaoUsers {
                 return;
             }
 
-            let sqlStmt = "SELECT id, name, user1, user2, status FROM profiles LEFT JOIN friendships ON " +
-                "(profiles.id=friendships.user1 AND friendships.user2=?) OR (profiles.id=friendships.user2 AND " +
-                "friendships.user1=?) WHERE id<>? AND name LIKE ?";
+            let sqlStmt = "SELECT id, name, from_user, to_user, status FROM users LEFT JOIN friendships ON " +
+                "(users.id=friendships.from_user AND friendships.to_user=?) OR (users.id=friendships.to_user AND " +
+                "friendships.from_user=?) WHERE id<>? AND name LIKE ?";
 
 
             conn.query(sqlStmt, [userId, userId, userId, "%" + word + "%"], (err, result) => {
@@ -219,16 +219,9 @@ class DaoUsers {
             }
 
 
-            let sqlStmt = "UPDATE friendships SET status=0 WHERE user1=? AND user2=?";
+            let sqlStmt = "UPDATE friendships SET status='accepted' WHERE from_user=? AND to_user=?";
 
-            let users;
-
-            if (user1 < user2)
-                users = [user1, user2];
-            else
-                users = [user2, user1];
-
-            conn.query(sqlStmt, users, err => {
+            conn.query(sqlStmt, [user2, user1], err => {
 
                 if(err)
                     return callback(err);
@@ -254,16 +247,9 @@ class DaoUsers {
             }
 
 
-            let sqlStmt = "DELETE FROM friendships WHERE user1=? AND user2=?";
+            let sqlStmt = "DELETE FROM friendships WHERE from_user=? AND to_user=?";
 
-            let users;
-
-            if (user1 < user2)
-                users = [user1, user2];
-            else
-                users = [user2, user1];
-
-            conn.query(sqlStmt, users, err => {
+            conn.query(sqlStmt, [user2, user1], err => {
 
                 if(err)
                     return callback(err);
@@ -290,14 +276,7 @@ class DaoUsers {
 
             let sqlStmt = "INSERT INTO friendships VALUES (?)";
 
-            let users;
-
-            if (user1 < user2)
-                users = [user1, user2, 1];
-            else
-                users = [user2, user1, 2];
-
-            conn.query(sqlStmt, [users], err => {
+            conn.query(sqlStmt, [[user1, user2, "pending"]], err => {
 
                 if(err)
                     return callback(err);
@@ -325,7 +304,7 @@ class DaoUsers {
                 return;
             }
 
-            let sqlStmt = "SELECT image FROM profiles WHERE id=?";
+            let sqlStmt = "SELECT image FROM users WHERE id=?";
 
             conn.query(sqlStmt, [userId], (err, result) => {
 
@@ -358,7 +337,7 @@ class DaoUsers {
                 return;
             }
 
-            let sqlStmt = "INSERT INTO profiles(email, pass, name, gender, dob, image) VALUES (?,?,?,?,?,?)";
+            let sqlStmt = "INSERT INTO users(email, pass, name, gender, dob, image) VALUES (?,?,?,?,?,?)";
 
             conn.query(sqlStmt, [user.email, user.pass, user.name, user.gender, user.dob, user.image], err => {
 

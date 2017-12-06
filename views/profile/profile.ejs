@@ -1,15 +1,21 @@
-<%- include("../common/header_main",{title: "FaceBluff - Perfil", style: "css/profile.css"})%>
+<%- include("../common/header_main",{title: "FaceBluff - Perfil", style: "/css/profile.css"})%>
 		<div id="main-content">
+			<%if(id === currentUser){%>
 			<h2 class="text-center">Tu Perfil</h2>
+			<%}else{%>
+			<h2 class="text-center">Informacion de Perfil</h2>
+			<%}%>
 			<div id="perfil">
-				<img src="prof_image/<%=currentUser%>">
+				<img src="/prof_image/<%=id%>">
 				<div id="prof-description">
 					<h3 class="text-large" id="prof-name"><%=name%></h3>
 					<p><%=age%></p>
 					<p><%=gender%></p>
 				</div>
 			</div>
+			<%if(id === currentUser){%>
 			<a class="purple-bt" href="/modify">Modificar Perfil</a>
+			<%}%>
 		</div>
 	</body>
 </html>

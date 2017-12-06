@@ -7,7 +7,7 @@
 						<li>
 							<div class="user-profile">
 								<img src="prof_image/<%=elem.id%>">
-								<p><%=elem.name%></p>
+								<p><a href="/profile/<%=elem.id%>"><%=elem.name%></a></p>
 							</div>
 							<div class="friend-button">
 								<form method="post" action="accept_friend">
@@ -24,10 +24,10 @@
 					</ul>
 			<%}%>
 			<h2 class="text-center">Búsqueda de Amigos</h2>
-			<form id="search_form" method="post" action="search">
+			<form id="search_form" method="get" action="search">
 				<label for="search">Buscar por Nombre</label>
 				<input id="search" type="text" name="search">
-				<input class="purple-bt text-large" type="submit" name="submit" value="Buscar">
+				<input class="purple-bt text-large" type="submit" value="Buscar">
 			</form>
 			<%if(pending.length || friends.length){%>
 				<h2 class="text-center">Mis Amigos</h2>
@@ -37,7 +37,7 @@
 							<li>
 								<div class="user-profile">
 									<img src="prof_image/<%=elem.id%>">
-									<p><%=elem.name%></p>
+									<p><a href="/profile/<%=elem.id%>"><%=elem.name%></a></p>
 									<p class="pendInfo">Pending</p>
 								</div>
 							</li>
@@ -50,7 +50,7 @@
 							<li>
 								<div class="user-profile">
 									<img src="prof_image/<%=elem.id%>">
-									<p><%=elem.name%></p>
+									<p><a href="/profile/<%=elem.id%>"><%=elem.name%></a></p>
 								</div>
 							</li>
 						<%}%>

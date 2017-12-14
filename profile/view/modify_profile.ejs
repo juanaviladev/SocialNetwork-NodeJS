@@ -42,6 +42,7 @@
             <img src="/profile/<%=currentUser%>/image" alt="Imagen de Perfil" id="prof_img">
             <label class="left" for="image">Imagen de Perfil</label>
             <input class="right" id="image" type="file" name="image">
+            <input type="hidden" name="currentImage" value="<%=image%>">
         </div>
         <input class="submit-button purple-bt text-medium" type="submit" value="Guardar Cambios">
     </form>

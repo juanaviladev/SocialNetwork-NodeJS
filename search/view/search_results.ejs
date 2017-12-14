@@ -11,7 +11,7 @@
                                 <p><a href="/profile/<%=elem.id%>"><%=elem.name%></a></p>
                             </div>
                             <div class="friend-button">
-                                <form method="post" action="/friends/request">
+                                <form method="post" action="/friends/request" enctype="multipart/form-data">
                                     <input type="hidden" name="currentWord" value="<%=word%>">
                                     <input type="hidden" name="otherUser" value="<%=elem.id%>">
                                     <input class="purple-bt" type="submit" value="Solicitar Amistad">
@@ -40,12 +40,12 @@
                                 <p><a href="/profile/<%=elem.id%>"><%=elem.name%></a></p>
                             </div>
                             <div class="friend-button">
-                                <form method="post" action="/friends/accept">
+                                <form method="post" action="/friends/accept" enctype="multipart/form-data">
                                     <input type="hidden" name="currentWord" value="<%=word%>">
                                     <input type="hidden" name="otherUser" value="<%=elem.id%>">
                                     <input class="purple-bt" type="submit" value="Aceptar">
                                 </form>
-                                <form method="post" action="/friends/reject">
+                                <form method="post" action="/friends/reject" enctype="multipart/form-data">
                                     <input type="hidden" name="currentWord" value="<%=word%>">
                                     <input type="hidden" name="otherUser" value="<%=elem.id%>">
                                     <input class="purple-bt" type="submit" value="Rechazar">

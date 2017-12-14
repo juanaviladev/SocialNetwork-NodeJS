@@ -73,9 +73,10 @@ class ProfileDAO
                 return;
             }
 
-            let sqlStmt = "UPDATE users SET email=?, pass=?, name=?, gender=?, dob=? WHERE id=?";
+            let sqlStmt = "UPDATE users SET email=?, pass=?, name=?, gender=?, dob=?, image=? WHERE id=?";
 
-            conn.query(sqlStmt, [newData.email, newData.pass, newData.name, newData.gender, newData.dob, userId], err => {
+            conn.query(sqlStmt, [newData.email, newData.pass, newData.name, newData.gender, newData.dob,
+                                                                                newData.image, userId], err => {
 
                 conn.release();
 
@@ -143,6 +144,9 @@ class ProfileDAO
             });
         });
     }
+
+
+
 }
 
 module.exports = {

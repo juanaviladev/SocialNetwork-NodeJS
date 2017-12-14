@@ -59,7 +59,7 @@ router.get("/register", (request, response) => {
 
 });
 
-router.post("/register", multiParser.none(), (request, response, next) => {
+router.post("/register", multiParser.single("image"), (request, response, next) => {
 
 
     let user = {
@@ -68,6 +68,7 @@ router.post("/register", multiParser.none(), (request, response, next) => {
         name: request.body.name,
         gender: request.body.gender,
         dob: request.body.dob ? request.body.dob : null,
+        image: request.file ? request.file.filename : null
     };
 
     daoU.registerUser(user, err => {

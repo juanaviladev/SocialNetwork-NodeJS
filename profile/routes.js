@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const moment = require("moment");
 const path = require("path");
+const fs = require("fs");
 
 const authMiddleware = require('./../auth/auth_middleware.js');
 const getPointsMiddleware = require('./points_middleware.js');
@@ -29,6 +30,7 @@ router.get("/modify",authMiddleware, getPointsMiddleware , (request, response, n
                 name: result[0].name,
                 gender: result[0].gender,
                 dob: moment(result[0].dob).format('YYYY-MM-DD'),
+                image: result[0].image
             };
 
             response.render(path.join(viewPath,"modify_profile"), user);
@@ -38,7 +40,7 @@ router.get("/modify",authMiddleware, getPointsMiddleware , (request, response, n
 });
 
 
-router.post("/modify",authMiddleware, getPointsMiddleware, multiParser.none(), (request, response, next) => {
+router.post("/modify",authMiddleware, getPointsMiddleware, multiParser.single("image"), (request, response, next) => {
 
 
     let user = {
@@ -47,7 +49,19 @@ router.post("/modify",authMiddleware, getPointsMiddleware, multiParser.none(), (
         name: request.body.name,
         gender: request.body.gender,
         dob: request.body.dob ? request.body.dob : null,
+        image: request.file ? request.file.filename : request.body.currentImage
     };
+
+
+    if(request.file && request.body.currentImage !== "")
+    {
+        fs.unlink(path.join(__dirname, "../uploads", request.body.currentImage),err => {
+
+            if(err)
+                next(err);
+
+        });
+    }
 
     daoU.updateUserDetails(request.session.currentUser, user, err => {
 
@@ -66,15 +80,16 @@ router.post("/modify",authMiddleware, getPointsMiddleware, multiParser.none(), (
 router.get("/:userId/image", authMiddleware,getPointsMiddleware,(request, response, next) => {
 
     daoU.getProfileImage(request.params.userId, (err, userImage) => {
+
         if(err) {
             next(err);
         }
         else if(userImage)
         {
-            response.sendFile(path.join(__dirname, "avatar_imgs", userImage));
+            response.sendFile(path.join(__dirname, "../uploads", userImage));
         }
         else
-            response.sendFile(path.join(__dirname, "public", "img", "NoProfile.png"));
+            response.sendFile(path.join(__dirname, "../public", "img", "NoProfile.png"));
 
     });
 
@@ -108,7 +123,7 @@ router.get("/", authMiddleware, getPointsMiddleware ,(request, response, next) =
             let userDetails = {
                 id: result[0].id,
                 name: result[0].name,
-                age: moment().diff(result[0].dob, 'years'),
+                age: result[0].dob ? moment().diff(result[0].dob, 'years') : "Edad desconocida",
                 gender: gender,
             };
 
@@ -135,7 +150,7 @@ router.get("/:userId", authMiddleware, getPointsMiddleware ,(request, response, 
             next();
         }
         else {
-            console.log(result);
+
             let gender;
 
             switch(result[0].gender){
@@ -155,7 +170,7 @@ router.get("/:userId", authMiddleware, getPointsMiddleware ,(request, response, 
             let userDetails = {
                 id: result[0].id,
                 name: result[0].name,
-                age: moment().diff(result[0].dob, 'years'),
+                age: result[0].dob ? moment().diff(result[0].dob, 'years') : "Edad desconocida",
                 gender: gender,
             };
 

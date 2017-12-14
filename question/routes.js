@@ -6,6 +6,7 @@ const path = require("path");
 const friends = require("./../friends/dao.js");
 const users = require("./../auth/dao.js");
 const profile = require("./../profile/dao.js");
+const multiParser = require("../common/session").middlewareMulter;
 
 const middlewareAuthentication = require('./../auth/auth_middleware.js');
 const middlewareGetPoints = require('./../profile/points_middleware.js');
@@ -39,7 +40,8 @@ router.get("/create", middlewareAuthentication, middlewareGetPoints, (request, r
 
 });
 
-router.post("/create", middlewareAuthentication, middlewareGetPoints, (request, response, next) => {
+router.post("/create", middlewareAuthentication, middlewareGetPoints, multiParser.none(),
+                                                                            (request, response, next) => {
 
     let questionText = request.body.text;
     let questionAnswers = request.body.answers;
@@ -57,7 +59,8 @@ router.post("/create", middlewareAuthentication, middlewareGetPoints, (request, 
 
 });
 
-router.post("/:questionId/guess", middlewareAuthentication, middlewareGetPoints, (request, response, next) => {
+router.post("/:questionId/guess", middlewareAuthentication, middlewareGetPoints, multiParser.none(),
+                                                                                (request, response, next) => {
 
     let selectedAnswerId = request.body.answer;
     let guesserId = request.session.currentUser;
@@ -158,7 +161,8 @@ router.get("/:questionId/answer", middlewareAuthentication, middlewareGetPoints,
     });
 });
 
-router.post("/:questionId/answer", middlewareAuthentication, middlewareGetPoints, (request, response, next) => {
+router.post("/:questionId/answer", middlewareAuthentication, middlewareGetPoints, multiParser.none(),
+                                                                                        (request, response, next) => {
     let answerId = request.body.answer;
     let questionId = request.params.questionId;
     let loggedUser = request.session.currentUser;

@@ -6,6 +6,7 @@ const path = require("path");
 const authMiddleware = require('./../auth/auth_middleware.js');
 const getPointsMiddleware = require('./points_middleware.js');
 
+const multiParser = require("../common/session").middlewareMulter;
 const viewPath = path.join(__dirname,"/view");
 const dbPool = require("./../common/db.js").pool;
 const DAOUsers = require("./dao.js");
@@ -37,7 +38,7 @@ router.get("/modify",authMiddleware, getPointsMiddleware , (request, response, n
 });
 
 
-router.post("/modify",authMiddleware, getPointsMiddleware, (request, response, next) => {
+router.post("/modify",authMiddleware, getPointsMiddleware, multiParser.none(), (request, response, next) => {
 
 
     let user = {

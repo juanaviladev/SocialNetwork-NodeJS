@@ -1,7 +1,7 @@
 <%- include("./../../common/view/header_log",{title: "FaceBluff - Nuevo Usuario", style: "css/login.css"})%>
 		<div id="main-content">
 			<h2 class="text-center">Nuevo Usuario</h2>
-			<form id="register" method="post" action="register">
+			<form id="register" method="post" action="register" enctype="multipart/form-data">
 				<div class="container">
 					<label class="left" for="email">Email</label>
 					<input class="right" id="email" type="text" name="email">

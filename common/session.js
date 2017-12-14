@@ -2,7 +2,7 @@ const session = require("express-session");
 const mysqlSession = require("express-mysql-session");
 const MysqlStore = mysqlSession(session);
 const config = require("./../config.js");
-
+const multer = require("multer");
 
 const sessionStore = new MysqlStore({
     host: config.host,
@@ -18,7 +18,11 @@ const middlewareSession = session({
     store: sessionStore
 });
 
+const multerFactory = multer();
+
+
 module.exports = {
     middleware: middlewareSession,
-    store : sessionStore
+    store : sessionStore,
+    middlewareMulter: multerFactory
 };

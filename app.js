@@ -28,15 +28,11 @@ let app = express();
 app.set("view engine", "ejs");
 const staticElements = path.join(__dirname, "public");
 
-// Routes
+
 app.use(express.static(staticElements));
-app.use(bodyParser.urlencoded({extended: false }));
+// app.use(bodyParser.urlencoded({extended: false }));
 app.use(session.middleware);
-app.use('/friends',friendsRoutes);
-app.use('/profile',profileRoutes);
-app.use('/search',searchRoutes);
-app.use('/question',questionRoutes);
-app.use(authRoutes);
+
 
 //Home
 app.get("/", middlewareAuthentication, (request, response) => {
@@ -44,6 +40,16 @@ app.get("/", middlewareAuthentication, (request, response) => {
     response.redirect("profile/" + request.session.currentUser);
 
 });
+
+
+// Routes
+app.use('/friends',friendsRoutes);
+app.use('/profile',profileRoutes);
+app.use('/search',searchRoutes);
+app.use('/question',questionRoutes);
+app.use(authRoutes);
+
+
 
 //Errors
 app.use(notFoundErrorMiddleware);

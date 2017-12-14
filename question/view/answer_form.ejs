@@ -1,7 +1,7 @@
 <%- include("../../common/view/header_main",{title: "FaceBluff - Respuesta", style: "/css/answer_form.css"})%>
     <div id="main-content">
         <h2 class="text-center"><%= question.text %></h2>
-        <form action="/question/<%= question.id %>/answer" method="POST">
+        <form action="/question/<%= question.id %>/answer" method="POST" enctype="multipart/form-data">
             <fieldset>
             <ul id="search-results">
                 <% for(let i = 0; i < question.options.length; i++) {%>

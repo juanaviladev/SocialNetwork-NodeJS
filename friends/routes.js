@@ -3,13 +3,14 @@ const router = express.Router();
 const authMiddleware = require('./../auth/auth_middleware.js');
 const middlewareGetPoints = require('./../profile/points_middleware.js');
 const path = require("path");
+const multiParser = require("../common/session").middlewareMulter;
 
 const viewPath = path.join(__dirname,"/view");
 const dbPool = require("./../common/db.js").pool;
 const FriendsDAO = require("./dao.js");
 let daoU = new FriendsDAO.FriendsDAO(dbPool);
 
-router.post("/accept", authMiddleware, middlewareGetPoints, (request, response, next) => {
+router.post("/accept", authMiddleware, middlewareGetPoints, multiParser.none(),(request, response, next) => {
 
     daoU.acceptFriendRequest(request.session.currentUser, request.body.otherUser, err => {
 
@@ -28,7 +29,7 @@ router.post("/accept", authMiddleware, middlewareGetPoints, (request, response, 
 
 });
 
-router.post("/reject", authMiddleware, middlewareGetPoints, (request, response, next) => {
+router.post("/reject", authMiddleware, middlewareGetPoints, multiParser.none(),(request, response, next) => {
 
     daoU.rejectFriendRequest(request.session.currentUser, request.body.otherUser, err => {
 
@@ -47,7 +48,7 @@ router.post("/reject", authMiddleware, middlewareGetPoints, (request, response, 
 
 });
 
-router.post("/request", authMiddleware, middlewareGetPoints, (request, response, next) => {
+router.post("/request", authMiddleware, middlewareGetPoints, multiParser.none(),(request, response, next) => {
 
     daoU.friendRequest(request.session.currentUser, request.body.otherUser, err => {
 

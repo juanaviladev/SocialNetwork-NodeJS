@@ -1,7 +1,7 @@
 <%- include("./../../common/view/header_main",{title: "FaceBluff - Modificar Perfil", style: "/css/modify.css"})%>
 <div id="main-content">
     <h2 class="text-center">Modificar Perfil</h2>
-    <form id="register" method="post" action="/profile/modify">
+    <form id="register" method="post" action="/profile/modify" enctype="multipart/form-data">
         <div class="container">
             <label class="left" for="email">Email</label>
             <input class="right" id="email" type="text" name="email" value="<%=email%>">

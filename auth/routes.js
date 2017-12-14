@@ -3,6 +3,8 @@ const router = express.Router();
 const dbPool = require("./../common/db.js").pool;
 const DAOUsers = require("./dao.js");
 const path = require("path");
+const multiParser = require("../common/session").middlewareMulter;
+
 
 let daoU = new DAOUsers.DaoAuth(dbPool);
 
@@ -20,7 +22,7 @@ router.get("/login", (request, response) => {
     }
 });
 
-router.post("/login", (request, response, next) => {
+router.post("/login", multiParser.none(), (request, response, next) => {
 
     let user = request.body.email;
 
@@ -57,7 +59,7 @@ router.get("/register", (request, response) => {
 
 });
 
-router.post("/register", (request, response, next) => {
+router.post("/register", multiParser.none(), (request, response, next) => {
 
 
     let user = {

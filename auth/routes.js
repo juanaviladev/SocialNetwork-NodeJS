@@ -4,7 +4,6 @@ const dbPool = require("./../common/db.js").pool;
 const DAOUsers = require("./dao.js");
 const path = require("path");
 const multiParser = require("../common/session").middlewareMulter;
-const moment = require("moment");
 
 let daoU = new DAOUsers.DaoAuth(dbPool);
 

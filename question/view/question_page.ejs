@@ -1,0 +1,37 @@
+<%- include("../../common/view/header_main",{title: "FaceBluff - Pregunta", style: "/css/questions_page.css"})%>
+    <div id="main-content">
+        <h2 class="text-center"><%= question.questionText %></h2>
+        <% if(question.wasAnswered) { %>
+        <p>Ya has respondido a esta pregunta: <%= question.userAnswer %></p>
+        <%} else {%>
+        <a href="/question/<%= question.questionId %>/answer" class="purple-bt text-large">
+            Contestar pregunta
+        </a>
+        <%}%>
+        <% if(friends.length == 0) {%>
+        <p>Ningún amigo ha contestado aún la pregunta</p>
+        <% } else {%>
+        <p>Los siguientes amigos han contestado a esta pregunta:</p>
+        <ul class="users-list">
+        <% }%>
+            <% for(friend of friends) { %>
+            <li>
+                <div class="user-profile">
+                    <img src="/profile/<%= friend.id %>/image">
+                    <p><%=friend.name%></p>
+                </div>
+                <% if(friend.status !== null) {%>
+                     <% if(friend.status === "correct") {%>
+                        <p class="correct-answer">Has acertado</p>
+                     <% } else {%>
+                        <p class="wrong-answer">Has fallado</p>
+                     <% }%>
+                <% } else {%>
+                    <a href="/question/<%= friend.question %>/guess?of=<%= friend.id %>" class="purple-bt">Adivinar</a>
+                <% }%>
+            </li>
+            <% }%>
+        </ul>
+    </div>
+</body>
+</html>

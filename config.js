@@ -2,7 +2,7 @@
 
 module.exports = {
     // database settings
-    database: "aw-p1",
+    database: "facebluff",
     host: "localhost",
     user: "root",
     password: "",

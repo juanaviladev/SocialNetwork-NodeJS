@@ -1,0 +1,21 @@
+<%- include("../../common/view/header_main",{title: "FaceBluff - Preguntas Seleccionadas", style: "css/questions_list.css"})%>
+    <div id="main-content">
+        <h2 class="text-center">Preguntas seleccionadas aleatoriamente</h2>
+            <ul>
+                <% for(question of questions) {%>
+                <li class="question-list-item">
+                    <a href="/question/<%= question.id %>">
+                        <%= question.text %>
+                    </a>
+                </li>
+                <% }%>
+            </ul>
+        <h2 class="text-center">¡Añade tus preguntas!</h2>
+        <div class="text-center">
+            <a class="purple-bt" href="/question/create">
+                Crear nueva pregunta
+            </a>
+        </div>
+    </div>
+</body>
+</html>

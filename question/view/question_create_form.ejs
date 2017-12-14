@@ -1,0 +1,33 @@
+<%- include("../../common/view/header_main",{title: "FaceBluff - Nueva pregunta", style: "/css/question_create_form.css"})%>
+<div id="main-content">
+    <form action="/question/create" method="POST">
+        <fieldset>
+            <h2 class="text-center">
+                Texto de la pregunta
+            </h2>
+            <div class="question-form-box">
+                <label for="new-option">
+                    <input type="text" id="new-option" class="input-full" name="text"
+                           placeholder="Introduce aquí tu pregunta"/>
+                </label>
+            </div>
+            <h2 id="answers" class="text-center">
+                Respuestas
+            </h2>
+            <div class="question-form-box">
+                <label for="new-option">
+                        <textarea class="textarea-full" name="answers"
+                                  placeholder="Introduce aquí una respuesta por línea"></textarea>
+                </label>
+            </div>
+            <div>
+            </div>
+        </fieldset>
+        <div class="text-center">
+            <input type="submit" value="Enviar todo" class="text-medium purple-bt"/>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>

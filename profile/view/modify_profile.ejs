@@ -1,7 +1,7 @@
-<%- include("../common/header_main",{title: "FaceBluff - Modificar Perfil", style: "css/modify.css"})%>
+<%- include("./../../common/view/header_main",{title: "FaceBluff - Modificar Perfil", style: "/css/modify.css"})%>
 <div id="main-content">
     <h2 class="text-center">Modificar Perfil</h2>
-    <form id="register" method="post" action="modify">
+    <form id="register" method="post" action="/profile/modify">
         <div class="container">
             <label class="left" for="email">Email</label>
             <input class="right" id="email" type="text" name="email" value="<%=email%>">
@@ -39,7 +39,7 @@
             </div>
             <label class="left" for="dob">Fecha de Nacimiento</label>
             <input class="right" id="dob" type="date" name="dob" value="<%=dob%>">
-            <img src="/prof_image/<%=currentUser%>" alt="Imagen de Perfil" id="prof_img">
+            <img src="/profile/<%=currentUser%>/image" alt="Imagen de Perfil" id="prof_img">
             <label class="left" for="image">Imagen de Perfil</label>
             <input class="right" id="image" type="file" name="image">
         </div>

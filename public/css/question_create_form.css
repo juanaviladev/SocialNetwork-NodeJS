@@ -1,0 +1,30 @@
+.question-form-box
+{
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: space-between;
+    background-color: #fedb8f;
+    font-family: Arial,monospace;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.fieldset-flex
+{
+    flex-grow: 5;
+}
+
+#answers
+{
+    margin-top: 70px;
+}
+
+.input-full {
+    height: 30px;
+    width: 100%;
+}
+
+.textarea-full {
+    width: 100%;
+}

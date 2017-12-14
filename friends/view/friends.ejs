@@ -1,4 +1,4 @@
-<%- include("../common/header_main",{title: "FaceBluff - Amigos", style: "css/friends.css"})%>
+<%- include("../../common/view/header_main",{title: "FaceBluff - Amigos", style: "css/friends.css"})%>
 		<div id="main-content">
 			<%if(friendRequests.length){%>
 				<h2 class="text-center">Solicitudes de Amistad</h2>
@@ -6,15 +6,15 @@
                         <%for (elem of friendRequests){%>
 						<li>
 							<div class="user-profile">
-								<img src="prof_image/<%=elem.id%>">
+								<img src="/profile/<%=elem.id%>/image">
 								<p><a href="/profile/<%=elem.id%>"><%=elem.name%></a></p>
 							</div>
 							<div class="friend-button">
-								<form method="post" action="accept_friend">
+								<form method="post" action="/friends/accept">
 									<input type="hidden" name="otherUser" value="<%=elem.id%>">
 									<input class="purple-bt" type="submit" value="Aceptar">
 								</form>
-								<form method="post" action="reject_friend">
+								<form method="post" action="/friends/reject">
 									<input type="hidden" name="otherUser" value="<%=elem.id%>">
 									<input class="purple-bt" type="submit" value="Rechazar">
 								</form>
@@ -36,7 +36,7 @@
 						<%for (elem of pending){%>
 							<li>
 								<div class="user-profile">
-									<img src="prof_image/<%=elem.id%>">
+									<img src="/profile/<%=elem.id%>/image">
 									<p><a href="/profile/<%=elem.id%>"><%=elem.name%></a></p>
 									<p class="pendInfo">Pending</p>
 								</div>
@@ -49,7 +49,7 @@
 						<%for (elem of friends){%>
 							<li>
 								<div class="user-profile">
-									<img src="prof_image/<%=elem.id%>">
+									<img src="/profile/<%=elem.id%>/image">
 									<p><a href="/profile/<%=elem.id%>"><%=elem.name%></a></p>
 								</div>
 							</li>

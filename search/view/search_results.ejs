@@ -1,4 +1,4 @@
-<%- include("../common/header_main",{title: "FaceBluff - Búsqueda", style: "css/friends.css"})%>
+<%- include("./../../common/view/header_main",{title: "FaceBluff - Búsqueda", style: "css/friends.css"})%>
     <div id="main-content">
         <h2 class="text-center">Resultados de búsqueda: '<%=word%>'</h2>
         <%if(searchResult.length){%>
@@ -7,11 +7,11 @@
                     <%if(elem.status === null){%>
                         <li>
                             <div class="user-profile">
-                                <img src="/prof_image/<%=elem.id%>">
+                                <img src="/profile/<%=elem.id%>/image">
                                 <p><a href="/profile/<%=elem.id%>"><%=elem.name%></a></p>
                             </div>
                             <div class="friend-button">
-                                <form method="post" action="friend_request">
+                                <form method="post" action="/friends/request">
                                     <input type="hidden" name="currentWord" value="<%=word%>">
                                     <input type="hidden" name="otherUser" value="<%=elem.id%>">
                                     <input class="purple-bt" type="submit" value="Solicitar Amistad">
@@ -21,14 +21,14 @@
                     <%}else if(elem.status === "accepted"){%>
                         <li>
                             <div class="user-profile">
-                                <img src="/prof_image/<%=elem.id%>">
+                                <img src="/profile/<%=elem.id%>/image">
                                 <p><a href="/profile/<%=elem.id%>"><%=elem.name%></a></p>
                             </div>
                         </li>
                     <%}else if(elem.from_user===currentUser && elem.status==="pending"){%>
                         <li>
                             <div class="user-profile">
-                                <img src="/prof_image/<%=elem.id%>">
+                                <img src="/profile/<%=elem.id%>/image">
                                 <p><a href="/profile/<%=elem.id%>"><%=elem.name%></a></p>
                                 <p class="pendInfo">Pending</p>
                             </div>
@@ -36,16 +36,16 @@
                     <%}else if(elem.to_user===currentUser && elem.status==="pending"){%>
                         <li>
                             <div class="user-profile">
-                                <img src="/prof_image/<%=elem.id%>">
+                                <img src="/profile/<%=elem.id%>/image">
                                 <p><a href="/profile/<%=elem.id%>"><%=elem.name%></a></p>
                             </div>
                             <div class="friend-button">
-                                <form method="post" action="accept_friend">
+                                <form method="post" action="/friends/accept">
                                     <input type="hidden" name="currentWord" value="<%=word%>">
                                     <input type="hidden" name="otherUser" value="<%=elem.id%>">
                                     <input class="purple-bt" type="submit" value="Aceptar">
                                 </form>
-                                <form method="post" action="reject_friend">
+                                <form method="post" action="/friends/reject">
                                     <input type="hidden" name="currentWord" value="<%=word%>">
                                     <input type="hidden" name="otherUser" value="<%=elem.id%>">
                                     <input class="purple-bt" type="submit" value="Rechazar">

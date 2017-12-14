@@ -5,11 +5,31 @@ const DAOUsers = require("./dao.js");
 const path = require("path");
 const multiParser = require("../common/session").middlewareMulter;
 
-
-
 let daoU = new DAOUsers.DaoAuth(dbPool);
 
 const viewPath = path.join(__dirname,"/view");
+
+
+// validation middleware
+function validateLogin(request, response, next)
+{
+
+    request.checkBody("email","Email vacío").notEmpty();
+    request.checkBody("password", "Contraseña vacía").notEmpty();
+
+    request.getValidationResult().then(result => {
+        if(result.isEmpty())
+            next();
+        else {
+            response.setAlert(result.array());
+            response.render(path.join(viewPath, "login"));
+        }
+    });
+
+}
+
+
+
 
 router.get("/login", (request, response) => {
     let user = request.session.currentUser;
@@ -23,7 +43,7 @@ router.get("/login", (request, response) => {
     }
 });
 
-router.post("/login", multiParser.none(), (request, response, next) => {
+router.post("/login", multiParser.none(), validateLogin, (request, response, next) => {
 
     let user = request.body.email;
 
@@ -40,6 +60,7 @@ router.post("/login", multiParser.none(), (request, response, next) => {
                 response.redirect("profile/" + request.session.currentUser);
             }
             else {
+                response.setAlert([{msg:"Email y/o contraseña incorrectos"}]);
                 response.redirect("login");
             }
         }

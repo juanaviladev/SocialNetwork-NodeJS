@@ -3,7 +3,6 @@
 const config = require("./config");
 const express = require("express");
 const path = require("path");
-const bodyParser = require("body-parser");
 const session = require("./common/session.js");
 
 //const answerRoutes = require("./answer/routes.js");
@@ -27,11 +26,30 @@ let app = express();
 
 app.set("view engine", "ejs");
 const staticElements = path.join(__dirname, "public");
+const expressValidator = require("express-validator");
 
 
 app.use(express.static(staticElements));
-// app.use(bodyParser.urlencoded({extended: false }));
 app.use(session.middleware);
+app.use(expressValidator());
+app.use((request,response, next) => {
+
+
+    response.setAlert = (alertList) => {
+        request.session.alertList = alertList;
+    };
+
+    response.locals.getAlert = () => {
+        let alertList = request.session.alertList;
+        delete request.session.alertList;
+        return alertList;
+
+    };
+
+
+    next();
+
+});
 
 
 //Home

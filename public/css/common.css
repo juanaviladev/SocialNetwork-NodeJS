@@ -189,3 +189,32 @@ header > img
     background: radial-gradient(rgba(189,50,206,1), rgba(189,50,206,0), rgba(189,50,206,0));
     line-height: 100px;
 }
+
+
+
+/*code for error alerts -------------------------------------------------------*/
+.alert-error {
+    background-color: rgba(205,92,92,0.5);
+    border-radius: 20px;
+    padding: 8px;
+    margin-top: 2px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.alert-error p {
+    border-radius: 20px;
+    font-size: 90%;
+    background-color: rgba(205,92,92,1);
+    font-family: GloriaHallelujah, serif;
+    text-align: center;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    color: whitesmoke;
+    background-image: url("../img/error.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 5%;
+}
+

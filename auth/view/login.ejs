@@ -10,6 +10,14 @@
 				</div>
 				<input class="submit-button purple-bt text-medium" type="submit" value="Conectar">
 			</form>
+			<%let errors = getAlert();%>
+            <%if (errors){%>
+			<div class="alert-error">
+				<%for (err of errors){%>
+					<p><%=err.msg%></p>
+				<%}%>
+			</div>
+            <%}%>
 		</div>
 	</body>
 </html>

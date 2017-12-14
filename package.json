@@ -4,6 +4,7 @@
   "description": "FaceBluff - red social",
   "main": "app.js",
   "scripts": {
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,6 +24,7 @@
     "express-mysql-session": "^1.2.3",
     "express-session": "^1.15.6",
     "moment": "^2.19.3",
+    "multer": "^1.3.0",
     "mysql": "^2.15.0",
     "path": "^0.12.7",
     "underscore": "^1.8.3"

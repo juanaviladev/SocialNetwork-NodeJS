@@ -4,6 +4,7 @@ const dbPool = require("./../common/db.js").pool;
 const DAOUsers = require("./dao.js");
 const path = require("path");
 const multiParser = require("../common/session").middlewareMulter;
+const moment = require("moment");
 
 let daoU = new DAOUsers.DaoAuth(dbPool);
 
@@ -22,7 +23,49 @@ function validateLogin(request, response, next)
             next();
         else {
             response.setAlert(result.array());
-            response.render(path.join(viewPath, "login"));
+            response.redirect("login");
+        }
+    });
+
+}
+
+
+
+function validateRegister(request, response, next)
+{
+    request.checkBody("email", "Email vacío").notEmpty();
+    request.checkBody("email", "Email inválido").isEmail();
+
+    request.checkBody("password", "Contraseña vacía").notEmpty();
+    request.checkBody("password","Contraseña debe ser entre 4 y 16 carácteres").isLength({min:4,max:16});
+    request.checkBody("password","Contraseña debe incluir solo letras y números").matches("[A-Za-z0-9]");
+
+    request.checkBody("name","Nombre vacío").notEmpty();
+
+    request.checkBody("gender","Sexo no seleccionado").notEmpty();
+
+    if(request.body.dob)
+        request.checkBody("dob", "Fecha de nacimiento inválida").isBefore((new Date()).toDateString());
+
+
+
+    request.getValidationResult().then(result => {
+
+        if(result.isEmpty())
+            next();
+        else{
+            // mechanism to only display the first error associated with particular parameter
+            let currentParam = null;
+            let reducedResult = [];
+            result.array().forEach(err => {
+                if(currentParam === null || err.param !== currentParam)
+                {
+                    reducedResult.push({msg: err.msg});
+                    currentParam = err.param;
+                }
+            });
+            response.setAlert(reducedResult);
+            response.redirect("register");
         }
     });
 
@@ -81,7 +124,19 @@ router.get("/register", (request, response) => {
 
 });
 
-router.post("/register", multiParser.single("image"), (request, response, next) => {
+router.post("/register", multiParser.single("image"),validateRegister, (request, response, next) => {
+
+    daoU.checkEmail(request.body.email, (err, exists) => {
+
+        if(err)
+            next(err);
+        else if(exists)
+        {
+            response.setAlert([{msg: "Email ya existe"}]);
+            response.redirect("register");
+        }
+
+    });
 
 
     let user = {

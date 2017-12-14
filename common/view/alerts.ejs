@@ -1,0 +1,8 @@
+<%let errors = getAlert();%>
+<%if (errors){%>
+<div class="alert-error">
+    <%for (err of errors){%>
+    <p><%=err.msg%></p>
+    <%}%>
+</div>
+<%}%>

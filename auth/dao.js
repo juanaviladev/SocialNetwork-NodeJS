@@ -37,7 +37,36 @@ class DaoAuth {
             });
 
         });
+    }
 
+    checkEmail(email, callback)
+    {
+        this.pool.getConnection((err, conn) => {
+
+            if(err) {
+                callback(err);
+                return;
+            }
+
+            let sqlStmt = "SELECT * FROM users WHERE email=?";
+
+            conn.query(sqlStmt, [email],(err, exists) => {
+
+                conn.release();
+
+                if(err) {
+                    callback(err);
+                    return;
+                }
+
+                if(exists.length !== 0)
+                    callback(null, true);
+                else
+                    callback(null, false);
+
+            });
+
+        });
 
 
     }

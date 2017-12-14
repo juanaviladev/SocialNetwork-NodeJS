@@ -1,6 +1,7 @@
 <%- include("./../../common/view/header_log",{title: "FaceBluff - Iniciar Sesión", style: "css/login.css"})%>
 		<div id="main-content">
 			<h2 class="text-center">Entrar</h2>
+            <%- include("../../common/view/alerts")%>
 			<form id="login" method="post" action="login" enctype="multipart/form-data">
 				<div class="container">
 					<label class="left" for="email">Email</label>
@@ -10,14 +11,6 @@
 				</div>
 				<input class="submit-button purple-bt text-medium" type="submit" value="Conectar">
 			</form>
-			<%let errors = getAlert();%>
-            <%if (errors){%>
-			<div class="alert-error">
-				<%for (err of errors){%>
-					<p><%=err.msg%></p>
-				<%}%>
-			</div>
-            <%}%>
 		</div>
 	</body>
 </html>

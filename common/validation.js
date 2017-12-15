@@ -4,6 +4,23 @@ const path = require("path");
 
 
 
+// custom validator to validate image types
+customValidator = {
+    customValidators: {
+        isImageValid: (param, fileType) => {
+            switch(fileType){
+                case "image/jpeg":
+                    return true;
+                case "image/png":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+    }
+};
+
+
 // validation middleware
 function validateLogin(request, response, next)
 {
@@ -40,6 +57,9 @@ function validateRegister(request, response, next)
 
     if(request.body.dob)
         request.checkBody("dob", "Fecha de nacimiento inválida").isBefore((new Date()).toDateString());
+
+    if(request.file)
+        request.checkBody("image","Unsupported file, please use: 'jpeg' or 'png'").isImageValid(request.file.mimetype);
 
 
 
@@ -82,6 +102,6 @@ function validateRegister(request, response, next)
 module.exports = {
     validationMiddleware: expressValidator,
     validateLogin: validateLogin,
-    validateRegister: validateRegister
-
+    validateRegister: validateRegister,
+    customValidator: customValidator
 };

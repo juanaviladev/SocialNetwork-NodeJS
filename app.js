@@ -5,7 +5,7 @@ const express = require("express");
 const path = require("path");
 const session = require("./common/session.js");
 
-//const answerRoutes = require("./answer/routes.js");
+
 const auth = require("./auth/routes.js");
 const friends = require("./friends/routes.js");
 const profile  = require("./profile/routes.js");
@@ -21,7 +21,8 @@ const searchRoutes = search.router;
 const notFoundErrorMiddleware = require("./error/404_middleware.js");
 const serverErrorMiddleware = require("./error/500_middleware.js");
 const middlewareAuthentication = require('./auth/auth_middleware.js');
-const validationMiddleware = require("./common/validation.js").validationMiddleware;
+const validator = require("./common/validation.js");
+const validationMiddleware = validator.validationMiddleware;
 
 const alertsMiddleware = require("./common/alerts.js").alertsMiddleware;
 
@@ -34,7 +35,7 @@ const staticElements = path.join(__dirname, "public");
 
 app.use(express.static(staticElements));
 app.use(session.middleware);
-app.use(validationMiddleware());
+app.use(validationMiddleware(validator.customValidator));
 app.use(alertsMiddleware);
 
 

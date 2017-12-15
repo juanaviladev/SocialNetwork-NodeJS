@@ -22,34 +22,21 @@ const notFoundErrorMiddleware = require("./error/404_middleware.js");
 const serverErrorMiddleware = require("./error/500_middleware.js");
 const middlewareAuthentication = require('./auth/auth_middleware.js');
 
+const validation = require("./common/validation.js");
+const validationMiddleware = validation.validationMiddleware;
+const validationAlerts = validation.validationAlerts;
+
 let app = express();
 
 app.set("view engine", "ejs");
 const staticElements = path.join(__dirname, "public");
-const expressValidator = require("express-validator");
+
 
 
 app.use(express.static(staticElements));
 app.use(session.middleware);
-app.use(expressValidator());
-app.use((request,response, next) => {
-
-
-    response.setAlert = (alertList) => {
-        request.session.alertList = alertList;
-    };
-
-    response.locals.getAlert = () => {
-        let alertList = request.session.alertList;
-        delete request.session.alertList;
-        return alertList;
-
-    };
-
-
-    next();
-
-});
+app.use(validationMiddleware());
+app.use(validationAlerts);
 
 
 //Home

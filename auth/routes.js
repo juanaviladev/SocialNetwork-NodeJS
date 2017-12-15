@@ -93,8 +93,10 @@ router.post("/register", multiParser.single("image"),validateRegister, (request,
                 if(err) {
                     next(err);
                 }
-                else
+                else {
+                    response.setAlert({type:"success",alertList:[{msg:"Éxito - inicia sesión con su credenciales"}]});
                     response.redirect("login");
+                }
 
             });
         }

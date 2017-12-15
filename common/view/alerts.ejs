@@ -1,15 +1,15 @@
-<%let errors = getAlert();%>
-<%if (errors){%>
+<%let alerts = getAlert();%>
+<%if (alerts){%>
 
-    <%if(errors.type === "error"){%>
+    <%if(alerts.type === "error"){%>
     <div class="alert-error">
-        <%for (elem of errors.alertList){%>
+        <%for (elem of alerts.alertList){%>
         <p><%=elem.msg%></p>
         <%}%>
     </div>
-    <%}else if(errors.type === "success"){%>
+    <%}else if(alerts.type === "success"){%>
     <div class="alert-success">
-        <%for (elem of errors.alertList){%>
+        <%for (elem of alerts.alertList){%>
         <p><%=elem.msg%></p>
         <%}%>
     </div>

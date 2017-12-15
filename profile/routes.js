@@ -82,6 +82,7 @@ router.post("/modify",authMiddleware, getPointsMiddleware, multiParser.single("i
                     next(err);
                 }
                 else {
+                    response.setAlert({type:"success",alertList:[{msg:"Perfil actualizado"}]});
                     response.redirect("/profile");
                 }
 

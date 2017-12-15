@@ -94,9 +94,6 @@ class FriendsDAO
                 if(err)
                     return callback(err);
 
-
-                console.log("ARE FRIENDS:" + result);
-
                 callback(null,result[0].are_friends === 1);
 
             });

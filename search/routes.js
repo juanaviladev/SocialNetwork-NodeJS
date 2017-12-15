@@ -23,8 +23,6 @@ router.get("/", middlewareAuthentication, middlewareGetPoints, (request, respons
         if(result.length !== 0)
             result.sort((x,y) => x["name"].localeCompare(y["name"]));
 
-        console.log(result);
-
         response.render(path.join(viewPath,"search_results"), {searchResult: result, word: word});
 
     });

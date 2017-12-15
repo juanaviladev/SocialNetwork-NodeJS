@@ -6,7 +6,7 @@ const path = require("path");
 const friends = require("./../friends/dao.js");
 const users = require("./../auth/dao.js");
 const profile = require("./../profile/dao.js");
-const multiParser = require("../common/session").middlewareMulter;
+const multiParser = require("../common/multiParser").middlewareMulter;
 
 const middlewareAuthentication = require('./../auth/auth_middleware.js');
 const middlewareGetPoints = require('./../profile/points_middleware.js');

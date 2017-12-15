@@ -7,7 +7,7 @@ const fs = require("fs");
 const authMiddleware = require('./../auth/auth_middleware.js');
 const getPointsMiddleware = require('./points_middleware.js');
 
-const multiParser = require("../common/session").middlewareMulter;
+const multiParser = require("../common/multiParser").middlewareMulter;
 const viewPath = path.join(__dirname,"/view");
 const dbPool = require("./../common/db.js").pool;
 const DAOUsers = require("./dao.js");

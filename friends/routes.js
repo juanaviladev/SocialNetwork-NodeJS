@@ -3,7 +3,7 @@ const router = express.Router();
 const authMiddleware = require('./../auth/auth_middleware.js');
 const middlewareGetPoints = require('./../profile/points_middleware.js');
 const path = require("path");
-const multiParser = require("../common/session").middlewareMulter;
+const multiParser = require("../common/multiParser").middlewareMulter;
 
 const viewPath = path.join(__dirname,"/view");
 const dbPool = require("./../common/db.js").pool;

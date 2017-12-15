@@ -3,7 +3,7 @@ const router = express.Router();
 const dbPool = require("./../common/db.js").pool;
 const DAOUsers = require("./dao.js");
 const path = require("path");
-const multiParser = require("../common/session").middlewareMulter;
+const multiParser = require("../common/multiParser").middlewareMulter;
 
 let daoU = new DAOUsers.DaoAuth(dbPool);
 

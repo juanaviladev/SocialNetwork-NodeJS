@@ -1,8 +1,17 @@
 <%let errors = getAlert();%>
 <%if (errors){%>
-<div class="alert-error">
-    <%for (err of errors){%>
-    <p><%=err.msg%></p>
+
+    <%if(errors.type === "error"){%>
+    <div class="alert-error">
+        <%for (elem of errors.alertList){%>
+        <p><%=elem.msg%></p>
+        <%}%>
+    </div>
+    <%}else if(errors.type === "success"){%>
+    <div class="alert-success">
+        <%for (elem of errors.alertList){%>
+        <p><%=elem.msg%></p>
+        <%}%>
+    </div>
     <%}%>
-</div>
 <%}%>

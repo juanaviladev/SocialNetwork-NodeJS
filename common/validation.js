@@ -14,7 +14,7 @@ function validateLogin(request, response, next)
         if(result.isEmpty())
             next();
         else {
-            response.setAlert(result.array());
+            response.setAlert({type:"error",alertList: result.array()});
             response.redirect("login");
         }
     });
@@ -57,7 +57,7 @@ function validateRegister(request, response, next)
                     currentParam = err.param;
                 }
             });
-            response.setAlert(reducedResult);
+            response.setAlert({type: "error", alertList: reducedResult});
             response.redirect("register");
         }
     });

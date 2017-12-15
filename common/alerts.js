@@ -1,14 +1,14 @@
 function alertsMiddleware(request,response, next)
 {
 
-    response.setAlert = (alertList) => {
-        request.session.alertList = alertList;
+    response.setAlert = (alertObject = {}) => {
+        request.session.alert = alertObject;
     };
 
     response.locals.getAlert = () => {
-        let alertList = request.session.alertList;
-        delete request.session.alertList;
-        return alertList;
+        let alert = request.session.alert;
+        delete request.session.alert;
+        return alert;
 
     };
 

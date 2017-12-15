@@ -13,6 +13,8 @@ const dbPool = require("./../common/db.js").pool;
 const DAOUsers = require("./dao.js");
 let daoU = new DAOUsers.ProfileDAO(dbPool);
 
+const validation = require("../common/validation.js");
+const validateModify = validation.validateProfile;
 
 
 router.get("/modify",authMiddleware, getPointsMiddleware , (request, response, next) => {
@@ -40,7 +42,7 @@ router.get("/modify",authMiddleware, getPointsMiddleware , (request, response, n
 });
 
 
-router.post("/modify",authMiddleware, getPointsMiddleware, multiParser.single("image"), (request, response, next) => {
+router.post("/modify",authMiddleware, getPointsMiddleware, multiParser.single("image"), validateModify,(request, response, next) => {
 
 
     let user = {

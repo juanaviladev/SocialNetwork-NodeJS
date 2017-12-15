@@ -10,7 +10,7 @@ let daoU = new DAOUsers.DaoAuth(dbPool);
 const viewPath = path.join(__dirname,"/view");
 const validation = require("../common/validation.js");
 const validateLogin = validation.validateLogin;
-const validateRegister = validation.validateRegister;
+const validateRegister = validation.validateProfile;
 
 
 

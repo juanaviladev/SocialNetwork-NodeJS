@@ -42,7 +42,7 @@ function validateLogin(request, response, next)
 
 
 
-function validateRegister(request, response, next)
+function validateProfile(request, response, next)
 {
     request.checkBody("email", "Email vacío").notEmpty();
     request.checkBody("email", "Email inválido").isEmail();
@@ -91,7 +91,12 @@ function validateRegister(request, response, next)
                 }
             });
             response.setAlert({type: "error", alertList: reducedResult});
-            response.redirect("register");
+
+            // check the url to redirect to the correct route as same validation is used in two different routes
+            if(request.url === "/register")
+                response.redirect("register");
+            if(request.url === "/modify")
+                response.redirect("modify");
         }
     });
 
@@ -102,6 +107,6 @@ function validateRegister(request, response, next)
 module.exports = {
     validationMiddleware: expressValidator,
     validateLogin: validateLogin,
-    validateRegister: validateRegister,
+    validateProfile: validateProfile,
     customValidator: customValidator
 };

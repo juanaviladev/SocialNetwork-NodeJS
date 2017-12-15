@@ -1,9 +1,11 @@
 "use strict";
 
-class DaoAuth {
+const DaoCommon = require("../common/DaoCommon.js").DaoCommon;
+
+class DaoAuth extends DaoCommon{
     constructor(pool)
     {
-        this.pool = pool;
+        super(pool);
     }
 
     // authenticate user
@@ -39,37 +41,7 @@ class DaoAuth {
         });
     }
 
-    checkEmail(email, callback)
-    {
-        this.pool.getConnection((err, conn) => {
 
-            if(err) {
-                callback(err);
-                return;
-            }
-
-            let sqlStmt = "SELECT * FROM users WHERE email=?";
-
-            conn.query(sqlStmt, [email],(err, exists) => {
-
-                conn.release();
-
-                if(err) {
-                    callback(err);
-                    return;
-                }
-
-                if(exists.length !== 0)
-                    callback(null, true);
-                else
-                    callback(null, false);
-
-            });
-
-        });
-
-
-    }
 
     getUser(userId,callback)
     {

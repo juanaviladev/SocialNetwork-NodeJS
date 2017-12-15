@@ -45,33 +45,47 @@ router.get("/modify",authMiddleware, getPointsMiddleware , (request, response, n
 router.post("/modify",authMiddleware, getPointsMiddleware, multiParser.single("image"), validateModify,(request, response, next) => {
 
 
-    let user = {
-        email: request.body.email,
-        pass: request.body.password,
-        name: request.body.name,
-        gender: request.body.gender,
-        dob: request.body.dob ? request.body.dob : null,
-        image: request.file ? request.file.filename : request.body.currentImage
-    };
+    daoU.checkEmail(request.body.email, (err, exists) => {
 
-
-    if(request.file && request.body.currentImage !== "")
-    {
-        fs.unlink(path.join(__dirname, "../uploads", request.body.currentImage),err => {
-
-            if(err)
-                next(err);
-
-        });
-    }
-
-    daoU.updateUserDetails(request.session.currentUser, user, err => {
-
-        if (err) {
+        if(err)
             next(err);
+        else if(exists && exists !== request.session.currentUser)
+        {
+            response.setAlert({type: "error", alertList: [{msg:"Email ya existe"}]});
+            response.redirect("modify");
         }
-        else {
-            response.redirect("/profile");
+        else
+        {
+            let user = {
+                email: request.body.email,
+                pass: request.body.password,
+                name: request.body.name,
+                gender: request.body.gender,
+                dob: request.body.dob ? request.body.dob : null,
+                image: request.file ? request.file.filename : request.body.currentImage
+            };
+
+
+            if(request.file && request.body.currentImage !== "")
+            {
+                fs.unlink(path.join(__dirname, "../uploads", request.body.currentImage),err => {
+
+                    if(err)
+                        next(err);
+
+                });
+            }
+
+            daoU.updateUserDetails(request.session.currentUser, user, err => {
+
+                if (err) {
+                    next(err);
+                }
+                else {
+                    response.redirect("/profile");
+                }
+
+            });
         }
 
     });

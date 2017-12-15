@@ -1,9 +1,15 @@
-class ProfileDAO
+"use strict";
+
+
+const DaoCommon = require("../common/DaoCommon.js").DaoCommon;
+
+
+class ProfileDAO extends DaoCommon
 {
 
     constructor(pool)
     {
-        this.pool = pool;
+        super(pool);
     }
 
     // get user details

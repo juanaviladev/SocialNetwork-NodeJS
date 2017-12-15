@@ -77,29 +77,29 @@ router.post("/register", multiParser.single("image"),validateRegister, (request,
             response.setAlert({type: "error", alertList: [{msg:"Email ya existe"}]});
             response.redirect("register");
         }
-
-    });
-
-
-    let user = {
-        email: request.body.email,
-        pass: request.body.password,
-        name: request.body.name,
-        gender: request.body.gender,
-        dob: request.body.dob ? request.body.dob : null,
-        image: request.file ? request.file.filename : null
-    };
-
-    daoU.registerUser(user, err => {
-
-        if(err) {
-            next(err);
-        }
         else
-            response.redirect("login");
+        {
+            let user = {
+                email: request.body.email,
+                pass: request.body.password,
+                name: request.body.name,
+                gender: request.body.gender,
+                dob: request.body.dob ? request.body.dob : null,
+                image: request.file ? request.file.filename : null
+            };
+
+            daoU.registerUser(user, err => {
+
+                if(err) {
+                    next(err);
+                }
+                else
+                    response.redirect("login");
+
+            });
+        }
 
     });
-
 });
 
 module.exports.router = router;

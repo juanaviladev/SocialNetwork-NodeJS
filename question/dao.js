@@ -290,7 +290,7 @@ class QuestionDAO
 
             let sqlStmt = "SELECT users.id, users.name, users.image, answer.question, guess_answer_q.of_user, guess_answer_q.status FROM users " +
                 "                JOIN friendships  " +
-                "                                ON (users.id = friendships.from_user AND friendships.to_user = ?) OR (users.id =   friendships.to_user AND friendships.from_user = ?)   " +
+                "                                ON (users.id = friendships.from_user AND friendships.to_user = ? AND friendships.status = 'accepted') OR (users.id =   friendships.to_user AND friendships.from_user = ? AND friendships.status = 'accepted')   " +
                 "                JOIN self_answer " +
                 "                 ON self_answer.user = users.id " +
                 "                JOIN answer " +

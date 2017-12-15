@@ -1,5 +1,6 @@
 const expressValidator = require("express-validator");
-
+const fs = require("fs");
+const path = require("path");
 
 
 
@@ -47,6 +48,18 @@ function validateRegister(request, response, next)
         if(result.isEmpty())
             next();
         else{
+
+            // delete the file if operation is not validated
+            if(request.file)
+            {
+                fs.unlink(path.join(__dirname, "../uploads", request.file.filename),err => {
+
+                    if(err)
+                        next(err);
+
+                });
+            }
+
             // mechanism to only display the first error associated with particular parameter
             let currentParam = null;
             let reducedResult = [];

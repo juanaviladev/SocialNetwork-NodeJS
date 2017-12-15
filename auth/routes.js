@@ -45,7 +45,7 @@ router.post("/login", multiParser.none(), validateLogin, (request, response, nex
                 response.redirect("profile/" + request.session.currentUser);
             }
             else {
-                response.setAlert([{msg:"Email y/o contraseña incorrectos"}]);
+                response.setAlert({type:"error", alertList:[{msg:"Email y/o contraseña incorrectos"}]});
                 response.redirect("login");
             }
         }
@@ -74,7 +74,7 @@ router.post("/register", multiParser.single("image"),validateRegister, (request,
             next(err);
         else if(exists)
         {
-            response.setAlert([{msg: "Email ya existe"}]);
+            response.setAlert({type: "error", alertList: [{msg:"Email ya existe"}]});
             response.redirect("register");
         }
 

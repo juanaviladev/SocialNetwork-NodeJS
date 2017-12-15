@@ -21,10 +21,9 @@ const searchRoutes = search.router;
 const notFoundErrorMiddleware = require("./error/404_middleware.js");
 const serverErrorMiddleware = require("./error/500_middleware.js");
 const middlewareAuthentication = require('./auth/auth_middleware.js');
+const validationMiddleware = require("./common/validation.js").validationMiddleware;
 
-const validation = require("./common/validation.js");
-const validationMiddleware = validation.validationMiddleware;
-const validationAlerts = validation.validationAlerts;
+const alertsMiddleware = require("./common/alerts.js").alertsMiddleware;
 
 let app = express();
 
@@ -36,7 +35,7 @@ const staticElements = path.join(__dirname, "public");
 app.use(express.static(staticElements));
 app.use(session.middleware);
 app.use(validationMiddleware());
-app.use(validationAlerts);
+app.use(alertsMiddleware);
 
 
 //Home

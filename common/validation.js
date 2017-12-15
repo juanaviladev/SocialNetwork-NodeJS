@@ -1,22 +1,6 @@
 const expressValidator = require("express-validator");
 
 
-function validationAlerts(request,response, next)
-{
-
-    response.setAlert = (alertList) => {
-        request.session.alertList = alertList;
-    };
-
-    response.locals.getAlert = () => {
-        let alertList = request.session.alertList;
-        delete request.session.alertList;
-        return alertList;
-
-    };
-
-    next();
-}
 
 
 // validation middleware
@@ -84,7 +68,6 @@ function validateRegister(request, response, next)
 
 module.exports = {
     validationMiddleware: expressValidator,
-    validationAlerts: validationAlerts,
     validateLogin: validateLogin,
     validateRegister: validateRegister
 

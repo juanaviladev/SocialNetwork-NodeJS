@@ -426,6 +426,52 @@ class QuestionDAO
 
     });
     }
+
+    exists(questionId, callback) {
+        this.pool.getConnection((err, conn) => {
+
+            if (err) {
+                callback(err);
+                return;
+            }
+            let sqlStmt = "SELECT Count(id) AS check_result FROM question WHERE id = ?";
+
+            conn.query(sqlStmt,[questionId],(err, result) => {
+                conn.release();
+
+                if(err) {
+                    callback(err);
+                    return;
+                }
+                console.log(result);
+                callback(null, result[0].check_result === 1);
+
+            });
+    });
+    }
+
+    isAValidAnswerOf(questionId, answerId, callback) {
+        this.pool.getConnection((err, conn) => {
+
+            if (err) {
+                callback(err);
+                return;
+            }
+            let sqlStmt = "SELECT Count(id) AS check_result FROM answer WHERE id = ? AND question = ?";
+
+            conn.query(sqlStmt,[answerId,questionId],(err, result) => {
+                conn.release();
+
+                if(err) {
+                    callback(err);
+                    return;
+                }
+                console.log(result);
+                callback(null, result[0].check_result === 1);
+
+            });
+        });
+}
 }
 
 module.exports = {

@@ -1,6 +1,7 @@
 <%- include("../../common/view/header_main",{title: "FaceBluff - Pregunta", style: "/css/questions_page.css"})%>
     <div id="main-content">
         <h2 class="text-center"><%= question.questionText %></h2>
+        <%- include("../../common/view/alerts")%>
         <% if(question.wasAnswered) { %>
         <p>Ya has respondido a esta pregunta: <%= question.userAnswer %></p>
         <%} else {%>

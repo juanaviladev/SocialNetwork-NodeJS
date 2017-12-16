@@ -1,6 +1,7 @@
 <%- include("../../common/view/header_main",{title: "FaceBluff - Adivinar respuesta", style: "/css/answer_form.css"})%>
     <div id="main-content">
         <h2 class="text-center"><%= question.text %></h2>
+        <%- include("../../common/view/alerts")%>
         <p>¿Qué crees que opina <span class="bold"><%= friend.name %></span>?</p>
         <form action="/question/<%= question.id %>/guess" method="POST" enctype="multipart/form-data">
             <fieldset>

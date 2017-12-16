@@ -10,6 +10,12 @@ const multiParser = require("../common/multiParser").middlewareMulter;
 
 const middlewareAuthentication = require('./../auth/auth_middleware.js');
 const middlewareGetPoints = require('./../profile/points_middleware.js');
+const middlewareQuestionCheck = require('./middleware').checkQuestion;
+const middlewareCustomAnswerCheck = require('./middleware').checkCustomAnswer;
+
+const newQuestionValidator = require('./validation').newQuestionValidator;
+const guessValidator = require('./validation').guessValidator;
+const customAnswerValidator = require('./validation').customAnswerValidator;
 
 const viewPath = path.join(__dirname,"/view");
 
@@ -20,9 +26,8 @@ let profileDAO = new profile.ProfileDAO(dbPool);
 
 const defaultNumber = 5;
 
-router.get("/", middlewareAuthentication, middlewareGetPoints, (request, response, next) => {
 
-    let word = request.query.search;
+router.get("/", middlewareAuthentication, middlewareGetPoints, (request, response, next) => {
 
     questionDAO.getRandomQuestions(defaultNumber,(err, result) => {
 
@@ -36,30 +41,30 @@ router.get("/", middlewareAuthentication, middlewareGetPoints, (request, respons
 });
 
 router.get("/create", middlewareAuthentication, middlewareGetPoints, (request, response, next) => {
+
     response.render(path.join(viewPath,"question_create_form"));
 
 });
 
-router.post("/create", middlewareAuthentication, middlewareGetPoints, multiParser.none(),
-                                                                            (request, response, next) => {
+router.post("/create", middlewareAuthentication, middlewareGetPoints,multiParser.none(), newQuestionValidator,
+    (request, response, next) => {
 
-    let questionText = request.body.text;
-    let questionAnswers = request.body.answers;
+        let questionText = request.body.text;
+        let questionAnswers = request.body.answers;
 
-    let answers = questionAnswers.split('\r\n');
+        let answers = questionAnswers.split("\r\n");
 
-    questionDAO.saveNewQuestion(questionText, answers,(err, questionId) => {
+        questionDAO.saveNewQuestion(questionText, answers, (err, newQuestionId) => {
 
-        if(err)
-            return next(err);
+            if (err)
+                return next(err);
 
-        response.redirect("/question/"+questionId);
-    });
-
+            response.redirect("/question/" + newQuestionId);
+        });
 
 });
 
-router.post("/:questionId/guess", middlewareAuthentication, middlewareGetPoints, multiParser.none(),
+router.post("/:questionId/guess", middlewareAuthentication, middlewareGetPoints,multiParser.none(),middlewareQuestionCheck,  guessValidator,
                                                                                 (request, response, next) => {
 
     let selectedAnswerId = request.body.answer;
@@ -67,107 +72,140 @@ router.post("/:questionId/guess", middlewareAuthentication, middlewareGetPoints,
     let friendId = request.body.friend_id;
     let questionId = request.params.questionId;
 
-    friendsDAO.areFriends(guesserId,friendId,(err, areFriends) => {
+    questionDAO.isAValidAnswerOf(questionId,selectedAnswerId,(err, hasCorrespondence) => {
 
-        if(err)
-            return next(err);
-
-        if(areFriends)
-        {
-            questionDAO.checkAnswer(friendId,selectedAnswerId,(err, checkResult) => {
-
-                if(err)
+                if (err)
                     return next(err);
 
-                questionDAO.saveGuessAnswer(questionId, selectedAnswerId, guesserId, friendId,checkResult,
-                    (err, question) => {
+                if(hasCorrespondence)
+                {
+                    friendsDAO.areFriends(guesserId,friendId,(err, areFriends) => {
 
                         if(err)
                             return next(err);
 
-                        if(checkResult)
+                        if(areFriends)
                         {
-                            profileDAO.addPointsToUser(guesserId,50,(err, question) => {
+                            questionDAO.checkAnswer(friendId,selectedAnswerId,(err, correctAnswer) => {
 
-                                if (err)
+                                if(err)
                                     return next(err);
 
-                                response.redirect("/question/"+questionId);
+                                questionDAO.saveGuessAnswer(questionId, selectedAnswerId, guesserId, friendId,correctAnswer,
+                                    (err, question) => {
+
+                                        if(err)
+                                            return next(err);
+
+                                        if(correctAnswer)
+                                        {
+                                            profileDAO.addPointsToUser(guesserId,50,(err, question) => {
+
+                                                if (err)
+                                                    return next(err);
+
+                                                response.redirect("/question/"+questionId);
+                                            });
+                                        }
+                                        else
+                                        {
+                                            response.redirect("/question/"+questionId);
+                                        }
+                                    });
                             });
                         }
                         else
                         {
-                            response.redirect("/question/"+questionId);
+                            response.setAlert({type:"error",alertList: [{msg:"Solo puedes responder sobre tus amigos"}]});
+                            response.redirect("/question/"+questionId+"/guess?of="+friendId);
                         }
                     });
+                }
+                else if(friendId)
+                {
+                    response.setAlert({type:"error",alertList: [{msg:"Seleccione una respuesta válida"}]});
+                    response.redirect("/question/"+questionId+"/guess?of="+friendId);
+                }
+                else {
+                    response.redirect("/question/"+questionId);
+                }
             });
-        }
-        else
-        {
-            response.redirect("/question/"+questionId);
-        }
-    });
 });
 
-router.get("/:questionId/guess", middlewareAuthentication, middlewareGetPoints, (request, response, next) => {
+router.get("/:questionId/guess", middlewareAuthentication, middlewareGetPoints,middlewareQuestionCheck,
+     (request, response, next) => {
 
     //Comprobar que el usuario que entra en esta ruta no ha respondido ya a la pregunta
     let questionId = request.params.questionId;
     let friendId = request.query.of;
     let loggedUser = request.session.currentUser;
 
-        friendsDAO.areFriends(loggedUser,friendId,(err, areFriends) => {
+            friendsDAO.areFriends(loggedUser,friendId,(err, areFriends) => {
 
-            if(err)
-                return next(err);
+                if(err)
+                    return next(err);
 
-            if(areFriends)
-            {
-                usersDAO.getUser(friendId,(err, friend) => {
-
-                    if(err)
-                        return next(err);
-
-                    questionDAO.getQuestionRelatedWith(questionId,friendId,(err, question) => {
+                if(areFriends)
+                {
+                    usersDAO.getUser(friendId,(err, friend) => {
 
                         if(err)
                             return next(err);
-                        console.log(question);
 
-                        response.render(path.join(viewPath,"friend_answer_form"), {friend: friend,question: question});
+                        questionDAO.getQuestionRelatedWith(questionId,friendId,(err, question) => {
+
+                            if(err)
+                                return next(err);
+
+                            response.render(path.join(viewPath,"friend_answer_form"), {friend: friend,question: question});
+                        });
+
                     });
+                }
+                else
+                {
+                    response.setAlert({type:"error",alertList: [{msg:"Solo puedes responder sobre tus amigos"}]});
+                    response.redirect("/question/"+questionId);
+                }
+            });
 
-                });
-            }
-            else
-            {
-                response.redirect("/question/"+questionId);
-            }
-    });
 });
 
-router.get("/:questionId/answer", middlewareAuthentication, middlewareGetPoints, (request, response, next) => {
+router.get("/:questionId/answer", middlewareAuthentication, middlewareGetPoints,multiParser.none(),middlewareQuestionCheck,
+    (request, response, next) => {
 
-    //Comprobar que el usuario que entra en esta ruta no ha respondido ya a la pregunta
     let questionId = request.params.questionId;
+    let loggedUser = request.session.currentUser;
 
-    questionDAO.getQuestion(questionId,(err, result) => {
+    questionDAO.getUserSelfAnswer(loggedUser,questionId,(err, userAnswer) => {
 
         if(err)
             return next(err);
 
-        response.render(path.join(viewPath,"answer_form"), {question: result});
-        console.log("Rendered");
+        if(userAnswer.wasAnswered)
+        {
+            response.setAlert({type:"error",alertList: [{msg:"Pregunta ya respondida"}]});
+            response.redirect("/question/"+questionId);
+        }
+        else {
+            questionDAO.getQuestion(questionId,(err, result) => {
+
+                if(err)
+                    return next(err);
+
+                response.render(path.join(viewPath,"answer_form"), {question: result});
+            });
+        }
     });
+
+
 });
 
-router.post("/:questionId/answer", middlewareAuthentication, middlewareGetPoints, multiParser.none(),
-                                                                                        (request, response, next) => {
+router.post("/:questionId/answer", middlewareAuthentication, middlewareGetPoints,multiParser.none(),middlewareQuestionCheck,
+    customAnswerValidator, (request, response, next) => {
     let answerId = request.body.answer;
     let questionId = request.params.questionId;
     let loggedUser = request.session.currentUser;
-
-    console.log(request.body);
 
     if(answerId === "custom-answer")
     {
@@ -175,45 +213,50 @@ router.post("/:questionId/answer", middlewareAuthentication, middlewareGetPoints
         questionDAO.saveSelfCustomAnswer(loggedUser,questionId,text,(err, result) => {
             if(err)
                 next(err);
+
+            response.redirect("/question/"+questionId);
         });
     }
     else
     {
-        questionDAO.saveSelfAnswer(loggedUser,questionId,answerId,(err, result) => {
+        questionDAO.isAValidAnswerOf(questionId,answerId,(err, areFamily) => {
             if(err)
                 next(err);
+
+            if(areFamily)
+            {
+                questionDAO.saveSelfAnswer(loggedUser,questionId,answerId,(err, result) => {
+                    if(err)
+                        next(err);
+
+                    response.redirect("/question/"+questionId);
+                });
+            }
+            else
+            {
+                response.setAlert({type:"error",alertList: [{msg:"Elija una de las respuestas de la lista"}]});
+                response.redirect("/question/"+questionId+"/answer");
+            }
         });
     }
-
-    response.redirect("/question/"+questionId);
-
 });
 
-router.get("/:questionId", middlewareAuthentication, middlewareGetPoints, (request, response, next) => {
+router.get("/:questionId", middlewareAuthentication, middlewareGetPoints,middlewareQuestionCheck, (request, response, next) => {
 
     let loggedUser = request.session.currentUser;
     let questionId = request.params.questionId;
 
+            questionDAO.getFriendsWhoAnswered(loggedUser,questionId, (err, friends) => {
 
+                questionDAO.getUserSelfAnswer(loggedUser,questionId,(err, result) => {
 
-        questionDAO.getFriendsWhoAnswered(loggedUser,questionId, (err, friends) => {
+                    if(err)
+                        return next(err);
 
-            questionDAO.getUserSelfAnswer(loggedUser,questionId,(err, result) => {
-
-                if(err)
-                    return next(err);
-
-                console.log(friends);
-
-                response.render(path.join(viewPath,"question_page"), {question: result,friends:friends});
-                console.log(result);
+                    response.render(path.join(viewPath,"question_page"), {question: result,friends:friends});
+                    console.log(result);
+                });
             });
-
-    });
-
-
-
-
 });
 
 module.exports = {

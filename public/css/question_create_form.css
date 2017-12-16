@@ -10,6 +10,9 @@
     padding: 10px;
 }
 
+.alert-error {
+    margin-top: 20px;
+}
 .fieldset-flex
 {
     flex-grow: 5;

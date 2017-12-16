@@ -1,5 +1,7 @@
 <%- include("../../common/view/header_main",{title: "FaceBluff - Nueva pregunta", style: "/css/question_create_form.css"})%>
 <div id="main-content">
+    <h1 class="text-center">Nueva pregunta</h1>
+    <%- include("../../common/view/alerts")%>
     <form action="/question/create" method="POST" enctype="multipart/form-data">
         <fieldset>
             <h2 class="text-center">

@@ -7,7 +7,7 @@
 			<%}%>
             <%- include("../../common/view/alerts")%>
 			<div id="perfil">
-				<img src="/profile/<%=id%>/image">
+				<img id="prof_img" src="/profile/<%=id%>/image">
 				<div id="prof-description">
 					<h3 class="text-large" id="prof-name"><%=name%></h3>
 					<p><%=age%></p>
@@ -17,7 +17,7 @@
 			<%if(id === currentUser){%>
 			<div class="modification">
 				<a class="purple-bt" href="/profile/modify">Modificar Perfil</a>
-				<form id="gallery_form" action="profile/gallery" method="post" enctype="multipart/form-data">
+				<form id="gallery_form" action="/profile/gallery" method="post" enctype="multipart/form-data">
 					<div class="fields">
 						<label for="image">Añadir una imagen</label>
 						<input type="file" name="image" id="image">
@@ -25,6 +25,16 @@
 					</div>
 					<input class="purple-bt" type="submit" value="Añadir">
 				</form>
+			</div>
+			<%}%>
+			<%if(gallery){%>
+			<div class="gallery">
+				<%for(img of gallery){%>
+				<figure>
+					<img src="/profile/<%=img.image%>/gallery" alt="Imagen de galería">
+					<figcaption><%=img.desc%></figcaption>
+				</figure>
+				<%}%>
 			</div>
 			<%}%>
 		</div>

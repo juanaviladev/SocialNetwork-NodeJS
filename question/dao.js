@@ -204,7 +204,6 @@ class QuestionDAO
     getUserSelfAnswer(user, questionId, callback) {
         this.pool.getConnection((err, conn) => {
 
-            console.log(questionId);
             if (err) {
                 callback(err);
                 return;
@@ -226,7 +225,6 @@ class QuestionDAO
                     return;
                 }
 
-                console.log(result);
                 let answer = {
                     questionId: questionId,
                     wasAnswered: result[0].count === 1,
@@ -307,13 +305,10 @@ class QuestionDAO
                 conn.release();
 
                 if (err) {
-                    console.log(err);
-
                     callback(err);
                     return;
                 }
 
-                console.log(result);
                 callback(null,result);
 
             });
@@ -374,7 +369,6 @@ class QuestionDAO
 
 
             if (err) {
-                console.log(err);
                 callback(err);
                 return;
             }
@@ -419,7 +413,6 @@ class QuestionDAO
                 callback(err);
                 return;
             }
-            console.log(result);
             callback(null, result[0].check_result === 1);
 
         });

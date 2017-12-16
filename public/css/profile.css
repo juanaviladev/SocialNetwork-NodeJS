@@ -1,4 +1,4 @@
-#main-content img {
+#prof_img {
     width: 150px;
     border: 2px solid black;
     float: left;
@@ -72,6 +72,38 @@ h3 {
     font-family: GloriaHallelujah, serif;
 
 }
+
+
+.gallery {
+    margin-top: 20px;
+    margin-bottom: 30px;
+    background-color: rgba(208,59,254,0.2);
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+.gallery figure {
+    height: 300px;
+}
+
+.gallery img {
+    max-width: 50%;
+    max-height: 100%;
+}
+
+.gallery figcaption {
+    background-color: rgba(208,59,254,0.1);
+    border-radius: 20px;
+    padding: 5px;
+    text-align: center;
+    float:right;
+    width: 40%;
+    max-height: 290px;
+    font-family: GloriaHallelujah, serif;
+
+
+}
+
 
 
 

@@ -16,6 +16,12 @@ customValidator = {
                 default:
                     return false;
             }
+        },
+        isImageNotEmpty: (param, image) => {
+            return !!image;
+        },
+        hasEnoughPoints: (param, points) => {
+            return points >= 100;
         }
     }
 };
@@ -39,6 +45,48 @@ function validateLogin(request, response, next)
 
 }
 
+
+
+function validateGallery(request, response, next)
+{
+    request.checkBody("image", "Adjunta un imagen").isImageNotEmpty(request.file);
+    if(request.file)
+        request.checkBody("image", "Unsupported file, please use: 'jpeg' or 'png'").isImageValid(request.file.mimetype);
+    request.checkBody("description", "Descripción de imagen es obligatoria").notEmpty();
+    request.checkBody("image", "No tienes suficiente puntos para subir imagen").hasEnoughPoints(response.locals.currentPoints);
+
+    console.log(response.locals.currentPoints);
+
+    request.getValidationResult().then(result => {
+        if(result.isEmpty())
+            next();
+        else {
+
+            // delete the file if operation is not validated
+            if (request.file) {
+                fs.unlink(path.join(__dirname, "../uploads", request.file.filename), err => {
+
+                    if (err)
+                        next(err);
+
+                });
+            }
+
+            // mechanism to only display the first error associated with particular parameter
+            let currentParam = null;
+            let reducedResult = [];
+            result.array().forEach(err => {
+                if (currentParam === null || err.param !== currentParam) {
+                    reducedResult.push({msg: err.msg});
+                    currentParam = err.param;
+                }
+            });
+            response.setAlert({type: "error", alertList: reducedResult});
+
+            response.redirect("/profile");
+        }
+    });
+}
 
 
 
@@ -108,5 +156,6 @@ module.exports = {
     validationMiddleware: expressValidator,
     validateLogin: validateLogin,
     validateProfile: validateProfile,
+    validateGallery: validateGallery,
     customValidator: customValidator
 };

@@ -30,7 +30,7 @@ router.get("/", middlewareAuthentication, middlewareGetPoints, (request, respons
             return next(err);
 
         response.render(path.join(viewPath,"questions_list"), {questions: result});
-        console.log(result);
+
     });
 
 });
@@ -132,7 +132,6 @@ router.get("/:questionId/guess", middlewareAuthentication, middlewareGetPoints, 
 
                         if(err)
                             return next(err);
-                        console.log(question);
 
                         response.render(path.join(viewPath,"friend_answer_form"), {friend: friend,question: question});
                     });
@@ -157,7 +156,6 @@ router.get("/:questionId/answer", middlewareAuthentication, middlewareGetPoints,
             return next(err);
 
         response.render(path.join(viewPath,"answer_form"), {question: result});
-        console.log("Rendered");
     });
 });
 
@@ -167,7 +165,6 @@ router.post("/:questionId/answer", middlewareAuthentication, middlewareGetPoints
     let questionId = request.params.questionId;
     let loggedUser = request.session.currentUser;
 
-    console.log(request.body);
 
     if(answerId === "custom-answer")
     {
@@ -203,10 +200,8 @@ router.get("/:questionId", middlewareAuthentication, middlewareGetPoints, (reque
                 if(err)
                     return next(err);
 
-                console.log(friends);
-
                 response.render(path.join(viewPath,"question_page"), {question: result,friends:friends});
-                console.log(result);
+
             });
 
     });

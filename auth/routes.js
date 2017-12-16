@@ -42,7 +42,7 @@ router.post("/login", multiParser.none(), validateLogin, (request, response, nex
             if(exists)
             {
                 request.session.currentUser = exists;
-                response.redirect("profile/" + request.session.currentUser);
+                response.redirect("profile");
             }
             else {
                 response.setAlert({type:"error", alertList:[{msg:"Email y/o contraseña incorrectos"}]});

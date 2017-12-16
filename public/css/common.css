@@ -8,6 +8,9 @@
 
 body{
     background-image: url("../img/Fondo.jpg");
+    background-color: white;
+    background-repeat: no-repeat;
+    min-width: 980px;
 }
 
 .text-center{

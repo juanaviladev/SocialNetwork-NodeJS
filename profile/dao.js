@@ -13,8 +13,49 @@ class ProfileDAO extends DaoCommon
     }
 
     // get user details
+    getUserProfile(userId, callback)
+    {
+        this.pool.getConnection((err, conn) => {
+
+            if(err) {
+                callback(err);
+                return;
+            }
+
+            let sqlStmt = "SELECT u.id, u.name, u.gender, u.dob, ug.image, ug.description FROM users AS u LEFT JOIN " +
+                "user_gallery AS ug ON u.id=ug.user WHERE u.id=?";
+
+            conn.query(sqlStmt, [userId], (err, result) => {
+
+                conn.release();
+
+                if(err) {
+                    callback(err);
+                    return;
+                }
+
+                let finalResult = {
+                    id: result[0].id,
+                    name: result[0].name,
+                    gender: result[0].gender,
+                    dob: result[0].dob
+                };
+
+                if(result[0].image)
+                    finalResult.gallery = result.map(row => {
+                        return {image: row.image, desc: row.description};
+                    });
+
+                callback(null, finalResult);
+
+            });
+        });
+    }
+
+
     getUserDetails(userId, callback)
     {
+
         this.pool.getConnection((err, conn) => {
 
             if(err) {
@@ -28,16 +69,16 @@ class ProfileDAO extends DaoCommon
 
                 conn.release();
 
-                if(err) {
+                if(err)
                     callback(err);
-                    return;
-                }
-
-                callback(null, result);
+                else
+                    callback(null, result);
 
             });
         });
     }
+
+
 
     getUserPoints(userId, callback)
     {
@@ -67,6 +108,10 @@ class ProfileDAO extends DaoCommon
 
     }
 
+
+
+
+
     // update user details
     updateUserDetails(userId, newData, callback)
     {
@@ -95,7 +140,7 @@ class ProfileDAO extends DaoCommon
         });
     }
 
-    addPointsToUser(userId, newPoints,callback)
+    addPointsToUser(userId, newPoints, callback)
     {
         this.pool.getConnection((err, conn) => {
 
@@ -120,6 +165,9 @@ class ProfileDAO extends DaoCommon
         });
     }
 
+
+
+
     // get the profile image
     getProfileImage(userId, callback)
     {
@@ -143,9 +191,9 @@ class ProfileDAO extends DaoCommon
                 }
 
                 if(result)
-                    callback(null, result[0].image)
+                    callback(null, result[0].image);
                 else
-                    callback(null)
+                    callback(null);
 
             });
         });
@@ -153,7 +201,7 @@ class ProfileDAO extends DaoCommon
 
 
 
-    saveGalleryImage(userId, image, desc, callback)
+    saveGalleryImage(userId, image, desc, newPoints, callback)
     {
 
         this.pool.getConnection((err, conn) => {
@@ -163,25 +211,46 @@ class ProfileDAO extends DaoCommon
                 return;
             }
 
-            let sqlStmt = "INSERT INTO user_gallery VALUES(?,?,?)";
+            conn.beginTransaction(err => {
 
-            conn.query(sqlStmt, [userId, image, desc], err => {
-
-                conn.release();
-
-                if(err)
+                if(err){
                     callback(err);
-                else
-                    callback(null);
+                    conn.release();
+                    return;
+                }
 
+                let sqlStmt = "INSERT INTO user_gallery VALUES(?,?,?)";
+
+                conn.query(sqlStmt, [userId, image, desc], err => {
+
+                    if(err) {
+                        callback(err);
+                        conn.rollback();
+                        conn.release();
+                        return;
+                    }
+
+                    let sqlStmt = "UPDATE users SET points = points - ? WHERE id=?";
+
+                    conn.query(sqlStmt, [newPoints,userId], err => {
+
+                        if(err) {
+                            callback(err);
+                            conn.rollback();
+                            conn.release();
+                            return;
+                        }
+
+                        callback(null);
+
+                        conn.commit();
+
+                        conn.release();
+                    });
+                });
             });
-
         });
-
-
-
     }
-
 
 
 }

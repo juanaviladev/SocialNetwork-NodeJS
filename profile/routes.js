@@ -15,6 +15,7 @@ let daoU = new DAOUsers.ProfileDAO(dbPool);
 
 const validation = require("../common/validation.js");
 const validateModify = validation.validateProfile;
+const validateGallery = validation.validateGallery;
 
 
 router.get("/modify",authMiddleware, getPointsMiddleware , (request, response, next) => {
@@ -114,7 +115,7 @@ router.get("/:userId/image", authMiddleware,getPointsMiddleware,(request, respon
 });
 
 router.get("/", authMiddleware, getPointsMiddleware ,(request, response, next) => {
-    daoU.getUserDetails(request.session.currentUser, (err, result) => {
+    daoU.getUserProfile(request.session.currentUser, (err, result) => {
 
         if(err) {
             next(err);
@@ -123,7 +124,7 @@ router.get("/", authMiddleware, getPointsMiddleware ,(request, response, next) =
 
             let gender;
 
-            switch(result[0].gender){
+            switch(result.gender){
 
                 case 'male':
                     gender = "Hombre";
@@ -138,10 +139,11 @@ router.get("/", authMiddleware, getPointsMiddleware ,(request, response, next) =
 
 
             let userDetails = {
-                id: result[0].id,
-                name: result[0].name,
-                age: result[0].dob ? moment().diff(result[0].dob, 'years') : "Edad desconocida",
+                id: result.id,
+                name: result.name,
+                age: result.dob ? moment().diff(result.dob, 'years') : "Edad desconocida",
                 gender: gender,
+                gallery: result.gallery
             };
 
 
@@ -157,7 +159,7 @@ router.get("/", authMiddleware, getPointsMiddleware ,(request, response, next) =
 
 
 router.get("/:userId", authMiddleware, getPointsMiddleware ,(request, response, next) => {
-    daoU.getUserDetails(request.params.userId, (err, result) => {
+    daoU.getUserProfile(request.params.userId, (err, result) => {
 
         if(err) {
             next(err);
@@ -170,7 +172,7 @@ router.get("/:userId", authMiddleware, getPointsMiddleware ,(request, response, 
 
             let gender;
 
-            switch(result[0].gender){
+            switch(result.gender){
 
                 case 'male':
                     gender = "Hombre";
@@ -185,10 +187,11 @@ router.get("/:userId", authMiddleware, getPointsMiddleware ,(request, response, 
 
 
             let userDetails = {
-                id: result[0].id,
-                name: result[0].name,
-                age: result[0].dob ? moment().diff(result[0].dob, 'years') : "Edad desconocida",
+                id: result.id,
+                name: result.name,
+                age: result.dob ? moment().diff(result[0].dob, 'years') : "Edad desconocida",
                 gender: gender,
+                gallery: result.gallery
             };
 
 
@@ -201,17 +204,27 @@ router.get("/:userId", authMiddleware, getPointsMiddleware ,(request, response, 
 
 
 
-router.post("/gallery", authMiddleware, multiParser.single("image"), (request, response, next) => {
+router.get("/:imageName/gallery", authMiddleware, (request, response, next) => {
+
+    let imageName = request.params.imageName;
+
+    response.sendFile(path.join(__dirname, "../uploads", imageName));
+
+});
+
+
+router.post("/gallery", authMiddleware, getPointsMiddleware, multiParser.single("image"), validateGallery,
+                                                                                        (request, response, next) => {
 
     userId = request.session.currentUser;
 
-    daoU.saveGalleryImage(userId, request.file.filename, request.body.description, err => {
+    daoU.saveGalleryImage(userId, request.file.filename, request.body.description, 100, err => {
 
         if(err)
             next(err);
         else{
             response.setAlert({type:"success",alertList:[{msg:"La imagen añadida con éxito"}]});
-            response.redirect("/");
+            response.redirect("/profile/");
         }
 
     });

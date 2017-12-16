@@ -18,7 +18,7 @@
             <li>
                 <div class="user-profile">
                     <img src="/profile/<%= friend.id %>/image">
-                    <p><%=friend.name%></p>
+                    <p><a href="/profile/<%=friend.id%>"><%=friend.name%></a></p>
                 </div>
                 <% if(friend.status !== null) {%>
                      <% if(friend.status === "correct") {%>

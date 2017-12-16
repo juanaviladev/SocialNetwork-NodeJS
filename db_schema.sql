@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 16-12-2017 a las 15:00:25
+-- Tiempo de generación: 16-12-2017 a las 15:05:45
 -- Versión del servidor: 10.1.28-MariaDB
 -- Versión de PHP: 7.1.11
 
@@ -277,7 +277,7 @@ INSERT INTO `users` (`id`, `email`, `pass`, `name`, `gender`, `dob`, `image`, `p
 CREATE TABLE `user_gallery` (
   `user` int(11) NOT NULL,
   `image` varchar(255) NOT NULL,
-  `description` varchar(255) DEFAULT NULL
+  `description` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

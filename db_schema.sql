@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 14-12-2017 a las 00:39:38
+-- Tiempo de generación: 16-12-2017 a las 14:52:50
 -- Versión del servidor: 10.1.28-MariaDB
 -- Versión de PHP: 7.1.11
 
@@ -268,6 +268,17 @@ INSERT INTO `users` (`id`, `email`, `pass`, `name`, `gender`, `dob`, `image`, `p
 (5, 'pinhead@ucm.es', 'mypass', 'Pinhead the Cenobite', 'male', '1987-11-06', 'Pinhead-01.png', 400),
 (6, 'ghostface@ucm.es', 'mypass', 'Casper Ghostface', 'male', '1945-11-16', 'Ghostface-01.png', 150);
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `user_gallery`
+--
+
+CREATE TABLE `user_gallery` (
+  `user` int(11) NOT NULL,
+  `image` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 --
 -- Índices para tablas volcadas
 --
@@ -330,6 +341,13 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Indices de la tabla `user_gallery`
+--
+ALTER TABLE `user_gallery`
+  ADD PRIMARY KEY (`image`),
+  ADD KEY `user_gallery_ibfk_1` (`user`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -390,6 +408,12 @@ ALTER TABLE `guess_answer`
 ALTER TABLE `self_answer`
   ADD CONSTRAINT `self_answer_ibfk_2` FOREIGN KEY (`selected_answer`) REFERENCES `answer` (`id`),
   ADD CONSTRAINT `self_answer_ibfk_3` FOREIGN KEY (`user`) REFERENCES `users` (`id`);
+
+--
+-- Filtros para la tabla `user_gallery`
+--
+ALTER TABLE `user_gallery`
+  ADD CONSTRAINT `user_gallery_ibfk_1` FOREIGN KEY (`user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

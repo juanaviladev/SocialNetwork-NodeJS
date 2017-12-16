@@ -1,7 +1,7 @@
 "use strict";
 
 //---------------------------------------------------------------------------------------
-// superclass for hosting common methods to avoid duplicate code sections
+// superclass for hosting common methods
 //---------------------------------------------------------------------------------------
 
 class DaoCommon {

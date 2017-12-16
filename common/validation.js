@@ -55,7 +55,6 @@ function validateGallery(request, response, next)
     request.checkBody("description", "Descripción de imagen es obligatoria").notEmpty();
     request.checkBody("image", "No tienes suficiente puntos para subir imagen").hasEnoughPoints(response.locals.currentPoints);
 
-    console.log(response.locals.currentPoints);
 
     request.getValidationResult().then(result => {
         if(result.isEmpty())

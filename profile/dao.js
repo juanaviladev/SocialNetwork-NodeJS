@@ -153,6 +153,37 @@ class ProfileDAO extends DaoCommon
 
 
 
+    saveGalleryImage(userId, image, desc, callback)
+    {
+
+        this.pool.getConnection((err, conn) => {
+
+            if(err){
+                callback(err);
+                return;
+            }
+
+            let sqlStmt = "INSERT INTO user_gallery VALUES(?,?,?)";
+
+            conn.query(sqlStmt, [userId, image, desc], err => {
+
+                conn.release();
+
+                if(err)
+                    callback(err);
+                else
+                    callback(null);
+
+            });
+
+        });
+
+
+
+    }
+
+
+
 }
 
 module.exports = {

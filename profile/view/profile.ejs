@@ -18,8 +18,11 @@
 			<div class="modification">
 				<a class="purple-bt" href="/profile/modify">Modificar Perfil</a>
 				<form id="gallery_form" action="profile/gallery" method="post" enctype="multipart/form-data">
-					<label for="image">Añadir una imagen</label>
-					<input type="file" name="image" id="image">
+					<div class="fields">
+						<label for="image">Añadir una imagen</label>
+						<input type="file" name="image" id="image">
+						<textarea name="description" placeholder="Descripción de imagen" rows="5"></textarea>
+					</div>
 					<input class="purple-bt" type="submit" value="Añadir">
 				</form>
 			</div>

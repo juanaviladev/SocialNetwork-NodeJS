@@ -196,11 +196,29 @@ router.get("/:userId", authMiddleware, getPointsMiddleware ,(request, response, 
             response.render(path.join(viewPath,"profile"), userDetails);
 
         }
+    });
+});
+
+
+
+router.post("/gallery", authMiddleware, multiParser.single("image"), (request, response, next) => {
+
+    userId = request.session.currentUser;
+
+    daoU.saveGalleryImage(userId, request.file.filename, request.body.description, err => {
+
+        if(err)
+            next(err);
+        else{
+            response.setAlert({type:"success",alertList:[{msg:"La imagen añadida con éxito"}]});
+            response.redirect("/");
+        }
 
     });
 
-
 });
+
+
 
 module.exports = {
     router: router,

@@ -1,7 +1,7 @@
 "use strict";
 
 
-const DaoCommon = require("../common/DaoCommon.js").DaoCommon;
+const DaoCommon = require("../common/daoCommon.js").DaoCommon;
 
 
 class ProfileDAO extends DaoCommon

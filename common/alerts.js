@@ -9,7 +9,6 @@ function alertsMiddleware(request,response, next)
         let alert = request.session.alert;
         delete request.session.alert;
         return alert;
-
     };
 
     next();

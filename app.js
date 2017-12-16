@@ -5,7 +5,6 @@ const express = require("express");
 const path = require("path");
 const session = require("./common/session.js");
 
-
 const auth = require("./auth/routes.js");
 const friends = require("./friends/routes.js");
 const profile  = require("./profile/routes.js");

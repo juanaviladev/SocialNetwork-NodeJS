@@ -467,6 +467,29 @@ class QuestionDAO
             });
         });
     }
+
+    existsQuestionWithSameTitle(questionText, callback) {
+        this.pool.getConnection((err, conn) => {
+
+            if (err) {
+                callback(err);
+                return;
+            }
+            let sqlStmt = "SELECT Count(id) AS check_result FROM question WHERE text = ?";
+
+            conn.query(sqlStmt,[questionText],(err, result) => {
+                conn.release();
+
+                if(err) {
+                    callback(err);
+                    return;
+                }
+                console.log(result);
+                callback(null, result[0].check_result === 1);
+
+            });
+        });
+    }
 }
 
 module.exports = {

@@ -53,14 +53,27 @@ router.post("/create", middlewareAuthentication, middlewareGetPoints,multiParser
 
         let answers = questionAnswers.split("\r\n");
 
-        questionDAO.saveNewQuestion(questionText, answers, (err, newQuestionId) => {
+        questionDAO.existsQuestionWithSameTitle(questionText,(err, exists) => {
 
             if (err)
                 return next(err);
 
-            response.redirect("/question/" + newQuestionId);
-        });
+            if(!exists) {
+                questionDAO.saveNewQuestion(questionText, answers, (err, newQuestionId) => {
 
+                    if (err)
+                        return next(err);
+
+                    response.redirect("/question/" + newQuestionId);
+                });
+
+                response.redirect("/question/" + newQuestionId);
+            }
+            else {
+                response.setAlert({type:"error",alertList: [{msg:"Lo sentimos, esa pregunta ya existe"}]});
+                response.redirect("/question/create");
+            }
+        });
 });
 
 router.post("/:questionId/guess", middlewareAuthentication, middlewareGetPoints,multiParser.none(),middlewareQuestionCheck,  guessValidator,

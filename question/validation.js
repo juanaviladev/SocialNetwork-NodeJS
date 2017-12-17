@@ -2,9 +2,11 @@
 
 function validateNewQuestionForm(request, response, next)
 {
-    request.checkBody("text","Enunciado de la pregunta vacío").notEmpty().len({min:1,max:255});
+    request.checkBody("text","Enunciado de la pregunta vacío").notEmpty();
+    request.checkBody("text","Enunciado de la pregunta debe tener máximo de 255 carácteres").len({max:255});
     request.checkBody("answers", "Campo de respuestas vacío").notEmpty();
     request.checkBody("answers","Se requiren al menos dos respuestas").isAnswersLengthCorrect(request.body.answers);
+    request.checkBody("answers", "Respuestas duplicadas").areNoDuplicates(request.body.answers);
 
     request.getValidationResult().then(result => {
         if(result.isEmpty())

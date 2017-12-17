@@ -25,7 +25,17 @@ let customValidator = {
             let answersArray = answers.split("\r\n").filter((answer) => {
                 return answer.trim().length > 0 && answer.trim().length <= 255;
             });
-            return answersArray.length > 2;
+            return answersArray.length >= 2;
+        },
+        areNoDuplicates: (param, answers) => {
+            let answersArray = answers.split("\r\n");
+            let prevAnswer = "";
+            for (answ of answersArray.sort()) {
+                if (prevAnswer === answ.trim() && answ.trim() !== "")
+                    return false;
+                prevAnswer = answ.trim();
+            }
+            return true;
         },
         isCustomAnswerValid: (param,answerId,answerText) => {
             if (answerId === "custom-answer") {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 17-12-2017 a las 12:36:08
+-- Tiempo de generación: 17-12-2017 a las 15:40:59
 -- Versión del servidor: 10.1.28-MariaDB
 -- Versión de PHP: 7.1.11
 
@@ -51,7 +51,6 @@ INSERT INTO `answer` (`id`, `question`, `text`) VALUES
 (16, 4, 'Hamburguesa'),
 (17, 4, 'Macarrones'),
 (19, 4, 'Ensalada'),
-(20, 4, 'Caca'),
 (21, 9, 'Madrid'),
 (22, 9, 'Barcelona'),
 (23, 9, 'Murcia'),
@@ -62,7 +61,6 @@ INSERT INTO `answer` (`id`, `question`, `text`) VALUES
 (28, 6, 'Gato'),
 (29, 6, 'León'),
 (30, 6, 'Humano'),
-(31, 1, 'Esto es una respuesta personalizada'),
 (32, 6, 'Rinoceronte'),
 (33, 9, 'Albacete'),
 (34, 7, 'Rick'),
@@ -81,11 +79,14 @@ INSERT INTO `answer` (`id`, `question`, `text`) VALUES
 (47, 14, 'La ruleta de la suerte'),
 (48, 14, 'Gran Hermano'),
 (49, 2, 'Cars'),
-(50, 15, 'Roppongui'),
-(51, 15, 'Vips'),
-(52, 15, 'Goikos'),
 (53, 11, 'Atlético de madrid'),
-(54, 14, 'Quien quiere casarse con mi hijo');
+(54, 14, 'Quien quiere casarse con mi hijo'),
+(71, 9, 'Despeñaperros'),
+(72, 13, 'Black Mirror'),
+(73, 7, 'El padre'),
+(74, 12, 'Un bote con gasolina'),
+(75, 4, 'Pechuga empanada'),
+(76, 13, 'American Gods');
 
 -- --------------------------------------------------------
 
@@ -106,12 +107,6 @@ CREATE TABLE `friendship` (
 INSERT INTO `friendship` (`from_user`, `to_user`, `status`) VALUES
 (1, 2, 'accepted'),
 (4, 1, 'accepted'),
-(7, 1, 'accepted'),
-(7, 2, 'accepted'),
-(7, 3, 'accepted'),
-(7, 4, 'accepted'),
-(7, 5, 'accepted'),
-(7, 6, 'accepted'),
 (1, 3, 'pending'),
 (2, 6, 'pending');
 
@@ -127,26 +122,6 @@ CREATE TABLE `guess_answer` (
   `answer` int(11) NOT NULL,
   `status` enum('correct','wrong') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `guess_answer`
---
-
-INSERT INTO `guess_answer` (`guess_user`, `of_user`, `answer`, `status`) VALUES
-(2, 1, 20, 'correct'),
-(2, 1, 24, 'correct'),
-(2, 1, 31, 'wrong'),
-(2, 1, 48, 'correct'),
-(2, 1, 49, 'correct'),
-(4, 1, 36, 'wrong'),
-(1, 2, 10, 'wrong'),
-(1, 2, 13, 'correct'),
-(1, 2, 20, 'wrong'),
-(1, 2, 32, 'correct'),
-(1, 2, 33, 'correct'),
-(1, 2, 35, 'correct'),
-(1, 2, 37, 'correct'),
-(1, 2, 46, 'wrong');
 
 -- --------------------------------------------------------
 
@@ -164,7 +139,6 @@ CREATE TABLE `question` (
 --
 
 INSERT INTO `question` (`id`, `text`) VALUES
-(15, 'Cuál es mi restaurante favorito'),
 (2, '¿Cuál es la peor película de la historia?'),
 (6, '¿Cuál es tu animal favorito?'),
 (9, '¿Cuál es tu ciudad favorita?'),
@@ -187,23 +161,6 @@ CREATE TABLE `self_answer` (
   `selected_answer` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Volcado de datos para la tabla `self_answer`
---
-
-INSERT INTO `self_answer` (`user`, `selected_answer`) VALUES
-(1, 49),
-(7, 16),
-(7, 23),
-(7, 27),
-(7, 31),
-(7, 34),
-(7, 41),
-(7, 49),
-(7, 50),
-(7, 53),
-(7, 54);
-
 -- --------------------------------------------------------
 
 --
@@ -215,15 +172,6 @@ CREATE TABLE `sessions` (
   `expires` int(11) UNSIGNED NOT NULL,
   `data` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `sessions`
---
-
-INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('BnOTo2OevadD9uZk7f8Vo_Wk00jmnPf7', 1513294593, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":1}'),
-('fzVc_9nhDyu7IqVr2hX3ngNnnLpOFzk9', 1513592535, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":2}'),
-('zaS8w-LLLo8KvJnNX9bmT9LTnk5G6Bde', 1513596858, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":7}');
 
 -- --------------------------------------------------------
 
@@ -247,13 +195,12 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `email`, `pass`, `name`, `gender`, `dob`, `image`, `points`) VALUES
-(1, 'penny@ucm.es', 'mypass', 'Pennywise the Dancing Clown', 'other', '1986-09-15', 'Pennywise-01.png', 320),
+(1, 'penny@ucm.es', 'mypass', 'Pennywise the Dancing Clown', 'other', '1986-09-15', 'Pennywise-01.png', 420),
 (2, 'diablo@ucm.es', 'mypass', 'Diablo the Lord of Terror', 'male', '1996-12-31', 'Diablo-01.png', 250),
 (3, 'mummy@ucm.es', 'mypass', 'Ancient Mummy', 'female', '1956-05-04', 'Mummy-01.png', 0),
 (4, 'skull@ucm.es', 'mypass', 'Skeleton King', 'male', '1985-12-05', 'Skull-01.png', 50),
 (5, 'pinhead@ucm.es', 'mypass', 'Pinhead the Cenobite', 'male', '1987-11-06', 'Pinhead-01.png', 400),
-(6, 'ghostface@ucm.es', 'mypass', 'Casper Ghostface', 'male', '1945-11-16', 'Ghostface-01.png', 150),
-(7, 'c.avilac.27@alumnos.urjc.es', 'soycarlos', 'Carlos avila', 'male', '2017-12-09', 'cebb712ceab52db1c2f813c45df1161e', 9800);
+(6, 'ghostface@ucm.es', 'mypass', 'Casper Ghostface', 'male', '1945-11-16', 'Ghostface-01.png', 150);
 
 -- --------------------------------------------------------
 
@@ -266,14 +213,6 @@ CREATE TABLE `user_gallery` (
   `image` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `user_gallery`
---
-
-INSERT INTO `user_gallery` (`user`, `image`, `description`) VALUES
-(7, 'a8b6e96f186d5f6481098c0b0b8c7e31', 'Yo.2'),
-(7, 'c48b503ee74eccc8bf43047e2a1983cd', 'Yo');
 
 --
 -- Índices para tablas volcadas
@@ -344,19 +283,19 @@ ALTER TABLE `user_gallery`
 -- AUTO_INCREMENT de la tabla `answer`
 --
 ALTER TABLE `answer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- AUTO_INCREMENT de la tabla `question`
 --
 ALTER TABLE `question`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Restricciones para tablas volcadas
@@ -366,14 +305,14 @@ ALTER TABLE `user`
 -- Filtros para la tabla `answer`
 --
 ALTER TABLE `answer`
-  ADD CONSTRAINT `answer_ibfk_1` FOREIGN KEY (`question`) REFERENCES `question` (`id`);
+  ADD CONSTRAINT `answer_ibfk_1` FOREIGN KEY (`question`) REFERENCES `question` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `friendship`
 --
 ALTER TABLE `friendship`
-  ADD CONSTRAINT `friendship_ibfk_1` FOREIGN KEY (`from_user`) REFERENCES `user` (`id`),
-  ADD CONSTRAINT `friendship_ibfk_2` FOREIGN KEY (`to_user`) REFERENCES `user` (`id`);
+  ADD CONSTRAINT `friendship_ibfk_1` FOREIGN KEY (`from_user`) REFERENCES `user` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `friendship_ibfk_2` FOREIGN KEY (`to_user`) REFERENCES `user` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `guess_answer`
@@ -381,15 +320,14 @@ ALTER TABLE `friendship`
 ALTER TABLE `guess_answer`
   ADD CONSTRAINT `guess_answer_ibfk_1` FOREIGN KEY (`answer`) REFERENCES `answer` (`id`),
   ADD CONSTRAINT `guess_answer_ibfk_2` FOREIGN KEY (`guess_user`) REFERENCES `user` (`id`),
-  ADD CONSTRAINT `guess_answer_ibfk_3` FOREIGN KEY (`of_user`) REFERENCES `user` (`id`),
-  ADD CONSTRAINT `guess_answer_ibfk_4` FOREIGN KEY (`answer`) REFERENCES `answer` (`id`);
+  ADD CONSTRAINT `guess_answer_ibfk_3` FOREIGN KEY (`of_user`) REFERENCES `user` (`id`);
 
 --
 -- Filtros para la tabla `self_answer`
 --
 ALTER TABLE `self_answer`
-  ADD CONSTRAINT `self_answer_ibfk_2` FOREIGN KEY (`selected_answer`) REFERENCES `answer` (`id`),
-  ADD CONSTRAINT `self_answer_ibfk_3` FOREIGN KEY (`user`) REFERENCES `user` (`id`);
+  ADD CONSTRAINT `self_answer_ibfk_2` FOREIGN KEY (`selected_answer`) REFERENCES `answer` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `self_answer_ibfk_3` FOREIGN KEY (`user`) REFERENCES `user` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `user_gallery`

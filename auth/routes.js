@@ -8,13 +8,9 @@ const multiParser = require("../common/multiParser").middlewareMulter;
 let daoU = new DAOUsers.DaoAuth(dbPool);
 
 const viewPath = path.join(__dirname,"/view");
-const validation = require("../common/validation.js");
+const validation = require("./validation.js");
 const validateLogin = validation.validateLogin;
 const validateRegister = validation.validateProfile;
-
-
-
-
 
 router.get("/login", (request, response) => {
     let user = request.session.currentUser;

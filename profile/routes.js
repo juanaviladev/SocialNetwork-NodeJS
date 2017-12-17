@@ -13,7 +13,7 @@ const dbPool = require("./../common/db.js").pool;
 const DAOUsers = require("./dao.js");
 let daoU = new DAOUsers.ProfileDAO(dbPool);
 
-const validation = require("../common/validation.js");
+const validation = require("./validation.js");
 const validateModify = validation.validateProfile;
 const validateGallery = validation.validateGallery;
 

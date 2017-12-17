@@ -23,7 +23,7 @@ let customValidator = {
         },
         isAnswersLengthCorrect: (param,answers) => {
             let answersArray = answers.split("\r\n").filter((answer) => {
-                return answer.length > 0 && answer.length <= 255;
+                return answer.trim().length > 0 && answer.trim().length <= 255;
             });
             return answersArray.length > 2;
         },

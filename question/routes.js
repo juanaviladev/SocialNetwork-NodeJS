@@ -50,7 +50,9 @@ router.post("/create", middlewareAuthentication, middlewareGetPoints,multiParser
         let questionText = request.body.text;
         let questionAnswers = request.body.answers;
 
-        let answers = questionAnswers.split("\r\n");
+        let answers = questionAnswers.split("\r\n").filter(answ => {
+            return answ.trim() !== "";
+        });
 
         questionDAO.existsQuestionWithSameTitle(questionText,(err, exists) => {
 

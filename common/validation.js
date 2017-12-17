@@ -37,6 +37,9 @@ let customValidator = {
             }
             return true;
         },
+        areEmptyAnswers: (param, answers) => {
+            let answersArray = answers.split
+        },
         isCustomAnswerValid: (param,answerId,answerText) => {
             if (answerId === "custom-answer") {
                 return answerText.trim().length > 0 && answerText.trim().length <= 255;

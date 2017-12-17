@@ -100,8 +100,7 @@ h3 {
     width: 40%;
     max-height: 290px;
     font-family: GloriaHallelujah, serif;
-
-
+    overflow-wrap: break-word;
 }
 
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 17-12-2017 a las 17:29:04
+-- Tiempo de generación: 17-12-2017 a las 17:56:34
 -- Versión del servidor: 10.1.28-MariaDB
 -- Versión de PHP: 7.1.11
 
@@ -135,7 +135,7 @@ INSERT INTO `question` (`id`, `text`, `default_answers_nb`) VALUES
 (4, '¿Cuál es tu plato favorito?', 4),
 (6, '¿Cuál es tu animal favorito?', 5),
 (7, '¿Cuál es tu personaje favorito de Rick y Morty?', 4),
-(9, '¿Cuál es tu ciudad favorita?', 4),
+(9, '¿Cuál es tu ciudad favorita?', 5),
 (11, '¿De qué equipo de fútbol eres fan?', 5),
 (12, '¿Que te llevarias a una isla desierta?', 5),
 (13, '¿Cual es tu serie favorita?', 5),

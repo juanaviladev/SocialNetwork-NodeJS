@@ -27,7 +27,8 @@ function validateGallery(request, response, next)
     request.checkBody("image", "Adjunta un imagen").isImageNotEmpty(request.file);
     if(request.file)
         request.checkBody("image", "Archivo incompatible, usa formato: 'jpeg' or 'png'").isImageValid(request.file.mimetype);
-    request.checkBody("description", "La descripción de la imagen es obligatoria").notEmpty();
+    request.checkBody("description", "La descripción de la imagen es obligatoria").trim().notEmpty();
+    request.checkBody("description", "La descripción de la imagen tiene límito de 255 carácteres").isLength({max: 255});
     request.checkBody("image", "No tienes suficientes puntos para subir imagen").hasEnoughPoints(response.locals.currentPoints);
 
 

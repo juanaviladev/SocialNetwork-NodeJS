@@ -1,3 +1,5 @@
+const fs = require("fs");
+const path = require("path");
 
 // validation middleware
 function validateLogin(request, response, next)
@@ -19,9 +21,31 @@ function validateLogin(request, response, next)
 
 
 
-
 function validateProfile(request, response, next)
 {
+
+    let redirection = (result) => {
+        // mechanism to only display the first error associated with particular parameter
+        let currentParam = null;
+        let reducedResult = [];
+        result.array().forEach(err => {
+            if(currentParam === null || err.param !== currentParam)
+            {
+                reducedResult.push({msg: err.msg});
+                currentParam = err.param;
+            }
+        });
+        response.setAlert({type: "error", alertList: reducedResult});
+
+        // check the url to redirect to the correct route as same validation is used in two different routes
+        if(request.url === "/register")
+            response.redirect("register");
+        if(request.url === "/modify")
+            response.redirect("modify");
+    };
+
+
+
     request.checkBody("email", "Email vacío").notEmpty();
     request.checkBody("email", "Email inválido").isEmail();
 
@@ -54,27 +78,13 @@ function validateProfile(request, response, next)
 
                     if(err)
                         next(err);
-
+                    else{
+                        redirection(result);
+                    }
                 });
             }
-
-            // mechanism to only display the first error associated with particular parameter
-            let currentParam = null;
-            let reducedResult = [];
-            result.array().forEach(err => {
-                if(currentParam === null || err.param !== currentParam)
-                {
-                    reducedResult.push({msg: err.msg});
-                    currentParam = err.param;
-                }
-            });
-            response.setAlert({type: "error", alertList: reducedResult});
-
-            // check the url to redirect to the correct route as same validation is used in two different routes
-            if(request.url === "/register")
-                response.redirect("register");
-            if(request.url === "/modify")
-                response.redirect("modify");
+            else
+                redirection(result);
         }
     });
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 17-12-2017 a las 16:23:10
+-- Tiempo de generación: 17-12-2017 a las 17:29:04
 -- Versión del servidor: 10.1.28-MariaDB
 -- Versión de PHP: 7.1.11
 
@@ -121,24 +121,25 @@ CREATE TABLE `guess_answer` (
 
 CREATE TABLE `question` (
   `id` int(11) NOT NULL,
-  `text` varchar(255) NOT NULL
+  `text` varchar(255) NOT NULL,
+  `default_answers_nb` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `question`
 --
 
-INSERT INTO `question` (`id`, `text`) VALUES
-(2, '¿Cuál es la peor película de la historia?'),
-(6, '¿Cuál es tu animal favorito?'),
-(9, '¿Cuál es tu ciudad favorita?'),
-(7, '¿Cuál es tu personaje favorito de Rick y Morty?'),
-(4, '¿Cuál es tu plato favorito?'),
-(14, '¿Cuál es tu programa de TV favorito?'),
-(13, '¿Cual es tu serie favorita?'),
-(11, '¿De qué equipo de fútbol eres fan?'),
-(1, '¿Nintendo Switch, PS4 o Xbox One?'),
-(12, '¿Que te llevarias a una isla desierta?');
+INSERT INTO `question` (`id`, `text`, `default_answers_nb`) VALUES
+(1, '¿Nintendo Switch, PS4 o Xbox One?', 4),
+(2, '¿Cuál es la peor película de la historia?', 6),
+(4, '¿Cuál es tu plato favorito?', 4),
+(6, '¿Cuál es tu animal favorito?', 5),
+(7, '¿Cuál es tu personaje favorito de Rick y Morty?', 4),
+(9, '¿Cuál es tu ciudad favorita?', 4),
+(11, '¿De qué equipo de fútbol eres fan?', 5),
+(12, '¿Que te llevarias a una isla desierta?', 5),
+(13, '¿Cual es tu serie favorita?', 5),
+(14, '¿Cuál es tu programa de TV favorito?', 5);
 
 -- --------------------------------------------------------
 
@@ -168,7 +169,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('8wTVwTynTgBe0KeJUwuTzkoLuO1hRR1h', 1513610566, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":1}');
+('8wTVwTynTgBe0KeJUwuTzkoLuO1hRR1h', 1513610566, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":1}'),
+('tYn6UVO_gG44V8eQ-5pPqTwxHT6DG1Yr', 1513611337, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":1}');
 
 -- --------------------------------------------------------
 
@@ -192,11 +194,12 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `email`, `pass`, `name`, `gender`, `dob`, `image`, `points`) VALUES
-(1, 'penny@ucm.es', 'mypass', 'Pennywise the Dancing Clown', 'other', '1986-09-15', '9ed0437994a7031a29cc36f6f6272b56', 420),
-(2, 'diablo@ucm.es', 'mypass', 'Diablo the Lord of Terror', 'male', '1996-12-31', 'a8b6e96f186d5f6481098c0b0b8c7e31', 250),
-(3, 'mummy@ucm.es', 'mypass', 'Ancient Mummy', 'female', '1956-05-04', 'becf4fbce05a7c956637917f5d100a13', 0),
-(4, 'skull@ucm.es', 'mypass', 'Skeleton King', 'male', '1985-12-05', 'c48b503ee74eccc8bf43047e2a1983cd', 50),
-(6, 'ghostface@ucm.es', 'mypass', 'Casper Ghostface', 'male', '1945-11-16', 'cebb712ceab52db1c2f813c45df1161e', 150);
+(1, 'penny@ucm.es', 'mypass', 'Pennywise the Dancing Clown', 'other', '1986-09-15', 'Pennywise-01.png', 400),
+(2, 'diablo@ucm.es', 'mypass', 'Diablo the Lord of Terror', 'male', '1996-12-31', 'Diablo-01.png', 250),
+(3, 'mummy@ucm.es', 'mypass', 'Ancient Mummy', 'female', '1956-05-04', 'Mummy-01.png', 0),
+(4, 'skull@ucm.es', 'mypass', 'Skeleton King', 'male', '1985-12-05', 'Skull-01.png', 50),
+(5, 'pinhead@ucm.es', 'mypass\r\n', 'Pinhead the Cenobite', 'male', NULL, 'Pinhead-01.png', 0),
+(6, 'ghostface@ucm.es', 'mypass', 'Casper Ghostface', 'male', '1945-11-16', 'Ghostface-01.png', 150);
 
 -- --------------------------------------------------------
 

@@ -34,7 +34,6 @@ router.get("/", middlewareAuthentication, middlewareGetPoints, (request, respons
             return next(err);
 
         response.render(path.join(viewPath,"questions_list"), {questions: result});
-        console.log(result);
     });
 
 });
@@ -278,7 +277,6 @@ router.get("/:questionId", middlewareAuthentication, middlewareGetPoints,middlew
                         return next(err);
 
                     response.render(path.join(viewPath,"question_page"), {question: result,friends:friends});
-                    console.log(result);
                 });
             });
 });

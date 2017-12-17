@@ -435,7 +435,6 @@ class QuestionDAO
                     callback(err);
                     return;
                 }
-                console.log(result);
                 callback(null, result[0].check_result === 1);
 
             });
@@ -461,7 +460,6 @@ class QuestionDAO
                     callback(err);
                     return;
                 }
-                console.log(result);
                 callback(null, result[0].check_result === 1);
 
             });
@@ -484,7 +482,6 @@ class QuestionDAO
                     callback(err);
                     return;
                 }
-                console.log(result);
                 callback(null, result[0].check_result === 1);
 
             });

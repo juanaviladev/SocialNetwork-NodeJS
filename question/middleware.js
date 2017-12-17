@@ -8,8 +8,6 @@ function checkQuestion(request, response, next)
     let questionId = request.params.questionId;
     daoQ.exists(questionId,(err, exists) => {
 
-        console.log("EXISTS: "+exists + " | "+questionId);
-
         if(err) {
             next(err);
         }

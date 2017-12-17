@@ -1,4 +1,4 @@
-const customValidators = require("../common/validation").customValidator.customValidators;
+
 
 function validateNewQuestionForm(request, response, next)
 {
@@ -49,18 +49,14 @@ function guessValidator(request, response, next)
             let friendId = request.body.friend_id;
             let questionId = request.params.questionId;
 
-            console.log(request.body);
-
             response.setAlert({type:"error",alertList: result.array()});
 
             if(friendId)
             {
-                console.log("No responses");
                 response.redirect("/question/"+questionId+"/guess?of="+friendId);
             }
             else
             {
-                console.log("No responses and friend");
                 response.redirect("/question/"+questionId);
             }
         }
@@ -68,22 +64,8 @@ function guessValidator(request, response, next)
 
 }
 
-customValidators.isAnswersLengthCorrect = (param,answers) => {
-            let answersArray = answers.split("\r\n").filter((answer) => {
-                return answer.length > 0 && answer.length <= 255;
-            });
-            return answersArray.length > 2;
-};
 
-customValidators.isCustomAnswerValid = (param,answerId,answerText) => {
-    if(answerId === "custom-answer")
-    {
-        return answerText.trim().length >0 && answerText.trim().length <= 255;
-    }
-    else {
-        return true;
-    }
-};
+
 
 module.exports = {
     newQuestionValidator: validateNewQuestionForm,

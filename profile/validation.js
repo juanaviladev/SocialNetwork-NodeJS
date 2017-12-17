@@ -1,29 +1,30 @@
 const fs = require("fs");
 const path = require("path");
-const customValidators = require("./../common/validation").customValidator;
 const validateProfile = require("./../auth/validation").validateProfile;
 
-customValidators.customValidators.isImageValid = (param, fileType) => {
-    switch(fileType){
-        case "image/jpeg":
-            return true;
-        case "image/png":
-            return true;
-        default:
-            return false;
-    }
-};
-customValidators.customValidators.isImageNotEmpty = (param, image) => {
-    return !!image;
-};
 
-customValidators.customValidators.hasEnoughPoints = (param, points) => {
-    return points >= 100;
-};
 
 
 function validateGallery(request, response, next)
 {
+
+    let redirection = (result) => {
+        // mechanism to only display the first error associated with particular parameter
+        let currentParam = null;
+        let reducedResult = [];
+        result.array().forEach(err => {
+            if (currentParam === null || err.param !== currentParam) {
+                reducedResult.push({msg: err.msg});
+                currentParam = err.param;
+            }
+        });
+        response.setAlert({type: "error", alertList: reducedResult});
+
+        response.redirect("/profile");
+    };
+
+
+
     request.checkBody("image", "Adjunta un imagen").isImageNotEmpty(request.file);
     if(request.file)
         request.checkBody("image", "Archivo incompatible, usa formato: 'jpeg' or 'png'").isImageValid(request.file.mimetype);
@@ -43,22 +44,13 @@ function validateGallery(request, response, next)
 
                     if (err)
                         next(err);
-
+                    else{
+                        redirection(result);
+                    }
                 });
             }
-
-            // mechanism to only display the first error associated with particular parameter
-            let currentParam = null;
-            let reducedResult = [];
-            result.array().forEach(err => {
-                if (currentParam === null || err.param !== currentParam) {
-                    reducedResult.push({msg: err.msg});
-                    currentParam = err.param;
-                }
-            });
-            response.setAlert({type: "error", alertList: reducedResult});
-
-            response.redirect("/profile");
+            else
+                redirection(result);
         }
     });
 }
@@ -66,5 +58,5 @@ function validateGallery(request, response, next)
 
 module.exports = {
     validateGallery: validateGallery,
-    validateProfile:validateProfile
+    validateProfile: validateProfile
 };

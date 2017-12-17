@@ -20,7 +20,7 @@ class FriendsDAO
             }
 
             let sqlStmt = "SELECT from_user, to_user, status, u1.name AS name1, u2.name AS name2 FROM friendship, " +
-                "users AS u1, users AS u2 WHERE friendship.from_user=u1.id AND friendship.to_user=u2.id AND " +
+                "user AS u1, user AS u2 WHERE friendship.from_user=u1.id AND friendship.to_user=u2.id AND " +
                 "(friendship.from_user=? OR friendship.to_user=?)";
 
             conn.query(sqlStmt, [userId, userId], (err, result) => {
@@ -55,8 +55,8 @@ class FriendsDAO
                 return;
             }
 
-            let sqlStmt = "SELECT id, name, from_user, to_user, status FROM users LEFT JOIN friendship ON " +
-                "(users.id=friendship.from_user AND friendship.to_user=?) OR (users.id=friendship.to_user AND " +
+            let sqlStmt = "SELECT id, name, from_user, to_user, status FROM user LEFT JOIN friendship ON " +
+                "(user.id=friendship.from_user AND friendship.to_user=?) OR (user.id=friendship.to_user AND " +
                 "friendship.from_user=?) WHERE id<>? AND name LIKE ?";
 
 

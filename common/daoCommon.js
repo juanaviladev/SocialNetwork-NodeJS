@@ -20,7 +20,7 @@ class DaoCommon {
                 return;
             }
 
-            let sqlStmt = "SELECT * FROM users WHERE email=?";
+            let sqlStmt = "SELECT * FROM user WHERE email=?";
 
             conn.query(sqlStmt, [email],(err, result) => {
 

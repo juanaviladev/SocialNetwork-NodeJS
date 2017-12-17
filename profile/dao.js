@@ -22,7 +22,7 @@ class ProfileDAO extends DaoCommon
                 return;
             }
 
-            let sqlStmt = "SELECT u.id, u.name, u.gender, u.dob, ug.image, ug.description FROM users AS u LEFT JOIN " +
+            let sqlStmt = "SELECT u.id, u.name, u.gender, u.dob, ug.image, ug.description FROM user AS u LEFT JOIN " +
                 "user_gallery AS ug ON u.id=ug.user WHERE u.id=?";
 
             conn.query(sqlStmt, [userId], (err, result) => {
@@ -63,7 +63,7 @@ class ProfileDAO extends DaoCommon
                 return;
             }
 
-            let sqlStmt = "SELECT * FROM users WHERE id=?";
+            let sqlStmt = "SELECT * FROM user WHERE id=?";
 
             conn.query(sqlStmt, [userId], (err, result) => {
 
@@ -90,7 +90,7 @@ class ProfileDAO extends DaoCommon
                 return;
             }
 
-            let sqlStmt = "SELECT points FROM users WHERE id=?";
+            let sqlStmt = "SELECT points FROM user WHERE id=?";
 
             conn.query(sqlStmt, [userId], (err, result) => {
 
@@ -124,7 +124,7 @@ class ProfileDAO extends DaoCommon
                 return;
             }
 
-            let sqlStmt = "UPDATE users SET email=?, pass=?, name=?, gender=?, dob=?, image=? WHERE id=?";
+            let sqlStmt = "UPDATE user SET email=?, pass=?, name=?, gender=?, dob=?, image=? WHERE id=?";
 
             conn.query(sqlStmt, [newData.email, newData.pass, newData.name, newData.gender, newData.dob,
                                                                                 newData.image, userId], err => {
@@ -150,7 +150,7 @@ class ProfileDAO extends DaoCommon
                 return;
             }
 
-            let sqlStmt = "UPDATE users SET points = points + ? WHERE id=?";
+            let sqlStmt = "UPDATE user SET points = points + ? WHERE id=?";
 
             conn.query(sqlStmt, [newPoints,userId], err => {
 
@@ -179,7 +179,7 @@ class ProfileDAO extends DaoCommon
                 return;
             }
 
-            let sqlStmt = "SELECT image FROM users WHERE id=?";
+            let sqlStmt = "SELECT image FROM user WHERE id=?";
 
             conn.query(sqlStmt, [userId], (err, result) => {
 
@@ -230,7 +230,7 @@ class ProfileDAO extends DaoCommon
                         return;
                     }
 
-                    let sqlStmt = "UPDATE users SET points = points - ? WHERE id=?";
+                    let sqlStmt = "UPDATE user SET points = points - ? WHERE id=?";
 
                     conn.query(sqlStmt, [newPoints,userId], err => {
 

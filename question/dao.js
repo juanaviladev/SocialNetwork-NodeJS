@@ -262,18 +262,18 @@ class QuestionDAO
                 return;
             }
 
-            let sqlStmt = "SELECT DISTINCT users.id, users.name, users.image, answer.question, guess_answer_q.of_user, guess_answer_q.status FROM users " +
+            let sqlStmt = "SELECT DISTINCT user.id, user.name, user.image, answer.question, guess_answer_q.of_user, guess_answer_q.status FROM user " +
                 "                JOIN friendship  " +
-                "                                ON (users.id = friendship.from_user AND friendship.to_user = ? AND friendship.status = 'accepted') OR (users.id =   friendship.to_user AND friendship.from_user = ? AND friendship.status = 'accepted')   " +
+                "                                ON (user.id = friendship.from_user AND friendship.to_user = ? AND friendship.status = 'accepted') OR (user.id =   friendship.to_user AND friendship.from_user = ? AND friendship.status = 'accepted')   " +
                 "                JOIN self_answer " +
-                "                 ON self_answer.user = users.id " +
+                "                 ON self_answer.user = user.id " +
                 "                JOIN answer " +
                 "                 ON answer.id = self_answer.selected_answer " +
                 "                 LEFT JOIN(SELECT guess_answer.*, answer.question FROM  " +
                 "                      guess_answer JOIN answer " +
                 "                       ON guess_answer.answer = answer.id " +
                 "                ) AS guess_answer_q " +
-                "                 ON guess_answer_q.question = answer.question AND guess_answer_q.of_user = users.id" +
+                "                 ON guess_answer_q.question = answer.question AND guess_answer_q.of_user = user.id" +
                 " WHERE answer.question = ?";
 
             conn.query(sqlStmt, [loggedUser,loggedUser,questionId,loggedUser], (err, result) => {

@@ -19,7 +19,7 @@ class DaoAuth extends DaoCommon{
                 return;
             }
 
-            let sqlStmt = "SELECT id, email, pass FROM users WHERE email=?";
+            let sqlStmt = "SELECT id, email, pass FROM user WHERE email=?";
 
             conn.query(sqlStmt, [email], (err, result) => {
 
@@ -52,7 +52,7 @@ class DaoAuth extends DaoCommon{
                 return;
             }
 
-            let sqlStmt = "SELECT * FROM users WHERE id = ?";
+            let sqlStmt = "SELECT * FROM user WHERE id = ?";
 
             conn.query(sqlStmt, [userId], (err,result) => {
 
@@ -75,7 +75,7 @@ class DaoAuth extends DaoCommon{
                 return;
             }
 
-            let sqlStmt = "INSERT INTO users(email, pass, name, gender, dob, image) VALUES (?,?,?,?,?,?)";
+            let sqlStmt = "INSERT INTO user(email, pass, name, gender, dob, image) VALUES (?,?,?,?,?,?)";
 
             conn.query(sqlStmt, [user.email, user.pass, user.name, user.gender, user.dob, user.image], err => {
 

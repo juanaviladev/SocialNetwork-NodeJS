@@ -222,7 +222,7 @@ class QuestionDAO
 
     saveNewQuestion(questionText, answers, callback) {
 
-        let sqlStmt = "INSERT INTO question (text) VALUES (?)";
+        let sqlStmt = "INSERT INTO question (text,default_answers_nb) VALUES (?,?)";
 
         this.pool.getConnection((err, conn) => {
 
@@ -231,7 +231,7 @@ class QuestionDAO
                 return;
             }
 
-            conn.query(sqlStmt, [questionText], (err, questionResult) => {
+            conn.query(sqlStmt, [questionText,answers.length], (err, questionResult) => {
 
                 if (err) {
                     callback(err);
@@ -299,14 +299,13 @@ class QuestionDAO
                 return;
             }
 
-            let sqlStmt = "SELECT DISTINCT answer.id AS answer_id, answer.text AS answer_text, answer.question AS question_id, question.text AS question_text FROM " +
+            let sqlStmt = "SELECT DISTINCT answer.id AS answer_id, answer.text AS answer_text, answer.question AS question_id, question.text AS question_text,question.default_answers_nb FROM " +
             "answer LEFT JOIN self_answer " +
             "     ON answer.id = self_answer.selected_answer " +
             "    JOIN question " +
             "     ON question.id = answer.question " +
             "WHERE answer.question = ?" +
-            "ORDER BY (self_answer.user = ?) DESC " +
-            "LIMIT 4";
+            "ORDER BY (self_answer.user = ?) DESC ";
 
             conn.query(sqlStmt,[questionId,user],(err, result) => {
 
@@ -327,11 +326,12 @@ class QuestionDAO
                     });
                 });
 
+                let limit = result[0].default_answers_nb;
 
                 let bundle = {
                     id: questionId,
                     text: result[0].question_text,
-                    options: _.shuffle(options)
+                    options: _.shuffle(_.first(options,limit))
                 };
 
                 callback(null, bundle);

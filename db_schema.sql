@@ -198,7 +198,7 @@ INSERT INTO `user` (`id`, `email`, `pass`, `name`, `gender`, `dob`, `image`, `po
 (2, 'diablo@ucm.es', 'mypass', 'Diablo the Lord of Terror', 'male', '1996-12-31', 'Diablo-01.png', 250),
 (3, 'mummy@ucm.es', 'mypass', 'Ancient Mummy', 'female', '1956-05-04', 'Mummy-01.png', 0),
 (4, 'skull@ucm.es', 'mypass', 'Skeleton King', 'male', '1985-12-05', 'Skull-01.png', 50),
-(5, 'pinhead@ucm.es', 'mypass\r\n', 'Pinhead the Cenobite', 'male', NULL, 'Pinhead-01.png', 0),
+(5, 'pinhead@ucm.es', 'mypass', 'Pinhead the Cenobite', 'male', NULL, 'Pinhead-01.png', 0),
 (6, 'ghostface@ucm.es', 'mypass', 'Casper Ghostface', 'male', '1945-11-16', 'Ghostface-01.png', 150);
 
 -- --------------------------------------------------------

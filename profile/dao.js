@@ -34,7 +34,6 @@ class ProfileDAO extends DaoCommon
                     return;
                 }
 
-                console.log(result.length);
                 if(result.length !== 0) {
                     let finalResult = {
                         id: result[0].id,

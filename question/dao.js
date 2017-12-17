@@ -97,6 +97,41 @@ class QuestionDAO
         });
     }
 
+    saveSelfCustomAnswer(loggedUser,questionId,answerText,callback)
+    {
+        this.pool.getConnection((err, conn) => {
+
+            if(err) {
+                callback(err);
+                return;
+            }
+
+            this.__saveNewAnswer(questionId,answerText,conn,(err,answerId) =>
+            {
+                if(err) {
+                    callback(err);
+                    return;
+                }
+
+                    let sqlStmt = "INSERT INTO self_answer (user,selected_answer) VALUES (?,?)";
+
+                    conn.query(sqlStmt,[loggedUser,answerId],(err, result) => {
+
+                        conn.release();
+
+                        if(err) {
+                            callback(err);
+                            return;
+                        }
+
+                        callback(null, result);
+
+                    });
+            });
+        });
+    }
+
+
     getQuestion(questionId, callback)
     {
         this.pool.getConnection((err, conn) => {

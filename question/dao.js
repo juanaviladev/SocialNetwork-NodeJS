@@ -263,8 +263,8 @@ class QuestionDAO
             }
 
             let sqlStmt = "SELECT DISTINCT users.id, users.name, users.image, answer.question, guess_answer_q.of_user, guess_answer_q.status FROM users " +
-                "                JOIN friendships  " +
-                "                                ON (users.id = friendships.from_user AND friendships.to_user = ? AND friendships.status = 'accepted') OR (users.id =   friendships.to_user AND friendships.from_user = ? AND friendships.status = 'accepted')   " +
+                "                JOIN friendship  " +
+                "                                ON (users.id = friendship.from_user AND friendship.to_user = ? AND friendship.status = 'accepted') OR (users.id =   friendship.to_user AND friendship.from_user = ? AND friendship.status = 'accepted')   " +
                 "                JOIN self_answer " +
                 "                 ON self_answer.user = users.id " +
                 "                JOIN answer " +

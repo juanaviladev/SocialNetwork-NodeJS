@@ -19,9 +19,9 @@ class FriendsDAO
                 return;
             }
 
-            let sqlStmt = "SELECT from_user, to_user, status, u1.name AS name1, u2.name AS name2 FROM friendships, " +
-                "users AS u1, users AS u2 WHERE friendships.from_user=u1.id AND friendships.to_user=u2.id AND " +
-                "(friendships.from_user=? OR friendships.to_user=?)";
+            let sqlStmt = "SELECT from_user, to_user, status, u1.name AS name1, u2.name AS name2 FROM friendship, " +
+                "users AS u1, users AS u2 WHERE friendship.from_user=u1.id AND friendship.to_user=u2.id AND " +
+                "(friendship.from_user=? OR friendship.to_user=?)";
 
             conn.query(sqlStmt, [userId, userId], (err, result) => {
 
@@ -55,9 +55,9 @@ class FriendsDAO
                 return;
             }
 
-            let sqlStmt = "SELECT id, name, from_user, to_user, status FROM users LEFT JOIN friendships ON " +
-                "(users.id=friendships.from_user AND friendships.to_user=?) OR (users.id=friendships.to_user AND " +
-                "friendships.from_user=?) WHERE id<>? AND name LIKE ?";
+            let sqlStmt = "SELECT id, name, from_user, to_user, status FROM users LEFT JOIN friendship ON " +
+                "(users.id=friendship.from_user AND friendship.to_user=?) OR (users.id=friendship.to_user AND " +
+                "friendship.from_user=?) WHERE id<>? AND name LIKE ?";
 
 
             conn.query(sqlStmt, [userId, userId, userId, "%" + word + "%"], (err, result) => {
@@ -84,7 +84,7 @@ class FriendsDAO
                 return;
             }
 
-            let sqlStmt = "SELECT Count(from_user) AS are_friends FROM friendships WHERE ((from_user = ? AND to_user = ?) OR" +
+            let sqlStmt = "SELECT Count(from_user) AS are_friends FROM friendship WHERE ((from_user = ? AND to_user = ?) OR" +
                 "(from_user = ? AND to_user = ?)) AND status = ?";
 
             conn.query(sqlStmt, [user1, user2,user2,user1,"accepted"], (err,result) => {
@@ -113,7 +113,7 @@ class FriendsDAO
             }
 
 
-            let sqlStmt = "UPDATE friendships SET status='accepted' WHERE from_user=? AND to_user=?";
+            let sqlStmt = "UPDATE friendship SET status='accepted' WHERE from_user=? AND to_user=?";
 
             conn.query(sqlStmt, [user2, user1], err => {
                 conn.release();
@@ -142,7 +142,7 @@ class FriendsDAO
             }
 
 
-            let sqlStmt = "DELETE FROM friendships WHERE from_user=? AND to_user=?";
+            let sqlStmt = "DELETE FROM friendship WHERE from_user=? AND to_user=?";
 
             conn.query(sqlStmt, [user2, user1], err => {
                 conn.release();
@@ -170,7 +170,7 @@ class FriendsDAO
             }
 
 
-            let sqlStmt = "INSERT INTO friendships VALUES (?)";
+            let sqlStmt = "INSERT INTO friendship VALUES (?)";
 
             conn.query(sqlStmt, [[user1, user2, "pending"]], err => {
                 conn.release();

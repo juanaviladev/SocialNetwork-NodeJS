@@ -11,7 +11,6 @@ const multiParser = require("../common/multiParser").middlewareMulter;
 const middlewareAuthentication = require('./../auth/auth_middleware.js');
 const middlewareGetPoints = require('./../profile/points_middleware.js');
 const middlewareQuestionCheck = require('./middleware').checkQuestion;
-const middlewareCustomAnswerCheck = require('./middleware').checkCustomAnswer;
 
 const newQuestionValidator = require('./validation').newQuestionValidator;
 const guessValidator = require('./validation').guessValidator;

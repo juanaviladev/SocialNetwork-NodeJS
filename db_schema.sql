@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 17-12-2017 a las 15:40:59
+-- Tiempo de generación: 17-12-2017 a las 16:23:10
 -- Versión del servidor: 10.1.28-MariaDB
 -- Versión de PHP: 7.1.11
 
@@ -100,16 +100,6 @@ CREATE TABLE `friendship` (
   `status` enum('accepted','pending') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Volcado de datos para la tabla `friendship`
---
-
-INSERT INTO `friendship` (`from_user`, `to_user`, `status`) VALUES
-(1, 2, 'accepted'),
-(4, 1, 'accepted'),
-(1, 3, 'pending'),
-(2, 6, 'pending');
-
 -- --------------------------------------------------------
 
 --
@@ -173,6 +163,13 @@ CREATE TABLE `sessions` (
   `data` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `sessions`
+--
+
+INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
+('8wTVwTynTgBe0KeJUwuTzkoLuO1hRR1h', 1513610566, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":1}');
+
 -- --------------------------------------------------------
 
 --
@@ -195,12 +192,11 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `email`, `pass`, `name`, `gender`, `dob`, `image`, `points`) VALUES
-(1, 'penny@ucm.es', 'mypass', 'Pennywise the Dancing Clown', 'other', '1986-09-15', 'Pennywise-01.png', 420),
-(2, 'diablo@ucm.es', 'mypass', 'Diablo the Lord of Terror', 'male', '1996-12-31', 'Diablo-01.png', 250),
-(3, 'mummy@ucm.es', 'mypass', 'Ancient Mummy', 'female', '1956-05-04', 'Mummy-01.png', 0),
-(4, 'skull@ucm.es', 'mypass', 'Skeleton King', 'male', '1985-12-05', 'Skull-01.png', 50),
-(5, 'pinhead@ucm.es', 'mypass', 'Pinhead the Cenobite', 'male', '1987-11-06', 'Pinhead-01.png', 400),
-(6, 'ghostface@ucm.es', 'mypass', 'Casper Ghostface', 'male', '1945-11-16', 'Ghostface-01.png', 150);
+(1, 'penny@ucm.es', 'mypass', 'Pennywise the Dancing Clown', 'other', '1986-09-15', '9ed0437994a7031a29cc36f6f6272b56', 420),
+(2, 'diablo@ucm.es', 'mypass', 'Diablo the Lord of Terror', 'male', '1996-12-31', 'a8b6e96f186d5f6481098c0b0b8c7e31', 250),
+(3, 'mummy@ucm.es', 'mypass', 'Ancient Mummy', 'female', '1956-05-04', 'becf4fbce05a7c956637917f5d100a13', 0),
+(4, 'skull@ucm.es', 'mypass', 'Skeleton King', 'male', '1985-12-05', 'c48b503ee74eccc8bf43047e2a1983cd', 50),
+(6, 'ghostface@ucm.es', 'mypass', 'Casper Ghostface', 'male', '1945-11-16', 'cebb712ceab52db1c2f813c45df1161e', 150);
 
 -- --------------------------------------------------------
 

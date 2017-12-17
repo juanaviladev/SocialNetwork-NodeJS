@@ -5,7 +5,7 @@ const path = require("path");
 
 
 // custom validator to validate image types
-customValidator = {
+let customValidator = {
     customValidators: {
         isImageValid: (param, fileType) => {
             switch(fileType){

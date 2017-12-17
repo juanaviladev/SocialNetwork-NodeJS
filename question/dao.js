@@ -273,10 +273,10 @@ class QuestionDAO
                 "                      guess_answer JOIN answer " +
                 "                       ON guess_answer.answer = answer.id " +
                 "                ) AS guess_answer_q " +
-                "                 ON guess_answer_q.question = answer.question AND guess_answer_q.of_user = user.id" +
-                " WHERE answer.question = ?";
+                "                 ON guess_answer_q.question = answer.question AND guess_answer_q.of_user = user.id AND (guess_answer_q.guess_user = ? OR guess_answer_q.guess_user IS NULL)" +
+                "  WHERE answer.question = ?";
 
-            conn.query(sqlStmt, [loggedUser,loggedUser,questionId,loggedUser], (err, result) => {
+            conn.query(sqlStmt, [loggedUser,loggedUser,loggedUser,questionId], (err, result) => {
 
                 conn.release();
 

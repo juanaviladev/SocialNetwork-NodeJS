@@ -66,8 +66,6 @@ router.post("/create", middlewareAuthentication, middlewareGetPoints,multiParser
 
                     response.redirect("/question/" + newQuestionId);
                 });
-
-                response.redirect("/question/" + newQuestionId);
             }
             else {
                 response.setAlert({type:"error",alertList: [{msg:"Lo sentimos, esa pregunta ya existe"}]});

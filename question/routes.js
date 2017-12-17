@@ -71,7 +71,7 @@ router.post("/:questionId/guess", middlewareAuthentication, middlewareGetPoints,
     let friendId = request.body.friend_id;
     let questionId = request.params.questionId;
 
-    questionDAO.isAValidAnswerOf(questionId,selectedAnswerId,(err, hasCorrespondence) => {
+    questionDAO.isAPossibleAnswerOf(questionId,selectedAnswerId,(err, hasCorrespondence) => {
 
                 if (err)
                     return next(err);
@@ -85,7 +85,7 @@ router.post("/:questionId/guess", middlewareAuthentication, middlewareGetPoints,
 
                         if(areFriends)
                         {
-                            questionDAO.checkAnswer(friendId,selectedAnswerId,(err, correctAnswer) => {
+                            questionDAO.isCorrectAnswer(friendId,selectedAnswerId,(err, correctAnswer) => {
 
                                 if(err)
                                     return next(err);
@@ -139,34 +139,48 @@ router.get("/:questionId/guess", middlewareAuthentication, middlewareGetPoints,m
     let friendId = request.query.of;
     let loggedUser = request.session.currentUser;
 
-            friendsDAO.areFriends(loggedUser,friendId,(err, areFriends) => {
+         friendsDAO.areFriends(loggedUser,friendId,(err, areFriends) => {
 
-                if(err)
-                    return next(err);
+             if(err)
+                 return next(err);
 
-                if(areFriends)
-                {
-                    usersDAO.getUser(friendId,(err, friend) => {
+             if(areFriends)
+             {
+                 questionDAO.hasUserTriedToGuess(loggedUser,friendId,questionId,(err, hasTried) => {
 
-                        if(err)
-                            return next(err);
+                     if(err)
+                         return next(err);
 
-                        questionDAO.getQuestionRelatedWith(questionId,friendId,(err, question) => {
+                     if(!hasTried)
+                     {
+                         usersDAO.getUser(friendId,(err, friend) => {
 
-                            if(err)
-                                return next(err);
+                             if(err)
+                                 return next(err);
 
-                            response.render(path.join(viewPath,"friend_answer_form"), {friend: friend,question: question});
-                        });
+                             questionDAO.getQuestionRelatedWith(questionId,friendId,(err, question) => {
 
-                    });
-                }
-                else
-                {
-                    response.setAlert({type:"error",alertList: [{msg:"Solo puedes responder sobre tus amigos"}]});
-                    response.redirect("/question/"+questionId);
-                }
-            });
+                                 if(err)
+                                     return next(err);
+
+                                 response.render(path.join(viewPath,"friend_answer_form"), {friend: friend,question: question});
+                             });
+
+                         });
+                     }
+                     else
+                     {
+                         response.setAlert({type:"error",alertList: [{msg:"Ya has respondido a esta pregunta sobre tu amigo"}]});
+                         response.redirect("/question/"+questionId);
+                     }
+                 });
+             }
+             else
+             {
+                 response.setAlert({type:"error",alertList: [{msg:"Solo puedes responder sobre tus amigos"}]});
+                 response.redirect("/question/"+questionId);
+             }
+         });
 
 });
 
@@ -218,7 +232,7 @@ router.post("/:questionId/answer", middlewareAuthentication, middlewareGetPoints
     }
     else
     {
-        questionDAO.isAValidAnswerOf(questionId,answerId,(err, areFamily) => {
+        questionDAO.isAPossibleAnswerOf(questionId,answerId,(err, areFamily) => {
             if(err)
                 next(err);
 

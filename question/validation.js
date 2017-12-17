@@ -2,7 +2,7 @@ const customValidators = require("../common/validation").customValidator.customV
 
 function validateNewQuestionForm(request, response, next)
 {
-    request.checkBody("text","Enunciado de la pregunta vacío").notEmpty();
+    request.checkBody("text","Enunciado de la pregunta vacío").notEmpty().len({min:1,max:255});
     request.checkBody("answers", "Campo de respuestas vacío").notEmpty();
     request.checkBody("answers","Se requiren al menos dos respuestas").isAnswersLengthCorrect(request.body.answers);
 
@@ -70,7 +70,7 @@ function guessValidator(request, response, next)
 
 customValidators.isAnswersLengthCorrect = (param,answers) => {
             let answersArray = answers.split("\r\n").filter((answer) => {
-                return answer.length > 0;
+                return answer.length > 0 && answer.length <= 255;
             });
             return answersArray.length > 2;
 };
@@ -78,7 +78,7 @@ customValidators.isAnswersLengthCorrect = (param,answers) => {
 customValidators.isCustomAnswerValid = (param,answerId,answerText) => {
     if(answerId === "custom-answer")
     {
-        return answerText.trim().length >0;
+        return answerText.trim().length >0 && answerText.trim().length <= 255;
     }
     else {
         return true;

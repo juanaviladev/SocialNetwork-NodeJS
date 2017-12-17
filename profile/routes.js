@@ -164,7 +164,7 @@ router.get("/:userId", authMiddleware, getPointsMiddleware ,(request, response, 
         if(err) {
             next(err);
         }
-        else if(result.length === 0)
+        else if(!result)
         {
             next();
         }

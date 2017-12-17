@@ -34,19 +34,25 @@ class ProfileDAO extends DaoCommon
                     return;
                 }
 
-                let finalResult = {
-                    id: result[0].id,
-                    name: result[0].name,
-                    gender: result[0].gender,
-                    dob: result[0].dob
-                };
+                console.log(result.length);
+                if(result.length !== 0) {
+                    let finalResult = {
+                        id: result[0].id,
+                        name: result[0].name,
+                        gender: result[0].gender,
+                        dob: result[0].dob
+                    };
 
-                if(result[0].image)
-                    finalResult.gallery = result.map(row => {
-                        return {image: row.image, desc: row.description};
-                    });
+                    if (result[0].image)
+                        finalResult.gallery = result.map(row => {
+                            return {image: row.image, desc: row.description};
+                        });
 
-                callback(null, finalResult);
+                    callback(null, finalResult);
+                }
+                else{
+                    callback(null);
+                }
 
             });
         });
@@ -190,7 +196,7 @@ class ProfileDAO extends DaoCommon
                     return;
                 }
 
-                if(result)
+                if(result.length !== 0)
                     callback(null, result[0].image);
                 else
                     callback(null);

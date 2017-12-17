@@ -189,7 +189,7 @@ router.get("/:userId", authMiddleware, getPointsMiddleware ,(request, response, 
             let userDetails = {
                 id: result.id,
                 name: result.name,
-                age: result.dob ? moment().diff(result[0].dob, 'years') : "Edad desconocida",
+                age: result.dob ? moment().diff(result.dob, 'years') : "Edad desconocida",
                 gender: gender,
                 gallery: result.gallery
             };

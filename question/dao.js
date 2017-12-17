@@ -373,7 +373,7 @@ class QuestionDAO
         });
     }
 
-    checkAnswer(userId, selectedAnswerId, callback) {
+    isCorrectAnswer(userId, selectedAnswerId, callback) {
         this.pool.getConnection((err, conn) => {
 
             if (err) {
@@ -419,7 +419,7 @@ class QuestionDAO
     });
     }
 
-    isAValidAnswerOf(questionId, answerId, callback) {
+    isAPossibleAnswerOf(questionId, answerId, callback) {
         this.pool.getConnection((err, conn) => {
 
             if (err) {
@@ -440,7 +440,33 @@ class QuestionDAO
 
             });
         });
-}
+    }
+
+    hasUserTriedToGuess(loggedUser, friendId, questionId, callback) {
+        this.pool.getConnection((err, conn) => {
+
+            if (err) {
+                callback(err);
+                return;
+            }
+            let sqlStmt = "SELECT Count(answer.question) AS check_result FROM " +
+                "     answer JOIN guess_answer " +
+                "      ON guess_answer.answer = answer.id " +
+                " WHERE answer.question = ? AND guess_answer.guess_user = ? AND guess_answer.of_user = ?";
+
+            conn.query(sqlStmt,[questionId,loggedUser,friendId],(err, result) => {
+                conn.release();
+
+                if(err) {
+                    callback(err);
+                    return;
+                }
+                console.log(result);
+                callback(null, result[0].check_result === 1);
+
+            });
+        });
+    }
 }
 
 module.exports = {
